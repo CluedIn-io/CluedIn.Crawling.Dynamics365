@@ -36,7 +36,17 @@ namespace CluedIn.Crawling.Dynamics365.Core
         public const string Details = "";
         public static AuthMethods AuthMethods = new AuthMethods()
         {
-            token = new Control[]
+            // token = new Control[]
+            // {
+            //     new Control()
+            //     {
+            //         displayName = "Client Credentials - Please enter your dynamics URL (e.g. https://cluedin.crm4.dynamics.com)",
+            //         isRequired = true,
+            //         name = Dynamics365Constants.KeyName.Url,
+            //         type = "text"
+            //     }
+            // },
+            credentials = new Control[]
             {
                 new Control()
                 {
@@ -44,10 +54,7 @@ namespace CluedIn.Crawling.Dynamics365.Core
                     isRequired = true,
                     name = Dynamics365Constants.KeyName.Url,
                     type = "text"
-                }
-            },
-            credentials = new Control[]
-            {
+                },
                 new Control()
                 {
                     displayName = Dynamics365Constants.KeyName.UserName,
@@ -62,13 +69,13 @@ namespace CluedIn.Crawling.Dynamics365.Core
                     name = Dynamics365Constants.KeyName.Password,
                     type = "password"
                 }
-            },
-            oauth = new OAuth()
-            {
-                initial = "",
-                callback = "",
-                oauthCallBackKey = ""
-            }
+            }//,
+            //oauth = new OAuth()
+            //{
+            //    initial = "",
+            //    callback = "",
+            //    oauthCallBackKey = ""
+            //}
         };
 
 
