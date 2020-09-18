@@ -36,16 +36,16 @@ namespace CluedIn.Crawling.Dynamics365.Core
         public const string Details = "";
         public static AuthMethods AuthMethods = new AuthMethods()
         {
-            // token = new Control[]
-            // {
-            //     new Control()
-            //     {
-            //         displayName = "Client Credentials - Please enter your dynamics URL (e.g. https://cluedin.crm4.dynamics.com)",
-            //         isRequired = true,
-            //         name = Dynamics365Constants.KeyName.Url,
-            //         type = "text"
-            //     }
-            // },
+            token = new Control[]
+            {
+                new Control()
+                {
+                    displayName = "API Key",
+                    isRequired = true,
+                    name = Dynamics365Constants.KeyName.ApiKey,
+                    type = "text"
+                }
+            },
             credentials = new Control[]
             {
                 new Control()
@@ -71,7 +71,7 @@ namespace CluedIn.Crawling.Dynamics365.Core
                 }
             }//,
             //oauth = new OAuth()
-            //{
+            //{   
             //    initial = "",
             //    callback = "",
             //    oauthCallBackKey = ""
