@@ -34,9 +34,6 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
 
             data.Name = input.FullName;
 
-            //if (input.DefaultPriceLevelId != null)
-            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.pricelevel, EntityEdgeType.Parent, input, input.DefaultPriceLevelId);
-
             if (input.CreatedByExternalParty != null)
                 this._factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.CreatedBy, input, input.CreatedByExternalParty);
 
@@ -46,29 +43,17 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
             if (input.OwningTeam != null)
                 this._factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.Group, EntityEdgeType.Parent, input, input.OwningTeam);
 
-            //if (input.PreferredEquipmentId != null)
-            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.equipment, EntityEdgeType.Parent, input, input.PreferredEquipmentId);
-
             if (input.MasterId != null)
                 this._factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.Parent, input, input.MasterId);
 
             if (input.ParentCustomerId != null)
                 this._factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.Parent, input, input.ParentCustomerId);
 
-            //if (input.SLAId != null)
-            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.sla, EntityEdgeType.Parent, input, input.SLAId);
-
-            //if (input.SLAInvokedId != null)
-            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.sla, EntityEdgeType.Parent, input, input.SLAInvokedId);
-
             if (input.OriginatingLeadId != null)
                 this._factory.CreateOutgoingEntityReference(clue, EntityType.Sales.Lead, EntityEdgeType.Parent, input, input.OriginatingLeadId);
 
             if (input.StageId != null)
                 this._factory.CreateOutgoingEntityReference(clue, EntityType.ProcessStage, EntityEdgeType.Parent, input, input.StageId.ToString());
-
-            //if (input.TransactionCurrencyId != null)
-            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.transactioncurrency, EntityEdgeType.Parent, input, input.TransactionCurrencyId);
 
             if (input.ParentCustomerId != null)
                 this._factory.CreateOutgoingEntityReference(clue, EntityType.Organization, EntityEdgeType.Parent, input, input.ParentCustomerId);
@@ -96,6 +81,18 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
 
             if (input.OwnerId != null)
                 this._factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.OwnedBy, input, input.OwnerId);
+
+            //if (input.PreferredEquipmentId != null)
+            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.equipment, EntityEdgeType.Parent, input, input.PreferredEquipmentId);
+
+            //if (input.SLAId != null)
+            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.sla, EntityEdgeType.Parent, input, input.SLAId);
+
+            //if (input.SLAInvokedId != null)
+            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.sla, EntityEdgeType.Parent, input, input.SLAInvokedId);
+
+            //if (input.TransactionCurrencyId != null)
+            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.transactioncurrency, EntityEdgeType.Parent, input, input.TransactionCurrencyId);
 
             //if (input.PreferredServiceId != null)
             //    this._factory.CreateOutgoingEntityReference(clue, EntityType.service, EntityEdgeType.Parent, input, input.PreferredServiceId);

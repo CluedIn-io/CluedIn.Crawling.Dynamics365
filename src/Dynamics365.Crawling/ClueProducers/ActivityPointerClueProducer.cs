@@ -30,7 +30,6 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
         {
             var data = clue.Data.EntityData;
 
-
             data.Name = input.Subject;
 
             //if (input.RegardingObjectId != null)

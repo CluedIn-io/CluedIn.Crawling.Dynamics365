@@ -31,29 +31,27 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
             var data = clue.Data.EntityData;
 
             data.Name = input.Name;
-            /*
-             if (input.ParentId != null)
-                            _factory.CreateOutgoingEntityReference(clue, EntityType.contact, EntityEdgeType.Parent, input, input.ParentId);
 
-                         if (input.TransactionCurrencyId != null)
-                            _factory.CreateOutgoingEntityReference(clue, EntityType.transactioncurrency, EntityEdgeType.Parent, input, input.TransactionCurrencyId);
+            //if (input.ParentId != null)
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType.contact, EntityEdgeType.Parent, input, input.ParentId);
 
-                         if (input.ParentId != null)
-                            _factory.CreateOutgoingEntityReference(clue, EntityType.account, EntityEdgeType.Parent, input, input.ParentId);
+            //if (input.TransactionCurrencyId != null)
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType.transactioncurrency, EntityEdgeType.Parent, input, input.TransactionCurrencyId);
 
-                         if (input.ModifiedBy != null)
-                            _factory.CreateOutgoingEntityReference(clue, EntityType.systemuser, EntityEdgeType.Parent, input, input.ModifiedBy);
+            //if (input.ParentId != null)
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType.account, EntityEdgeType.Parent, input, input.ParentId);
 
-                         if (input.CreatedBy != null)
-                            _factory.CreateOutgoingEntityReference(clue, EntityType.systemuser, EntityEdgeType.Parent, input, input.CreatedBy);
+            //if (input.ModifiedBy != null)
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType.systemuser, EntityEdgeType.Parent, input, input.ModifiedBy);
 
-                         if (input.ModifiedOnBehalfBy != null)
-                            _factory.CreateOutgoingEntityReference(clue, EntityType.systemuser, EntityEdgeType.Parent, input, input.ModifiedOnBehalfBy);
+            //if (input.CreatedBy != null)
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType.systemuser, EntityEdgeType.Parent, input, input.CreatedBy);
 
-                         if (input.CreatedOnBehalfBy != null)
-                            _factory.CreateOutgoingEntityReference(clue, EntityType.systemuser, EntityEdgeType.Parent, input, input.CreatedOnBehalfBy);
+            //if (input.ModifiedOnBehalfBy != null)
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType.systemuser, EntityEdgeType.Parent, input, input.ModifiedOnBehalfBy);
 
-            */
+            //if (input.CreatedOnBehalfBy != null)
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType.systemuser, EntityEdgeType.Parent, input, input.CreatedOnBehalfBy);
 
             var vocab = new CustomerAddressVocabulary();
 

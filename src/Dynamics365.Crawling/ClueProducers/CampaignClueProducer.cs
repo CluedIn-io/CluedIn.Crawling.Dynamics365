@@ -33,17 +33,11 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
 
             data.Name = input.Name;
 
-            //if (input.PriceListId != null)
-            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.pricelevel, EntityEdgeType.Parent, input, input.PriceListId);
-
             if (input.OwningTeam != null)
                 this._factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.Group, EntityEdgeType.Parent, input, input.OwningTeam);
 
             if (input.StageId != null)
                 this._factory.CreateOutgoingEntityReference(clue, EntityType.ProcessStage, EntityEdgeType.Parent, input, input.StageId.ToString());
-
-            //if (input.TransactionCurrencyId != null)
-            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.transactioncurrency, EntityEdgeType.Parent, input, input.TransactionCurrencyId);
 
             if (input.OwningBusinessUnit != null)
                 this._factory.CreateOutgoingEntityReference(clue, EntityType.Organization.Unit, EntityEdgeType.OwnedBy, input, input.OwningBusinessUnit);
@@ -65,6 +59,12 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
 
             if (input.OwnerId != null)
                 this._factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.OwnedBy, input, input.OwnerId);
+
+            //if (input.PriceListId != null)
+            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.pricelevel, EntityEdgeType.Parent, input, input.PriceListId);
+
+            //if (input.TransactionCurrencyId != null)
+            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.transactioncurrency, EntityEdgeType.Parent, input, input.TransactionCurrencyId);
 
             //if (input.EntityImageId != null)
             //    this._factory.CreateOutgoingEntityReference(clue, EntityType.imagedescriptor, EntityEdgeType.Parent, input, input.EntityImageId);

@@ -49,7 +49,7 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
 
             }
 
-            //whatever is left
+            // Whatever is left
             if (input.EntityDefinition?.SchemaName != null)
             {
                 foreach (var key in input.Custom.Keys)

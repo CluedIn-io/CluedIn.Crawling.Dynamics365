@@ -30,26 +30,24 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
             var data = clue.Data.EntityData;
 
             data.Name = input.Name;
-            /*
-             if (input.ParentId != null)
-                            _factory.CreateOutgoingEntityReference(clue, EntityType.lead, EntityEdgeType.Parent, input, input.ParentId);
 
-                         if (input.TransactionCurrencyId != null)
-                            _factory.CreateOutgoingEntityReference(clue, EntityType.transactioncurrency, EntityEdgeType.Parent, input, input.TransactionCurrencyId);
+             //if (input.ParentId != null)
+             //   _factory.CreateOutgoingEntityReference(clue, EntityType.lead, EntityEdgeType.Parent, input, input.ParentId);
 
-                         if (input.CreatedOnBehalfBy != null)
-                            _factory.CreateOutgoingEntityReference(clue, EntityType.systemuser, EntityEdgeType.Parent, input, input.CreatedOnBehalfBy);
+            //if (input.TransactionCurrencyId != null)
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType.transactioncurrency, EntityEdgeType.Parent, input, input.TransactionCurrencyId);
 
-                         if (input.ModifiedBy != null)
-                            _factory.CreateOutgoingEntityReference(clue, EntityType.systemuser, EntityEdgeType.Parent, input, input.ModifiedBy);
+            //if (input.CreatedOnBehalfBy != null)
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType.systemuser, EntityEdgeType.Parent, input, input.CreatedOnBehalfBy);
 
-                         if (input.CreatedBy != null)
-                            _factory.CreateOutgoingEntityReference(clue, EntityType.systemuser, EntityEdgeType.Parent, input, input.CreatedBy);
+            //if (input.ModifiedBy != null)
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType.systemuser, EntityEdgeType.Parent, input, input.ModifiedBy);
 
-                         if (input.ModifiedOnBehalfBy != null)
-                            _factory.CreateOutgoingEntityReference(clue, EntityType.systemuser, EntityEdgeType.Parent, input, input.ModifiedOnBehalfBy);
+            //if (input.CreatedBy != null)
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType.systemuser, EntityEdgeType.Parent, input, input.CreatedBy);
 
-            */
+            //if (input.ModifiedOnBehalfBy != null)
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType.systemuser, EntityEdgeType.Parent, input, input.ModifiedOnBehalfBy);
 
             var vocab = new LeadAddressVocabulary();
 

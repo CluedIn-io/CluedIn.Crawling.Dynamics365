@@ -32,26 +32,11 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
 
             data.Name = input.Subject;
 
-            //if (input.ActivityId != null)
-            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.activitypointer, EntityEdgeType.Parent, input, input.ActivityId);
-
-            //if (input.RegardingObjectId != null)
-            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.cdi_emailtemplate, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
             if (input.OwningTeam != null)
                 this._factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.Group, EntityEdgeType.Parent, input, input.OwningTeam);
 
-            //if (input.SLAInvokedId != null)
-            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.sla, EntityEdgeType.Parent, input, input.SLAInvokedId);
-
-            //if (input.SLAId != null)
-            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.sla, EntityEdgeType.Parent, input, input.SLAId);
-
             if (input.StageId != null)
                 this._factory.CreateOutgoingEntityReference(clue, EntityType.ProcessStage, EntityEdgeType.Parent, input, input.StageId.ToString());
-
-            //if (input.TransactionCurrencyId != null)
-            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.transactioncurrency, EntityEdgeType.Parent, input, input.TransactionCurrencyId);
 
             if (input.OwningBusinessUnit != null)
                 this._factory.CreateOutgoingEntityReference(clue, EntityType.Organization.Unit, EntityEdgeType.OwnedBy, input, input.OwningBusinessUnit);
@@ -70,6 +55,21 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
 
             if (input.CreatedOnBehalfBy != null)
                 this._factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.CreatedBy, input, input.CreatedOnBehalfBy);
+
+            //if (input.ActivityId != null)
+            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.activitypointer, EntityEdgeType.Parent, input, input.ActivityId);
+
+            //if (input.RegardingObjectId != null)
+            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.cdi_emailtemplate, EntityEdgeType.Parent, input, input.RegardingObjectId);
+
+            //if (input.SLAInvokedId != null)
+            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.sla, EntityEdgeType.Parent, input, input.SLAInvokedId);
+
+            //if (input.SLAId != null)
+            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.sla, EntityEdgeType.Parent, input, input.SLAId);
+
+            //if (input.TransactionCurrencyId != null)
+            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.transactioncurrency, EntityEdgeType.Parent, input, input.TransactionCurrencyId);
 
             //if (input.ServiceId != null)
             //    this._factory.CreateOutgoingEntityReference(clue, EntityType.service, EntityEdgeType.Parent, input, input.ServiceId);

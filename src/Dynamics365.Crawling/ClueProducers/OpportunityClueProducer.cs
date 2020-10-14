@@ -32,9 +32,6 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
 
             data.Name = input.Name;
 
-            //if (input.PriceLevelId != null)
-            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.pricelevel, EntityEdgeType.Parent, input, input.PriceLevelId);
-
             if (input.OwningTeam != null)
                 this._factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.Group, EntityEdgeType.Parent, input, input.OwningTeam);
 
@@ -44,12 +41,6 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
             if (input.ParentContactId != null)
                 this._factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.Parent, input, input.ParentContactId);
 
-            //if (input.SLAInvokedId != null)
-            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.sla, EntityEdgeType.Parent, input, input.SLAInvokedId);
-
-            //if (input.SLAId != null)
-            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.sla, EntityEdgeType.Parent, input, input.SLAId);
-
             if (input.CampaignId != null)
                 this._factory.CreateOutgoingEntityReference(clue, EntityType.Marketing.Campaign, EntityEdgeType.Parent, input, input.CampaignId);
 
@@ -58,9 +49,6 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
 
             if (input.StageId != null)
                 this._factory.CreateOutgoingEntityReference(clue, EntityType.ProcessStage, EntityEdgeType.Parent, input, input.StageId.ToString());
-
-            //if (input.TransactionCurrencyId != null)
-            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.transactioncurrency, EntityEdgeType.Parent, input, input.TransactionCurrencyId);
 
             if (input.CustomerId != null)
                 this._factory.CreateOutgoingEntityReference(clue, EntityType.Organization, EntityEdgeType.Parent, input, input.CustomerId);
@@ -88,6 +76,18 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
 
             if (input.OwnerId != null)
                 this._factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.OwnedBy, input, input.OwnerId);
+
+            //if (input.PriceLevelId != null)
+            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.pricelevel, EntityEdgeType.Parent, input, input.PriceLevelId);
+
+            //if (input.SLAInvokedId != null)
+            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.sla, EntityEdgeType.Parent, input, input.SLAInvokedId);
+
+            //if (input.SLAId != null)
+            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.sla, EntityEdgeType.Parent, input, input.SLAId);
+
+            //if (input.TransactionCurrencyId != null)
+            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.transactioncurrency, EntityEdgeType.Parent, input, input.TransactionCurrencyId);
 
             var vocab = new OpportunityVocabulary();
 

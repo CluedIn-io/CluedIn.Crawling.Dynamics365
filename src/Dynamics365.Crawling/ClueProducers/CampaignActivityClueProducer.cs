@@ -31,20 +31,9 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
         {
             var data = clue.Data.EntityData;
 
-
             data.Name = input.Subject;
-
-            //if (input.ActivityId != null)
-            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.activitypointer, EntityEdgeType.Parent, input, input.ActivityId);
-
             if (input.OwningTeam != null)
                 this._factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.Group, EntityEdgeType.OwnedBy, input, input.OwningTeam);
-
-            //if (input.SLAId != null)
-            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.sla, EntityEdgeType.Parent, input, input.SLAId);
-
-            //if (input.SLAInvokedId != null)
-            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.sla, EntityEdgeType.Parent, input, input.SLAInvokedId);
 
             if (input.RegardingObjectId != null)
                 this._factory.CreateOutgoingEntityReference(clue, EntityType.Marketing.Campaign, EntityEdgeType.Parent, input, input.RegardingObjectId);
@@ -52,14 +41,8 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
             if (input.StageId != null)
                 this._factory.CreateOutgoingEntityReference(clue, EntityType.ProcessStage, EntityEdgeType.Parent, input, input.StageId.ToString());
 
-            //if (input.TransactionCurrencyId != null)
-            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.transactioncurrency, EntityEdgeType.Parent, input, input.TransactionCurrencyId);
-
             if (input.OwningBusinessUnit != null)
                 this._factory.CreateOutgoingEntityReference(clue, EntityType.Organization.Unit, EntityEdgeType.OwnedBy, input, input.OwningBusinessUnit);
-
-            //if (input.RegardingObjectId != null)
-            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.bookableresourcebookingheader, EntityEdgeType.Parent, input, input.RegardingObjectId);
 
             if (input.ModifiedOnBehalfBy != null)
                 this._factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.ModifiedBy, input, input.ModifiedOnBehalfBy);
@@ -76,14 +59,29 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
             if (input.OwningUser != null)
                 this._factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.OwnedBy, input, input.OwningUser);
 
-            //if (input.RegardingObjectId != null)
-            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.bookableresourcebooking, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
             if (input.SenderMailboxId != null)
                 this._factory.CreateOutgoingEntityReference(clue, EntityType.Mail.Folder, EntityEdgeType.Parent, input, input.SenderMailboxId);
 
             if (input.OwnerId != null)
                 this._factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.OwnedBy, input, input.OwnerId);
+
+            //if (input.ActivityId != null)
+            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.activitypointer, EntityEdgeType.Parent, input, input.ActivityId);
+
+            //if (input.SLAId != null)
+            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.sla, EntityEdgeType.Parent, input, input.SLAId);
+
+            //if (input.SLAInvokedId != null)
+            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.sla, EntityEdgeType.Parent, input, input.SLAInvokedId);
+
+            //if (input.TransactionCurrencyId != null)
+            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.transactioncurrency, EntityEdgeType.Parent, input, input.TransactionCurrencyId);
+
+            //if (input.RegardingObjectId != null)
+            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.bookableresourcebookingheader, EntityEdgeType.Parent, input, input.RegardingObjectId);
+
+            //if (input.RegardingObjectId != null)
+            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.bookableresourcebooking, EntityEdgeType.Parent, input, input.RegardingObjectId);
 
             var vocab = new CampaignActivityVocabulary();
 
