@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using CluedIn.Core;
 using CluedIn.Core.Agent.Jobs;
 using CluedIn.Core.Crawling;
@@ -10,30 +11,61 @@ using CluedIn.Crawling.Helpers;
 
 namespace CluedIn.Crawling.Dynamics365.ClueProducers
 {
-    public class AccountClueProducer : DynamicsClueProducer<Account>
+    public class AccountClueProducer : BaseClueProducer<Account>
     {
-        public AccountClueProducer([NotNull] IClueFactory factory, IAgentJobProcessorState<CrawlJobData> state) : base(factory, state)
-        {
+        private IClueFactory _factory;
+        private IAgentJobProcessorState<CrawlJobData> _state;
 
+        public AccountClueProducer([NotNull] IClueFactory factory, IAgentJobProcessorState<CrawlJobData> state)
+        {
+            _factory = factory;
+            _state = state;
         }
 
-        public override Clue CreateClue(Account input, Guid accountId)
+        protected override Clue MakeClueImpl(Account input, Guid accountId)
         {
-            return _factory.Create(EntityType.Organization, input.AccountId.ToString(), accountId);
-        }
+            var clue = _factory.Create(EntityType.Organization, input.AccountId.ToString(), accountId);
 
-        public override void Customize(Clue clue, Account input)
-        {
             var data = clue.Data.EntityData;
 
-            data.Name = input.Name;
+            // Metadata
 
-            if (string.IsNullOrWhiteSpace(data.Name))
-            {
-                data.Name = input.Description;              
-            }
+            if (!string.IsNullOrWhiteSpace(input.Name))
+                data.Name = input.Name;
+            else if (!string.IsNullOrWhiteSpace(input.Description))
+                data.Name = input.Description;
+            else if (!string.IsNullOrWhiteSpace(input.AccountNumber))
+                data.Name = $"Account no. {input.AccountNumber}";
+            else if (input.CreatedOn.HasValue)
+                data.Name = $"Account created on {input.CreatedOn.Value:yyyy-MMM-dd}";
 
-            data.Description = input.Description;
+            if (!string.IsNullOrWhiteSpace(data.Description))
+                data.Description = input.Description;
+
+            data.CreatedDate = input.CreatedOn;
+            data.ModifiedDate = input.ModifiedOn;
+
+            // Aliases
+
+            if (!string.IsNullOrWhiteSpace(input.Telephone1))
+                data.Aliases.Add(input.Telephone1);
+
+            if (!string.IsNullOrWhiteSpace(input.Telephone2))
+                data.Aliases.Add(input.Telephone2);
+
+            if (!string.IsNullOrWhiteSpace(input.Telephone3))
+                data.Aliases.Add(input.Telephone3);
+
+            if (!string.IsNullOrWhiteSpace(input.EMailAddress1))
+                data.Aliases.Add(input.EMailAddress1);
+
+            if (!string.IsNullOrWhiteSpace(input.EMailAddress2))
+                data.Aliases.Add(input.EMailAddress2);
+
+            if (!string.IsNullOrWhiteSpace(input.EMailAddress3))
+                data.Aliases.Add(input.EMailAddress3);
+
+            // Edges
 
             if (input.ModifiedByExternalParty != null)
                 _factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.ModifiedBy, input, input.ModifiedByExternalParty);
@@ -49,6 +81,7 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
 
             if (input.StageId != null)
                 _factory.CreateOutgoingEntityReference(clue, EntityType.ProcessStage, EntityEdgeType.Parent, input, input.StageId.ToString());
+
             if (input.ParentAccountId != null)
                 _factory.CreateOutgoingEntityReference(clue, EntityType.Organization, EntityEdgeType.Parent, input, input.ParentAccountId);
 
@@ -76,14 +109,20 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
             if (input.OwnerId != null)
                 _factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.OwnedBy, input, input.OwnerId);
 
+            if (input.PrimaryContactId != null)
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.AttachedTo, input, input.PrimaryContactId);
+
+            if (input.PreferredSystemUserId != null)
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.AttachedTo, input, input.PreferredSystemUserId);
+
+            if (input.TerritoryId != null)
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Geography, EntityEdgeType.LocatedIn, input, input.TerritoryId);
+
             //if (input.DefaultPriceLevelId != null)
             //    _factory.CreateOutgoingEntityReference(clue, EntityType.pricelevel, EntityEdgeType.Parent, input, input.DefaultPriceLevelId);
 
             //if (input.PreferredEquipmentId != null)
             //    _factory.CreateOutgoingEntityReference(clue, EntityType.equipment, EntityEdgeType.Parent, input, input.PreferredEquipmentId);
-
-            //if (input.PrimaryContactId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.Parent, input, input.PrimaryContactId);
 
             //if (input.SLAId != null)
             //    _factory.CreateOutgoingEntityReference(clue, EntityType.sla, EntityEdgeType.Parent, input, input.SLAId);
@@ -94,17 +133,14 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
             //if (input.TransactionCurrencyId != null)
             //    _factory.CreateOutgoingEntityReference(clue, EntityType.transactioncurrency, EntityEdgeType.Parent, input, input.TransactionCurrencyId);
 
-            //if (input.PreferredSystemUserId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType., input, input.PreferredSystemUserId);
-
             //if (input.PreferredServiceId != null)
             //    _factory.CreateOutgoingEntityReference(clue, EntityType.service, EntityEdgeType.Parent, input, input.PreferredServiceId);
 
             //if (input.EntityImageId != null)
             //    _factory.CreateOutgoingEntityReference(clue, EntityType.imagedescriptor, EntityEdgeType.Parent, input, input.EntityImageId);
 
-            //if (input.TerritoryId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.territory, EntityEdgeType.Parent, input, input.TerritoryId);
+            if (!data.OutgoingEdges.Any())
+                _factory.CreateEntityRootReference(clue, EntityEdgeType.PartOf);
 
             var vocab = new AccountVocabulary();
 
@@ -334,7 +370,10 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
             data.Properties[vocab.MarketingOnly] = input.MarketingOnly.PrintIfAvailable();
             data.Properties[vocab.MarketingOnlyName] = input.MarketingOnlyName.PrintIfAvailable();
             data.Properties[vocab.TeamsFollowed] = input.TeamsFollowed.PrintIfAvailable();
+
+            return clue;
         }
+
     }
 }
 

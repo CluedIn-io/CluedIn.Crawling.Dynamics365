@@ -10,8 +10,8 @@ namespace CluedIn.Crawling.Dynamics365.Integration.Test
       return new Dictionary<string, object>
             {
                 { Dynamics365Constants.KeyName.ConnectionString, "Server=localhost;Database=Mock;Trusted_Connection=True;" },
-                { Dynamics365Constants.KeyName.SqlPageSize, 10 },
-                { Dynamics365Constants.KeyName.SqlDataCount, 50 },
+                { Dynamics365Constants.KeyName.SqlPageSize, 5 },
+                { Dynamics365Constants.KeyName.SqlDataCount, 10 },
             };
     }
   }

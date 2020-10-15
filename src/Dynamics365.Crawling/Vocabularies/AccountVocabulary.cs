@@ -245,8 +245,7 @@ namespace CluedIn.Crawling.Dynamics365.Vocabularies
 
                 this.Telephone1 = group.Add(new VocabularyKey("Telephone1", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
                     .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type the corporate business number for the account. 
-Prefix the number with a +country code")
+                    .WithDescription(@"Type the corporate business number for the account. Prefix the number with a +country code")
                     .WithDisplayName("Main Phone")
                     .ModelProperty("telephone1", typeof(string)));
 
@@ -264,8 +263,7 @@ Prefix the number with a +country code")
 
                 this.Fax = group.Add(new VocabularyKey("Fax", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
                     .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type the fax number for the account.
-Only use numbers after the country code.")
+                    .WithDescription(@"Type the fax number for the account. Only use numbers after the country code.")
                     .WithDisplayName("Fax")
                     .ModelProperty("fax", typeof(string)));
 
@@ -1373,11 +1371,8 @@ Only use numbers after the country code.")
                     .WithDisplayName("TeamsFollowed")
                     .ModelProperty("teamsfollowed", typeof(long)));
 
-
             });
 
-            // Mappings
-            //AddMapping(this.City,          CluedIn.Core.Data.Vocabularies.Vocabularies.CluedInOrganization.AddressCity);
         }
 
         public VocabularyKey AccountId { get; private set; }
@@ -1831,7 +1826,6 @@ Only use numbers after the country code.")
         public VocabularyKey MarketingOnlyName { get; private set; }
 
         public VocabularyKey TeamsFollowed { get; private set; }
-
 
     }
 }
