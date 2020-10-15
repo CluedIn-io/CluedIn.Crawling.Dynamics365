@@ -21,14 +21,17 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
 
         protected override Clue MakeClueImpl(Contact input, Guid id)
         {
-
-            var clue = _factory.Create(EntityType.Person, $"FILL_IN", id);
+            var clue = _factory.Create(EntityType.Person, input.Contactid, id);
 
             var data = clue.Data.EntityData;
 
-            // Metadata
+            if (!string.IsNullOrWhiteSpace(input.Fullname))
+                data.Name = input.Fullname;
+            else if (!string.IsNullOrWhiteSpace(input.Firstname) && !string.IsNullOrWhiteSpace(input.Lastname))
+                data.Name = $"{input.Firstname} {input.Lastname}";
 
-            //data.Name = input.Name;
+            if (!string.IsNullOrWhiteSpace(input.Description))
+                data.Description = input.Description;
 
             DateTimeOffset.TryParse(input.Createdon, out var createdDate);
             if (createdDate != null)

@@ -27,6 +27,13 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
 
             // Metadata
 
+            if (!string.IsNullOrWhiteSpace(input.Subject) && !string.IsNullOrWhiteSpace(input.Scheduledstart))
+                data.Name = $"Activity on {input.Subject}, starting {input.Scheduledstart}";
+            else if (!string.IsNullOrWhiteSpace(input.Scheduledstart))
+                data.Name = $"Activity starting {input.Scheduledstart}";
+            else if (!string.IsNullOrWhiteSpace(input.Actualstart))
+                data.Name = $"Activity starting {input.Actualstart}";
+
             //data.Name = input.Name;
 
             DateTimeOffset.TryParse(input.Createdon, out var createdDate);
