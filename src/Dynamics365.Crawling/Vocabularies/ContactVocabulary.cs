@@ -1,4 +1,3 @@
-using System;
 using CluedIn.Core.Data;
 using CluedIn.Core.Data.Vocabularies;
 
@@ -8,2205 +7,439 @@ namespace CluedIn.Crawling.Dynamics365.Vocabularies
     {
         public ContactVocabulary()
         {
-            VocabularyName = "Dynamics365 Contact";
-            KeyPrefix = "dynamics365.contact";
+            VocabularyName = "Dynamics365 Contact"; // TODO: Set value
+            KeyPrefix = "dynamics365.Contact"; // TODO: Set value
             KeySeparator = ".";
-            Grouping = EntityType.Infrastructure.User;
+            Grouping = EntityType.Person; // TODO: Check value
 
-            this.AddGroup("Contact", group =>
+            AddGroup("Person Details", group =>
             {
-                this.ContactId = group.Add(new VocabularyKey("ContactId", VocabularyKeyDataType.Guid, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"Unique identifier of the contact.")
-                    .WithDisplayName("Contact")
-                    .ModelProperty("contactid", typeof(Guid)));
-
-                this.DefaultPriceLevelId = group.Add(new VocabularyKey("DefaultPriceLevelId", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Choose the default price list associated with the contact to make sure the correct product prices for this customer are applied in sales opportunities, quotes, and orders.")
-                    .WithDisplayName("Price List")
-                    .ModelProperty("defaultpricelevelid", typeof(string)));
-
-                this.CustomerSizeCode = group.Add(new VocabularyKey("CustomerSizeCode", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select the size of the contact's company for segmentation and reporting purposes.")
-                    .WithDisplayName("Customer Size")
-                    .ModelProperty("customersizecode", typeof(string)));
-
-                this.CustomerTypeCode = group.Add(new VocabularyKey("CustomerTypeCode", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select the category that best describes the relationship between the contact and your organization.")
-                    .WithDisplayName("Relationship Type")
-                    .ModelProperty("customertypecode", typeof(string)));
-
-                this.PreferredContactMethodCode = group.Add(new VocabularyKey("PreferredContactMethodCode", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select the preferred method of contact.")
-                    .WithDisplayName("Preferred Method of Contact")
-                    .ModelProperty("preferredcontactmethodcode", typeof(string)));
-
-                this.LeadSourceCode = group.Add(new VocabularyKey("LeadSourceCode", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select the primary marketing source that directed the contact to your organization.")
-                    .WithDisplayName("Lead Source")
-                    .ModelProperty("leadsourcecode", typeof(string)));
-
-                this.OriginatingLeadId = group.Add(new VocabularyKey("OriginatingLeadId", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"Shows the lead that the contact was created if the contact was created by converting a lead in Microsoft Dynamics CRM. This is used to relate the contact to the data on the originating lead for use in reporting and analytics.")
-                    .WithDisplayName("Originating Lead")
-                    .ModelProperty("originatingleadid", typeof(string)));
-
-                this.OwningBusinessUnit = group.Add(new VocabularyKey("OwningBusinessUnit", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"Unique identifier of the business unit that owns the contact.")
-                    .WithDisplayName("Owning Business Unit")
-                    .ModelProperty("owningbusinessunit", typeof(string)));
-
-                this.OwningUser = group.Add(new VocabularyKey("OwningUser", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"Unique identifier of the user who owns the contact.")
-                    .WithDisplayName("Owning User")
-                    .ModelProperty("owninguser", typeof(string)));
-
-                this.PaymentTermsCode = group.Add(new VocabularyKey("PaymentTermsCode", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select the payment terms to indicate when the customer needs to pay the total amount.")
-                    .WithDisplayName("Payment Terms")
-                    .ModelProperty("paymenttermscode", typeof(string)));
-
-                this.ShippingMethodCode = group.Add(new VocabularyKey("ShippingMethodCode", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select a shipping method for deliveries sent to this address.")
-                    .WithDisplayName("Shipping Method")
-                    .ModelProperty("shippingmethodcode", typeof(string)));
-
-                this.AccountId = group.Add(new VocabularyKey("AccountId", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"Unique identifier of the account with which the contact is associated.")
-                    .WithDisplayName("Account")
-                    .ModelProperty("accountid", typeof(string)));
-
-                this.ParticipatesInWorkflow = group.Add(new VocabularyKey("ParticipatesInWorkflow", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Shows whether the contact participates in workflow rules.")
-                    .WithDisplayName("Participates in Workflow")
-                    .ModelProperty("participatesinworkflow", typeof(bool)));
-
-                this.IsBackofficeCustomer = group.Add(new VocabularyKey("IsBackofficeCustomer", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select whether the contact exists in a separate accounting or other system, such as Microsoft Dynamics GP or another ERP database, for use in integration processes.")
-                    .WithDisplayName("Back Office Customer")
-                    .ModelProperty("isbackofficecustomer", typeof(bool)));
-
-                this.Salutation = group.Add(new VocabularyKey("Salutation", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(100))
-                    .WithDescription(@"Type the salutation of the contact to make sure the contact is addressed correctly in sales calls, email messages, and marketing campaigns.")
-                    .WithDisplayName("Salutation")
-                    .ModelProperty("salutation", typeof(string)));
-
-                this.JobTitle = group.Add(new VocabularyKey("JobTitle", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(100))
-                    .WithDescription(@"Type the job title of the contact to make sure the contact is addressed correctly in sales calls, email, and marketing campaigns.")
-                    .WithDisplayName("Job Title")
-                    .ModelProperty("jobtitle", typeof(string)));
-
-                this.FirstName = group.Add(new VocabularyKey("FirstName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type the contact's first name to make sure the contact is addressed correctly in sales calls, email, and marketing campaigns.")
-                    .WithDisplayName("First Name")
-                    .ModelProperty("firstname", typeof(string)));
-
-                this.Department = group.Add(new VocabularyKey("Department", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(100))
-                    .WithDescription(@"If needed, update with a more specific Department name to give details on the organizational set-up for the contact person")
-                    .WithDisplayName("Department")
-                    .ModelProperty("department", typeof(string)));
-
-                this.NickName = group.Add(new VocabularyKey("NickName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(100))
-                    .WithDescription(@"Type the contact's nickname.")
-                    .WithDisplayName("Nickname")
-                    .ModelProperty("nickname", typeof(string)));
-
-                this.MiddleName = group.Add(new VocabularyKey("MiddleName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type the contact's middle name or initial to make sure the contact is addressed correctly.")
-                    .WithDisplayName("Middle Name")
-                    .ModelProperty("middlename", typeof(string)));
-
-                this.LastName = group.Add(new VocabularyKey("LastName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type the contact's last name to make sure the contact is addressed correctly in sales calls, email, and marketing campaigns.")
-                    .WithDisplayName("Last Name")
-                    .ModelProperty("lastname", typeof(string)));
-
-                this.Suffix = group.Add(new VocabularyKey("Suffix", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(10))
-                    .WithDescription(@"Type the suffix used in the contact's name, such as Jr. or Sr. to make sure the contact is addressed correctly in sales calls, email, and marketing campaigns.")
-                    .WithDisplayName("Suffix")
-                    .ModelProperty("suffix", typeof(string)));
-
-                this.YomiFirstName = group.Add(new VocabularyKey("YomiFirstName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(150))
-                    .WithDescription(@"Type the phonetic spelling of the contact's first name, if the name is specified in Japanese, to make sure the name is pronounced correctly in phone calls with the contact.")
-                    .WithDisplayName("Yomi First Name")
-                    .ModelProperty("yomifirstname", typeof(string)));
-
-                this.FullName = group.Add(new VocabularyKey("FullName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(160))
-                    .WithDescription(@"Combines and shows the contact's first and last names so that the full name can be displayed in views and reports.")
-                    .WithDisplayName("Full Name")
-                    .ModelProperty("fullname", typeof(string)));
-
-                this.YomiMiddleName = group.Add(new VocabularyKey("YomiMiddleName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(150))
-                    .WithDescription(@"Type the phonetic spelling of the contact's middle name, if the name is specified in Japanese, to make sure the name is pronounced correctly in phone calls with the contact.")
-                    .WithDisplayName("Yomi Middle Name")
-                    .ModelProperty("yomimiddlename", typeof(string)));
-
-                this.YomiLastName = group.Add(new VocabularyKey("YomiLastName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(150))
-                    .WithDescription(@"Type the phonetic spelling of the contact's last name, if the name is specified in Japanese, to make sure the name is pronounced correctly in phone calls with the contact.")
-                    .WithDisplayName("Yomi Last Name")
-                    .ModelProperty("yomilastname", typeof(string)));
-
-                this.Anniversary = group.Add(new VocabularyKey("Anniversary", VocabularyKeyDataType.DateTime, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Enter the date of the contact's wedding or service anniversary for use in customer gift programs or other communications.")
-                    .WithDisplayName("Anniversary")
-                    .ModelProperty("anniversary", typeof(DateTime)));
-
-                this.BirthDate = group.Add(new VocabularyKey("BirthDate", VocabularyKeyDataType.DateTime, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Enter the contact's birthday for use in customer gift programs or other communications.")
-                    .WithDisplayName("Birthday")
-                    .ModelProperty("birthdate", typeof(DateTime)));
-
-                this.GovernmentId = group.Add(new VocabularyKey("GovernmentId", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type the passport number or other government ID for the contact for use in documents or reports.")
-                    .WithDisplayName("Government")
-                    .ModelProperty("governmentid", typeof(string)));
-
-                this.YomiFullName = group.Add(new VocabularyKey("YomiFullName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(450))
-                    .WithDescription(@"Shows the combined Yomi first and last names of the contact so that the full phonetic name can be displayed in views and reports.")
-                    .WithDisplayName("Yomi Full Name")
-                    .ModelProperty("yomifullname", typeof(string)));
-
-                this.Description = group.Add(new VocabularyKey("Description", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(4000))
-                    .WithDescription(@"Type additional information to describe the contact, such as an excerpt from the company's website.")
-                    .WithDisplayName("Description")
-                    .ModelProperty("description", typeof(string)));
-
-                this.EmployeeId = group.Add(new VocabularyKey("EmployeeId", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type the employee ID or number for the contact for reference in orders, service cases, or other communications with the contact's organization.")
-                    .WithDisplayName("Employee")
-                    .ModelProperty("employeeid", typeof(string)));
-
-                this.GenderCode = group.Add(new VocabularyKey("GenderCode", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select the contact's gender to make sure the contact is addressed correctly in sales calls, email, and marketing campaigns.")
-                    .WithDisplayName("Gender")
-                    .ModelProperty("gendercode", typeof(string)));
-
-                this.AnnualIncome = group.Add(new VocabularyKey("AnnualIncome", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Type the contact's annual income for use in profiling and financial analysis.")
-                    .WithDisplayName("Annual Income")
-                    .ModelProperty("annualincome", typeof(string)));
-
-                this.HasChildrenCode = group.Add(new VocabularyKey("HasChildrenCode", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select whether the contact has any children for reference in follow-up phone calls and other communications.")
-                    .WithDisplayName("Has Children")
-                    .ModelProperty("haschildrencode", typeof(string)));
-
-                this.EducationCode = group.Add(new VocabularyKey("EducationCode", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select the contact's highest level of education for use in segmentation and analysis.")
-                    .WithDisplayName("Education")
-                    .ModelProperty("educationcode", typeof(string)));
-
-                this.WebSiteUrl = group.Add(new VocabularyKey("WebSiteUrl", VocabularyKeyDataType.Uri, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(200))
-                    .WithDescription(@"Type the contact's professional or personal website or blog URL.")
-                    .WithDisplayName("Website")
-                    .ModelProperty("websiteurl", typeof(string)));
-
-                this.FamilyStatusCode = group.Add(new VocabularyKey("FamilyStatusCode", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select the marital status of the contact for reference in follow-up phone calls and other communications.")
-                    .WithDisplayName("Marital Status")
-                    .ModelProperty("familystatuscode", typeof(string)));
-
-                this.FtpSiteUrl = group.Add(new VocabularyKey("FtpSiteUrl", VocabularyKeyDataType.Uri, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(200))
-                    .WithDescription(@"Type the URL for the contact's FTP site to enable users to access data and share documents.")
-                    .WithDisplayName("FTP Site")
-                    .ModelProperty("ftpsiteurl", typeof(string)));
-
-                this.EMailAddress1 = group.Add(new VocabularyKey("EMailAddress1", VocabularyKeyDataType.Email, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(100))
-                    .WithDescription(@"Type the primary email address for the contact.")
-                    .WithDisplayName("E-Mail")
-                    .ModelProperty("emailaddress1", typeof(string)));
-
-                this.SpousesName = group.Add(new VocabularyKey("SpousesName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(100))
-                    .WithDescription(@"Type the name of the contact's spouse or partner for reference during calls, events, or other communications with the contact.")
-                    .WithDisplayName("Spouse/Partner Name")
-                    .ModelProperty("spousesname", typeof(string)));
-
-                this.AssistantName = group.Add(new VocabularyKey("AssistantName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(100))
-                    .WithDescription(@"Type the name of the contact's assistant.")
-                    .WithDisplayName("Assistant")
-                    .ModelProperty("assistantname", typeof(string)));
-
-                this.EMailAddress2 = group.Add(new VocabularyKey("EMailAddress2", VocabularyKeyDataType.Email, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(100))
-                    .WithDescription(@"Type the secondary email address for the contact.")
-                    .WithDisplayName("E-Mail 2")
-                    .ModelProperty("emailaddress2", typeof(string)));
-
-                this.AssistantPhone = group.Add(new VocabularyKey("AssistantPhone", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type the phone number for the contact's assistant.")
-                    .WithDisplayName("Assistant Phone")
-                    .ModelProperty("assistantphone", typeof(string)));
-
-                this.EMailAddress3 = group.Add(new VocabularyKey("EMailAddress3", VocabularyKeyDataType.Email, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(100))
-                    .WithDescription(@"Type an alternate email address for the contact.")
-                    .WithDisplayName("Email Address 3")
-                    .ModelProperty("emailaddress3", typeof(string)));
-
-                this.DoNotPhone = group.Add(new VocabularyKey("DoNotPhone", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select whether the contact accepts phone calls. If Do Not Allow is selected, the contact will be excluded from any phone call activities distributed in marketing campaigns.")
-                    .WithDisplayName("Do not allow Phone Calls")
-                    .ModelProperty("donotphone", typeof(bool)));
-
-                this.ManagerName = group.Add(new VocabularyKey("ManagerName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(100))
-                    .WithDescription(@"Type the name of the contact's manager for use in escalating issues or other follow-up communications with the contact.")
-                    .WithDisplayName("Manager")
-                    .ModelProperty("managername", typeof(string)));
-
-                this.ManagerPhone = group.Add(new VocabularyKey("ManagerPhone", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type the phone number for the contact's manager.")
-                    .WithDisplayName("Manager Phone")
-                    .ModelProperty("managerphone", typeof(string)));
-
-                this.DoNotFax = group.Add(new VocabularyKey("DoNotFax", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select whether the contact allows faxes. If Do Not Allow is selected, the contact will be excluded from any fax activities distributed in marketing campaigns.")
-                    .WithDisplayName("Do not allow Faxes")
-                    .ModelProperty("donotfax", typeof(bool)));
-
-                this.DoNotEMail = group.Add(new VocabularyKey("DoNotEMail", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select whether the contact allows direct email sent from Microsoft Dynamics 365. If Do Not Allow is selected, Microsoft Dynamics 365 will not send the email.")
-                    .WithDisplayName("Do not allow Emails")
-                    .ModelProperty("donotemail", typeof(bool)));
-
-                this.DoNotPostalMail = group.Add(new VocabularyKey("DoNotPostalMail", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select whether the contact allows direct mail. If Do Not Allow is selected, the contact will be excluded from letter activities distributed in marketing campaigns.")
-                    .WithDisplayName("Do not allow Mails")
-                    .ModelProperty("donotpostalmail", typeof(bool)));
-
-                this.DoNotBulkEMail = group.Add(new VocabularyKey("DoNotBulkEMail", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select whether the contact accepts bulk email sent through marketing campaigns or quick campaigns. If Do Not Allow is selected, the contact can be added to marketing lists, but will be excluded from the email.")
-                    .WithDisplayName("E-Mail Permission")
-                    .ModelProperty("donotbulkemail", typeof(bool)));
-
-                this.DoNotBulkPostalMail = group.Add(new VocabularyKey("DoNotBulkPostalMail", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select whether the contact accepts bulk postal mail sent through marketing campaigns or quick campaigns. If Do Not Allow is selected, the contact can be added to marketing lists, but will be excluded from the letters.")
-                    .WithDisplayName("Do not allow Bulk Mails")
-                    .ModelProperty("donotbulkpostalmail", typeof(bool)));
-
-                this.AccountRoleCode = group.Add(new VocabularyKey("AccountRoleCode", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select the contact's role within the company or sales process, such as decision maker, employee, or influencer.")
-                    .WithDisplayName("Role")
-                    .ModelProperty("accountrolecode", typeof(string)));
-
-                this.TerritoryCode = group.Add(new VocabularyKey("TerritoryCode", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select a region or territory for the contact for use in segmentation and analysis.")
-                    .WithDisplayName("Territory")
-                    .ModelProperty("territorycode", typeof(string)));
-
-                this.IsPrivate = group.Add(new VocabularyKey("IsPrivate", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("IsPrivate")
-                    .ModelProperty("isprivate", typeof(bool)));
-
-                this.CreditLimit = group.Add(new VocabularyKey("CreditLimit", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Type the credit limit of the contact for reference when you address invoice and accounting issues with the customer.")
-                    .WithDisplayName("Credit Limit")
-                    .ModelProperty("creditlimit", typeof(string)));
-
-                this.CreatedOn = group.Add(new VocabularyKey("CreatedOn", VocabularyKeyDataType.DateTime, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"Shows the date and time when the record was created. The date and time are displayed in the time zone selected in Microsoft Dynamics 365 options.")
-                    .WithDisplayName("Created On")
-                    .ModelProperty("createdon", typeof(DateTime)));
-
-                this.CreditOnHold = group.Add(new VocabularyKey("CreditOnHold", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select whether the contact is on a credit hold, for reference when addressing invoice and accounting issues.")
-                    .WithDisplayName("Credit Hold")
-                    .ModelProperty("creditonhold", typeof(bool)));
-
-                this.CreatedBy = group.Add(new VocabularyKey("CreatedBy", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"Shows who created the record.")
-                    .WithDisplayName("Created By")
-                    .ModelProperty("createdby", typeof(string)));
-
-                this.ModifiedOn = group.Add(new VocabularyKey("ModifiedOn", VocabularyKeyDataType.DateTime, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"Shows the date and time when the record was last updated. The date and time are displayed in the time zone selected in Microsoft Dynamics 365 options.")
-                    .WithDisplayName("Modified On")
-                    .ModelProperty("modifiedon", typeof(DateTime)));
-
-                this.ModifiedBy = group.Add(new VocabularyKey("ModifiedBy", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"Shows who last updated the record.")
-                    .WithDisplayName("Modified By")
-                    .ModelProperty("modifiedby", typeof(string)));
-
-                this.NumberOfChildren = group.Add(new VocabularyKey("NumberOfChildren", VocabularyKeyDataType.Integer, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Type the number of children the contact has for reference in follow-up phone calls and other communications.")
-                    .WithDisplayName("No. of Children")
-                    .ModelProperty("numberofchildren", typeof(long)));
-
-                this.ChildrensNames = group.Add(new VocabularyKey("ChildrensNames", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(255))
-                    .WithDescription(@"Type the names of the contact's children for reference in communications and client programs.")
-                    .WithDisplayName("Children's Names")
-                    .ModelProperty("childrensnames", typeof(string)));
-
-                this.VersionNumber = group.Add(new VocabularyKey("VersionNumber", VocabularyKeyDataType.Integer, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"Version number of the contact.")
-                    .WithDisplayName("Version Number")
-                    .ModelProperty("versionnumber", typeof(int)));
-
-                this.MobilePhone = group.Add(new VocabularyKey("MobilePhone", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type the Mobile phone number for the contact. Prefix the number with a +country code")
-                    .WithDisplayName("Mobile Phone")
-                    .ModelProperty("mobilephone", typeof(string)));
-
-                this.Pager = group.Add(new VocabularyKey("Pager", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type the pager number for the contact.")
-                    .WithDisplayName("Pager")
-                    .ModelProperty("pager", typeof(string)));
-
-                this.Telephone1 = group.Add(new VocabularyKey("Telephone1", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type the main phone number for the contact. Prefix the number with a +country code")
-                    .WithDisplayName("Main Phone")
-                    .ModelProperty("telephone1", typeof(string)));
-
-                this.Telephone2 = group.Add(new VocabularyKey("Telephone2", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type the Direct phone number for the contact. Prefix the number with a +country code")
-                    .WithDisplayName("Direct Phone")
-                    .ModelProperty("telephone2", typeof(string)));
-
-                this.Telephone3 = group.Add(new VocabularyKey("Telephone3", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type a third phone number for this contact.")
-                    .WithDisplayName("Telephone 3")
-                    .ModelProperty("telephone3", typeof(string)));
-
-                this.Fax = group.Add(new VocabularyKey("Fax", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type the fax number for the contact.")
-                    .WithDisplayName("Fax")
-                    .ModelProperty("fax", typeof(string)));
-
-                this.Aging30 = group.Add(new VocabularyKey("Aging30", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"For system use only.")
-                    .WithDisplayName("Aging 30")
-                    .ModelProperty("aging30", typeof(string)));
-
-                this.StateCode = group.Add(new VocabularyKey("StateCode", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Shows whether the contact is active or inactive. Inactive contacts are read-only and can't be edited unless they are reactivated.")
-                    .WithDisplayName("Status")
-                    .ModelProperty("statecode", typeof(string)));
-
-                this.Aging60 = group.Add(new VocabularyKey("Aging60", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"For system use only.")
-                    .WithDisplayName("Aging 60")
-                    .ModelProperty("aging60", typeof(string)));
-
-                this.StatusCode = group.Add(new VocabularyKey("StatusCode", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select the contact's status.")
-                    .WithDisplayName("Status Reason")
-                    .ModelProperty("statuscode", typeof(string)));
-
-                this.Aging90 = group.Add(new VocabularyKey("Aging90", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"For system use only.")
-                    .WithDisplayName("Aging 90")
-                    .ModelProperty("aging90", typeof(string)));
-
-                this.ParentContactId = group.Add(new VocabularyKey("ParentContactId", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"Unique identifier of the parent contact.")
-                    .WithDisplayName("Parent Contact")
-                    .ModelProperty("parentcontactid", typeof(string)));
-
-                this.OriginatingLeadIdName = group.Add(new VocabularyKey("OriginatingLeadIdName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(100))
-                    .WithDescription(@"")
-                    .WithDisplayName("OriginatingLeadIdName")
-                    .ModelProperty("originatingleadidname", typeof(string)));
-
-                this.ParentContactIdName = group.Add(new VocabularyKey("ParentContactIdName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(100))
-                    .WithDescription(@"")
-                    .WithDisplayName("ParentContactIdName")
-                    .ModelProperty("parentcontactidname", typeof(string)));
-
-                this.AccountIdName = group.Add(new VocabularyKey("AccountIdName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(100))
-                    .WithDescription(@"")
-                    .WithDisplayName("AccountIdName")
-                    .ModelProperty("accountidname", typeof(string)));
-
-                this.DefaultPriceLevelIdName = group.Add(new VocabularyKey("DefaultPriceLevelIdName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(100))
-                    .WithDescription(@"")
-                    .WithDisplayName("DefaultPriceLevelIdName")
-                    .ModelProperty("defaultpricelevelidname", typeof(string)));
-
-                this.Address1_AddressId = group.Add(new VocabularyKey("Address1_AddressId", VocabularyKeyDataType.Guid, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Unique identifier for address 1.")
-                    .WithDisplayName("Address 1: ID")
-                    .ModelProperty("address1_addressid", typeof(Guid)));
-
-                this.Address1_AddressTypeCode = group.Add(new VocabularyKey("Address1_AddressTypeCode", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select the primary address type.")
-                    .WithDisplayName("Address 1: Address Type")
-                    .ModelProperty("address1_addresstypecode", typeof(string)));
-
-                this.Address1_Name = group.Add(new VocabularyKey("Address1_Name", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(200))
-                    .WithDescription(@"Type a descriptive name for the primary address, such as Corporate Headquarters.")
-                    .WithDisplayName("Address 1: Name")
-                    .ModelProperty("address1_name", typeof(string)));
-
-                this.Address1_PrimaryContactName = group.Add(new VocabularyKey("Address1_PrimaryContactName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(100))
-                    .WithDescription(@"Type the name of the main contact at the account's primary address.")
-                    .WithDisplayName("Address 1: Primary Contact Name")
-                    .ModelProperty("address1_primarycontactname", typeof(string)));
-
-                this.Address1_Line1 = group.Add(new VocabularyKey("Address1_Line1", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(250))
-                    .WithDescription(@"Type the first line of the primary address.")
-                    .WithDisplayName("Street 1")
-                    .ModelProperty("address1_line1", typeof(string)));
-
-                this.Address1_Line2 = group.Add(new VocabularyKey("Address1_Line2", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(250))
-                    .WithDescription(@"Type the second line of the primary address.")
-                    .WithDisplayName("Street 2")
-                    .ModelProperty("address1_line2", typeof(string)));
-
-                this.Address1_Line3 = group.Add(new VocabularyKey("Address1_Line3", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(250))
-                    .WithDescription(@"Type the third line of the primary address.")
-                    .WithDisplayName("Street 3")
-                    .ModelProperty("address1_line3", typeof(string)));
-
-                this.Address1_City = group.Add(new VocabularyKey("Address1_City", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(80))
-                    .WithDescription(@"Type the city for the primary address.")
-                    .WithDisplayName("City")
-                    .ModelProperty("address1_city", typeof(string)));
-
-                this.Address1_StateOrProvince = group.Add(new VocabularyKey("Address1_StateOrProvince", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type the state or province of the primary address.")
-                    .WithDisplayName("Address 1: State/Province (No NOT Use)")
-                    .ModelProperty("address1_stateorprovince", typeof(string)));
-
-                this.Address1_County = group.Add(new VocabularyKey("Address1_County", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type the county for the primary address.")
-                    .WithDisplayName("Address 1: County")
-                    .ModelProperty("address1_county", typeof(string)));
-
-                this.Address1_Country = group.Add(new VocabularyKey("Address1_Country", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(80))
-                    .WithDescription(@"Type the country or region for the primary address.")
-                    .WithDisplayName("Address 1: Country/Region (No NOT Use)")
-                    .ModelProperty("address1_country", typeof(string)));
-
-                this.Address1_PostOfficeBox = group.Add(new VocabularyKey("Address1_PostOfficeBox", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(20))
-                    .WithDescription(@"Type the post office box number of the primary address.")
-                    .WithDisplayName("Address 1: Post Office Box")
-                    .ModelProperty("address1_postofficebox", typeof(string)));
-
-                this.Address1_PostalCode = group.Add(new VocabularyKey("Address1_PostalCode", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(20))
-                    .WithDescription(@"Type the ZIP Code or postal code for the primary address.")
-                    .WithDisplayName("ZIP/Postal Code")
-                    .ModelProperty("address1_postalcode", typeof(string)));
-
-                this.Address1_UTCOffset = group.Add(new VocabularyKey("Address1_UTCOffset", VocabularyKeyDataType.Integer, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select the time zone, or UTC offset, for this address so that other people can reference it when they contact someone at this address.")
-                    .WithDisplayName("Address 1: UTC Offset")
-                    .ModelProperty("address1_utcoffset", typeof(long)));
-
-                this.Address1_FreightTermsCode = group.Add(new VocabularyKey("Address1_FreightTermsCode", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select the freight terms for the primary address to make sure shipping orders are processed correctly.")
-                    .WithDisplayName("Address 1: Freight Terms")
-                    .ModelProperty("address1_freighttermscode", typeof(string)));
-
-                this.Address1_UPSZone = group.Add(new VocabularyKey("Address1_UPSZone", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(4))
-                    .WithDescription(@"Type the UPS zone of the primary address to make sure shipping charges are calculated correctly and deliveries are made promptly, if shipped by UPS.")
-                    .WithDisplayName("Address 1: UPS Zone")
-                    .ModelProperty("address1_upszone", typeof(string)));
-
-                this.Address1_Latitude = group.Add(new VocabularyKey("Address1_Latitude", VocabularyKeyDataType.Number, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Type the latitude value for the primary address for use in mapping and other applications.")
-                    .WithDisplayName("Address 1: Latitude")
-                    .ModelProperty("address1_latitude", typeof(double)));
-
-                this.Address1_Telephone1 = group.Add(new VocabularyKey("Address1_Telephone1", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type the main phone number associated with the primary address.")
-                    .WithDisplayName("Address 1: Phone")
-                    .ModelProperty("address1_telephone1", typeof(string)));
-
-                this.Address1_Longitude = group.Add(new VocabularyKey("Address1_Longitude", VocabularyKeyDataType.Number, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Type the longitude value for the primary address for use in mapping and other applications.")
-                    .WithDisplayName("Address 1: Longitude")
-                    .ModelProperty("address1_longitude", typeof(double)));
-
-                this.Address1_ShippingMethodCode = group.Add(new VocabularyKey("Address1_ShippingMethodCode", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select a shipping method for deliveries sent to this address.")
-                    .WithDisplayName("Address 1: Shipping Method")
-                    .ModelProperty("address1_shippingmethodcode", typeof(string)));
-
-                this.Address1_Telephone2 = group.Add(new VocabularyKey("Address1_Telephone2", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type a second phone number associated with the primary address.")
-                    .WithDisplayName("Address 1: Telephone 2")
-                    .ModelProperty("address1_telephone2", typeof(string)));
-
-                this.Address1_Telephone3 = group.Add(new VocabularyKey("Address1_Telephone3", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type a third phone number associated with the primary address.")
-                    .WithDisplayName("Address 1: Telephone 3")
-                    .ModelProperty("address1_telephone3", typeof(string)));
-
-                this.Address1_Fax = group.Add(new VocabularyKey("Address1_Fax", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type the fax number associated with the primary address.")
-                    .WithDisplayName("Address 1: Fax")
-                    .ModelProperty("address1_fax", typeof(string)));
-
-                this.Address2_AddressId = group.Add(new VocabularyKey("Address2_AddressId", VocabularyKeyDataType.Guid, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Unique identifier for address 2.")
-                    .WithDisplayName("Address 2: ID")
-                    .ModelProperty("address2_addressid", typeof(Guid)));
-
-                this.Address2_AddressTypeCode = group.Add(new VocabularyKey("Address2_AddressTypeCode", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select the secondary address type.")
-                    .WithDisplayName("Address 2: Address Type")
-                    .ModelProperty("address2_addresstypecode", typeof(string)));
-
-                this.Address2_Name = group.Add(new VocabularyKey("Address2_Name", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(100))
-                    .WithDescription(@"Type a descriptive name for the secondary address, such as Corporate Headquarters.")
-                    .WithDisplayName("Address 2: Name")
-                    .ModelProperty("address2_name", typeof(string)));
-
-                this.Address2_PrimaryContactName = group.Add(new VocabularyKey("Address2_PrimaryContactName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(100))
-                    .WithDescription(@"Type the name of the main contact at the account's secondary address.")
-                    .WithDisplayName("Address 2: Primary Contact Name")
-                    .ModelProperty("address2_primarycontactname", typeof(string)));
-
-                this.Address2_Line1 = group.Add(new VocabularyKey("Address2_Line1", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(250))
-                    .WithDescription(@"Type the first line of the secondary address.")
-                    .WithDisplayName("Address 2: Street 1")
-                    .ModelProperty("address2_line1", typeof(string)));
-
-                this.Address2_Line2 = group.Add(new VocabularyKey("Address2_Line2", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(250))
-                    .WithDescription(@"Type the second line of the secondary address.")
-                    .WithDisplayName("Address 2: Street 2")
-                    .ModelProperty("address2_line2", typeof(string)));
-
-                this.Address2_Line3 = group.Add(new VocabularyKey("Address2_Line3", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(250))
-                    .WithDescription(@"Type the third line of the secondary address.")
-                    .WithDisplayName("Address 2: Street 3")
-                    .ModelProperty("address2_line3", typeof(string)));
-
-                this.Address2_City = group.Add(new VocabularyKey("Address2_City", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(80))
-                    .WithDescription(@"Type the city for the secondary address.")
-                    .WithDisplayName("Address 2: City")
-                    .ModelProperty("address2_city", typeof(string)));
-
-                this.Address2_StateOrProvince = group.Add(new VocabularyKey("Address2_StateOrProvince", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type the state or province of the secondary address.")
-                    .WithDisplayName("Address 2: State/Province")
-                    .ModelProperty("address2_stateorprovince", typeof(string)));
-
-                this.Address2_County = group.Add(new VocabularyKey("Address2_County", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type the county for the secondary address.")
-                    .WithDisplayName("Address 2: County")
-                    .ModelProperty("address2_county", typeof(string)));
-
-                this.Address2_Country = group.Add(new VocabularyKey("Address2_Country", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(80))
-                    .WithDescription(@"Type the country or region for the secondary address.")
-                    .WithDisplayName("Address 2: Country/Region")
-                    .ModelProperty("address2_country", typeof(string)));
-
-                this.Address2_PostOfficeBox = group.Add(new VocabularyKey("Address2_PostOfficeBox", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(20))
-                    .WithDescription(@"Type the post office box number of the secondary address.")
-                    .WithDisplayName("Address 2: Post Office Box")
-                    .ModelProperty("address2_postofficebox", typeof(string)));
-
-                this.Address2_PostalCode = group.Add(new VocabularyKey("Address2_PostalCode", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(20))
-                    .WithDescription(@"Type the ZIP Code or postal code for the secondary address.")
-                    .WithDisplayName("Address 2: ZIP/Postal Code")
-                    .ModelProperty("address2_postalcode", typeof(string)));
-
-                this.Address2_UTCOffset = group.Add(new VocabularyKey("Address2_UTCOffset", VocabularyKeyDataType.Integer, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select the time zone, or UTC offset, for this address so that other people can reference it when they contact someone at this address.")
-                    .WithDisplayName("Address 2: UTC Offset")
-                    .ModelProperty("address2_utcoffset", typeof(long)));
-
-                this.Address2_FreightTermsCode = group.Add(new VocabularyKey("Address2_FreightTermsCode", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select the freight terms for the secondary address to make sure shipping orders are processed correctly.")
-                    .WithDisplayName("Address 2: Freight Terms")
-                    .ModelProperty("address2_freighttermscode", typeof(string)));
-
-                this.Address2_UPSZone = group.Add(new VocabularyKey("Address2_UPSZone", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(4))
-                    .WithDescription(@"Type the UPS zone of the secondary address to make sure shipping charges are calculated correctly and deliveries are made promptly, if shipped by UPS.")
-                    .WithDisplayName("Address 2: UPS Zone")
-                    .ModelProperty("address2_upszone", typeof(string)));
-
-                this.Address2_Latitude = group.Add(new VocabularyKey("Address2_Latitude", VocabularyKeyDataType.Number, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Type the latitude value for the secondary address for use in mapping and other applications.")
-                    .WithDisplayName("Address 2: Latitude")
-                    .ModelProperty("address2_latitude", typeof(double)));
-
-                this.Address2_Telephone1 = group.Add(new VocabularyKey("Address2_Telephone1", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type the main phone number associated with the secondary address.")
-                    .WithDisplayName("Address 2: Telephone 1")
-                    .ModelProperty("address2_telephone1", typeof(string)));
-
-                this.Address2_Longitude = group.Add(new VocabularyKey("Address2_Longitude", VocabularyKeyDataType.Number, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Type the longitude value for the secondary address for use in mapping and other applications.")
-                    .WithDisplayName("Address 2: Longitude")
-                    .ModelProperty("address2_longitude", typeof(double)));
-
-                this.Address2_ShippingMethodCode = group.Add(new VocabularyKey("Address2_ShippingMethodCode", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select a shipping method for deliveries sent to this address.")
-                    .WithDisplayName("Address 2: Shipping Method")
-                    .ModelProperty("address2_shippingmethodcode", typeof(string)));
-
-                this.Address2_Telephone2 = group.Add(new VocabularyKey("Address2_Telephone2", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type a second phone number associated with the secondary address.")
-                    .WithDisplayName("Address 2: Telephone 2")
-                    .ModelProperty("address2_telephone2", typeof(string)));
-
-                this.Address2_Telephone3 = group.Add(new VocabularyKey("Address2_Telephone3", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type a third phone number associated with the secondary address.")
-                    .WithDisplayName("Address 2: Telephone 3")
-                    .ModelProperty("address2_telephone3", typeof(string)));
-
-                this.Address2_Fax = group.Add(new VocabularyKey("Address2_Fax", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type the fax number associated with the secondary address.")
-                    .WithDisplayName("Address 2: Fax")
-                    .ModelProperty("address2_fax", typeof(string)));
-
-                this.CreatedByName = group.Add(new VocabularyKey("CreatedByName", VocabularyKeyDataType.PersonName, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(100))
-                    .WithDescription(@"")
-                    .WithDisplayName("CreatedByName")
-                    .ModelProperty("createdbyname", typeof(string)));
-
-                this.ModifiedByName = group.Add(new VocabularyKey("ModifiedByName", VocabularyKeyDataType.PersonName, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(100))
-                    .WithDescription(@"")
-                    .WithDisplayName("ModifiedByName")
-                    .ModelProperty("modifiedbyname", typeof(string)));
-
-                this.OwnerId = group.Add(new VocabularyKey("OwnerId", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Enter the user or team who is assigned to manage the record. This field is updated every time the record is assigned to a different user.")
-                    .WithDisplayName("Team Owner")
-                    .ModelProperty("ownerid", typeof(string)));
-
-                this.OwnerIdName = group.Add(new VocabularyKey("OwnerIdName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(100))
-                    .WithDescription(@"")
-                    .WithDisplayName("OwnerIdName")
-                    .ModelProperty("owneridname", typeof(string)));
-
-                this.OwnerIdType = group.Add(new VocabularyKey("OwnerIdType", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"")
-                    .WithDisplayName("OwnerIdType")
-                    .ModelProperty("owneridtype", typeof(string)));
-
-                this.IsPrivateName = group.Add(new VocabularyKey("IsPrivateName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("IsPrivateName")
-                    .ModelProperty("isprivatename", typeof(string)));
-
-                this.DoNotFaxName = group.Add(new VocabularyKey("DoNotFaxName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("DoNotFaxName")
-                    .ModelProperty("donotfaxname", typeof(string)));
-
-                this.IsBackofficeCustomerName = group.Add(new VocabularyKey("IsBackofficeCustomerName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("IsBackofficeCustomerName")
-                    .ModelProperty("isbackofficecustomername", typeof(string)));
-
-                this.ParticipatesInWorkflowName = group.Add(new VocabularyKey("ParticipatesInWorkflowName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("ParticipatesInWorkflowName")
-                    .ModelProperty("participatesinworkflowname", typeof(string)));
-
-                this.DoNotPostalMailName = group.Add(new VocabularyKey("DoNotPostalMailName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("DoNotPostalMailName")
-                    .ModelProperty("donotpostalmailname", typeof(string)));
-
-                this.CreditOnHoldName = group.Add(new VocabularyKey("CreditOnHoldName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("CreditOnHoldName")
-                    .ModelProperty("creditonholdname", typeof(string)));
-
-                this.DoNotPhoneName = group.Add(new VocabularyKey("DoNotPhoneName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("DoNotPhoneName")
-                    .ModelProperty("donotphonename", typeof(string)));
-
-                this.DoNotEMailName = group.Add(new VocabularyKey("DoNotEMailName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("DoNotEMailName")
-                    .ModelProperty("donotemailname", typeof(string)));
-
-                this.DoNotBulkPostalMailName = group.Add(new VocabularyKey("DoNotBulkPostalMailName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("DoNotBulkPostalMailName")
-                    .ModelProperty("donotbulkpostalmailname", typeof(string)));
-
-                this.DoNotBulkEMailName = group.Add(new VocabularyKey("DoNotBulkEMailName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("DoNotBulkEMailName")
-                    .ModelProperty("donotbulkemailname", typeof(string)));
-
-                this.Address1_AddressTypeCodeName = group.Add(new VocabularyKey("Address1_AddressTypeCodeName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("Address1_AddressTypeCodeName")
-                    .ModelProperty("address1_addresstypecodename", typeof(string)));
-
-                this.PreferredContactMethodCodeName = group.Add(new VocabularyKey("PreferredContactMethodCodeName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("PreferredContactMethodCodeName")
-                    .ModelProperty("preferredcontactmethodcodename", typeof(string)));
-
-                this.Address2_AddressTypeCodeName = group.Add(new VocabularyKey("Address2_AddressTypeCodeName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("Address2_AddressTypeCodeName")
-                    .ModelProperty("address2_addresstypecodename", typeof(string)));
-
-                this.CustomerTypeCodeName = group.Add(new VocabularyKey("CustomerTypeCodeName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("CustomerTypeCodeName")
-                    .ModelProperty("customertypecodename", typeof(string)));
-
-                this.StateCodeName = group.Add(new VocabularyKey("StateCodeName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("StateCodeName")
-                    .ModelProperty("statecodename", typeof(string)));
-
-                this.AccountRoleCodeName = group.Add(new VocabularyKey("AccountRoleCodeName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("AccountRoleCodeName")
-                    .ModelProperty("accountrolecodename", typeof(string)));
-
-                this.StatusCodeName = group.Add(new VocabularyKey("StatusCodeName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("StatusCodeName")
-                    .ModelProperty("statuscodename", typeof(string)));
-
-                this.HasChildrenCodeName = group.Add(new VocabularyKey("HasChildrenCodeName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("HasChildrenCodeName")
-                    .ModelProperty("haschildrencodename", typeof(string)));
-
-                this.TerritoryCodeName = group.Add(new VocabularyKey("TerritoryCodeName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("TerritoryCodeName")
-                    .ModelProperty("territorycodename", typeof(string)));
-
-                this.Address1_ShippingMethodCodeName = group.Add(new VocabularyKey("Address1_ShippingMethodCodeName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("Address1_ShippingMethodCodeName")
-                    .ModelProperty("address1_shippingmethodcodename", typeof(string)));
-
-                this.PaymentTermsCodeName = group.Add(new VocabularyKey("PaymentTermsCodeName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("PaymentTermsCodeName")
-                    .ModelProperty("paymenttermscodename", typeof(string)));
-
-                this.GenderCodeName = group.Add(new VocabularyKey("GenderCodeName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("GenderCodeName")
-                    .ModelProperty("gendercodename", typeof(string)));
-
-                this.Address2_FreightTermsCodeName = group.Add(new VocabularyKey("Address2_FreightTermsCodeName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("Address2_FreightTermsCodeName")
-                    .ModelProperty("address2_freighttermscodename", typeof(string)));
-
-                this.FamilyStatusCodeName = group.Add(new VocabularyKey("FamilyStatusCodeName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("FamilyStatusCodeName")
-                    .ModelProperty("familystatuscodename", typeof(string)));
-
-                this.CustomerSizeCodeName = group.Add(new VocabularyKey("CustomerSizeCodeName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("CustomerSizeCodeName")
-                    .ModelProperty("customersizecodename", typeof(string)));
-
-                this.ShippingMethodCodeName = group.Add(new VocabularyKey("ShippingMethodCodeName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("ShippingMethodCodeName")
-                    .ModelProperty("shippingmethodcodename", typeof(string)));
-
-                this.Address1_FreightTermsCodeName = group.Add(new VocabularyKey("Address1_FreightTermsCodeName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("Address1_FreightTermsCodeName")
-                    .ModelProperty("address1_freighttermscodename", typeof(string)));
-
-                this.LeadSourceCodeName = group.Add(new VocabularyKey("LeadSourceCodeName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("LeadSourceCodeName")
-                    .ModelProperty("leadsourcecodename", typeof(string)));
-
-                this.EducationCodeName = group.Add(new VocabularyKey("EducationCodeName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("EducationCodeName")
-                    .ModelProperty("educationcodename", typeof(string)));
-
-                this.Address2_ShippingMethodCodeName = group.Add(new VocabularyKey("Address2_ShippingMethodCodeName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("Address2_ShippingMethodCodeName")
-                    .ModelProperty("address2_shippingmethodcodename", typeof(string)));
-
-                this.PreferredSystemUserId = group.Add(new VocabularyKey("PreferredSystemUserId", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Choose the regular or preferred customer service representative for reference when scheduling service activities for the contact.")
-                    .WithDisplayName("Preferred User")
-                    .ModelProperty("preferredsystemuserid", typeof(string)));
-
-                this.PreferredServiceId = group.Add(new VocabularyKey("PreferredServiceId", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Choose the contact's preferred service to make sure services are scheduled correctly for the customer.")
-                    .WithDisplayName("Preferred Service")
-                    .ModelProperty("preferredserviceid", typeof(string)));
-
-                this.MasterId = group.Add(new VocabularyKey("MasterId", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"Unique identifier of the master contact for merge.")
-                    .WithDisplayName("Master ID")
-                    .ModelProperty("masterid", typeof(string)));
-
-                this.PreferredAppointmentDayCode = group.Add(new VocabularyKey("PreferredAppointmentDayCode", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select the preferred day of the week for service appointments.")
-                    .WithDisplayName("Preferred Day")
-                    .ModelProperty("preferredappointmentdaycode", typeof(string)));
-
-                this.PreferredAppointmentTimeCode = group.Add(new VocabularyKey("PreferredAppointmentTimeCode", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select the preferred time of day for service appointments.")
-                    .WithDisplayName("Preferred Time")
-                    .ModelProperty("preferredappointmenttimecode", typeof(string)));
-
-                this.DoNotSendMM = group.Add(new VocabularyKey("DoNotSendMM", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select whether the contact accepts marketing materials, such as brochures or catalogs. Contacts that opt out can be excluded from marketing initiatives.")
-                    .WithDisplayName("Send Marketing Materials")
-                    .ModelProperty("donotsendmm", typeof(bool)));
-
-                this.ParentCustomerId = group.Add(new VocabularyKey("ParentCustomerId", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select the parent account or parent contact for the contact to provide a quick link to additional details, such as financial information, activities, and opportunities.")
-                    .WithDisplayName("Company Name")
-                    .ModelProperty("parentcustomerid", typeof(string)));
-
-                this.Merged = group.Add(new VocabularyKey("Merged", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"Shows whether the account has been merged with a master contact.")
-                    .WithDisplayName("Merged")
-                    .ModelProperty("merged", typeof(bool)));
-
-                this.ExternalUserIdentifier = group.Add(new VocabularyKey("ExternalUserIdentifier", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Identifier for an external user.")
-                    .WithDisplayName("External User Identifier")
-                    .ModelProperty("externaluseridentifier", typeof(string)));
-
-                this.SubscriptionId = group.Add(new VocabularyKey("SubscriptionId", VocabularyKeyDataType.Guid, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"For internal use only.")
-                    .WithDisplayName("Subscription")
-                    .ModelProperty("subscriptionid", typeof(Guid)));
-
-                this.PreferredEquipmentId = group.Add(new VocabularyKey("PreferredEquipmentId", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Choose the contact's preferred service facility or equipment to make sure services are scheduled correctly for the customer.")
-                    .WithDisplayName("Preferred Facility/Equipment")
-                    .ModelProperty("preferredequipmentid", typeof(string)));
-
-                this.LastUsedInCampaign = group.Add(new VocabularyKey("LastUsedInCampaign", VocabularyKeyDataType.DateTime, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Shows the date when the contact was last included in a marketing campaign or quick campaign.")
-                    .WithDisplayName("Last Campaign Date")
-                    .ModelProperty("lastusedincampaign", typeof(DateTime)));
-
-                this.MasterContactIdName = group.Add(new VocabularyKey("MasterContactIdName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(100))
-                    .WithDescription(@"")
-                    .WithDisplayName("MasterContactIdName")
-                    .ModelProperty("mastercontactidname", typeof(string)));
-
-                this.PreferredSystemUserIdName = group.Add(new VocabularyKey("PreferredSystemUserIdName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(100))
-                    .WithDescription(@"")
-                    .WithDisplayName("PreferredSystemUserIdName")
-                    .ModelProperty("preferredsystemuseridname", typeof(string)));
-
-                this.MergedName = group.Add(new VocabularyKey("MergedName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("MergedName")
-                    .ModelProperty("mergedname", typeof(string)));
-
-                this.PreferredAppointmentTimeCodeName = group.Add(new VocabularyKey("PreferredAppointmentTimeCodeName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("PreferredAppointmentTimeCodeName")
-                    .ModelProperty("preferredappointmenttimecodename", typeof(string)));
-
-                this.PreferredEquipmentIdName = group.Add(new VocabularyKey("PreferredEquipmentIdName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(100))
-                    .WithDescription(@"")
-                    .WithDisplayName("PreferredEquipmentIdName")
-                    .ModelProperty("preferredequipmentidname", typeof(string)));
-
-                this.ParentCustomerIdName = group.Add(new VocabularyKey("ParentCustomerIdName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(160))
-                    .WithDescription(@"")
-                    .WithDisplayName("ParentCustomerIdName")
-                    .ModelProperty("parentcustomeridname", typeof(string)));
-
-                this.PreferredAppointmentDayCodeName = group.Add(new VocabularyKey("PreferredAppointmentDayCodeName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("PreferredAppointmentDayCodeName")
-                    .ModelProperty("preferredappointmentdaycodename", typeof(string)));
-
-                this.PreferredServiceIdName = group.Add(new VocabularyKey("PreferredServiceIdName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(100))
-                    .WithDescription(@"")
-                    .WithDisplayName("PreferredServiceIdName")
-                    .ModelProperty("preferredserviceidname", typeof(string)));
-
-                this.ParentCustomerIdType = group.Add(new VocabularyKey("ParentCustomerIdType", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"")
-                    .WithDisplayName("Parent Customer Type")
-                    .ModelProperty("parentcustomeridtype", typeof(string)));
-
-                this.DoNotSendMarketingMaterialName = group.Add(new VocabularyKey("DoNotSendMarketingMaterialName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("DoNotSendMarketingMaterialName")
-                    .ModelProperty("donotsendmarketingmaterialname", typeof(string)));
-
-                this.TransactionCurrencyId = group.Add(new VocabularyKey("TransactionCurrencyId", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Choose the local currency for the record to make sure budgets are reported in the correct currency.")
-                    .WithDisplayName("Currency")
-                    .ModelProperty("transactioncurrencyid", typeof(string)));
-
-                this.OverriddenCreatedOn = group.Add(new VocabularyKey("OverriddenCreatedOn", VocabularyKeyDataType.DateTime, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"Date and time that the record was migrated.")
-                    .WithDisplayName("Record Created On")
-                    .ModelProperty("overriddencreatedon", typeof(DateTime)));
-
-                this.ExchangeRate = group.Add(new VocabularyKey("ExchangeRate", VocabularyKeyDataType.Number, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"Shows the conversion rate of the record's currency. The exchange rate is used to convert all money fields in the record from the local currency to the system's default currency.")
-                    .WithDisplayName("Exchange Rate")
-                    .ModelProperty("exchangerate", typeof(decimal)));
-
-                this.ImportSequenceNumber = group.Add(new VocabularyKey("ImportSequenceNumber", VocabularyKeyDataType.Integer, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"Unique identifier of the data import or data migration that created this record.")
-                    .WithDisplayName("Import Sequence Number")
-                    .ModelProperty("importsequencenumber", typeof(long)));
-
-                this.TimeZoneRuleVersionNumber = group.Add(new VocabularyKey("TimeZoneRuleVersionNumber", VocabularyKeyDataType.Integer, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"For internal use only.")
-                    .WithDisplayName("Time Zone Rule Version Number")
-                    .ModelProperty("timezoneruleversionnumber", typeof(long)));
-
-                this.UTCConversionTimeZoneCode = group.Add(new VocabularyKey("UTCConversionTimeZoneCode", VocabularyKeyDataType.Integer, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Time zone code that was in use when the record was created.")
-                    .WithDisplayName("UTC Conversion Time Zone Code")
-                    .ModelProperty("utcconversiontimezonecode", typeof(long)));
-
-                this.AnnualIncome_Base = group.Add(new VocabularyKey("AnnualIncome_Base", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"Shows the Annual Income field converted to the system's default base currency. The calculations use the exchange rate specified in the Currencies area.")
-                    .WithDisplayName("Annual Income (Base)")
-                    .ModelProperty("annualincome_base", typeof(string)));
-
-                this.CreditLimit_Base = group.Add(new VocabularyKey("CreditLimit_Base", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"Shows the Credit Limit field converted to the system's default base currency for reporting purposes. The calculations use the exchange rate specified in the Currencies area.")
-                    .WithDisplayName("Credit Limit (Base)")
-                    .ModelProperty("creditlimit_base", typeof(string)));
-
-                this.Aging60_Base = group.Add(new VocabularyKey("Aging60_Base", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"Shows the Aging 60 field converted to the system's default base currency. The calculations use the exchange rate specified in the Currencies area.")
-                    .WithDisplayName("Aging 60 (Base)")
-                    .ModelProperty("aging60_base", typeof(string)));
-
-                this.Aging90_Base = group.Add(new VocabularyKey("Aging90_Base", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"Shows the Aging 90 field converted to the system's default base currency. The calculations use the exchange rate specified in the Currencies area.")
-                    .WithDisplayName("Aging 90 (Base)")
-                    .ModelProperty("aging90_base", typeof(string)));
-
-                this.Aging30_Base = group.Add(new VocabularyKey("Aging30_Base", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"Shows the Aging 30 field converted to the system's default base currency. The calculations use the exchange rate specified in the Currencies area.")
-                    .WithDisplayName("Aging 30 (Base)")
-                    .ModelProperty("aging30_base", typeof(string)));
-
-                this.TransactionCurrencyIdName = group.Add(new VocabularyKey("TransactionCurrencyIdName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(100))
-                    .WithDescription(@"")
-                    .WithDisplayName("TransactionCurrencyIdName")
-                    .ModelProperty("transactioncurrencyidname", typeof(string)));
-
-                this.ModifiedByYomiName = group.Add(new VocabularyKey("ModifiedByYomiName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(100))
-                    .WithDescription(@"")
-                    .WithDisplayName("ModifiedByYomiName")
-                    .ModelProperty("modifiedbyyominame", typeof(string)));
-
-                this.OriginatingLeadIdYomiName = group.Add(new VocabularyKey("OriginatingLeadIdYomiName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(100))
-                    .WithDescription(@"")
-                    .WithDisplayName("OriginatingLeadIdYomiName")
-                    .ModelProperty("originatingleadidyominame", typeof(string)));
-
-                this.ParentCustomerIdYomiName = group.Add(new VocabularyKey("ParentCustomerIdYomiName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(450))
-                    .WithDescription(@"")
-                    .WithDisplayName("ParentCustomerIdYomiName")
-                    .ModelProperty("parentcustomeridyominame", typeof(string)));
-
-                this.PreferredSystemUserIdYomiName = group.Add(new VocabularyKey("PreferredSystemUserIdYomiName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(100))
-                    .WithDescription(@"")
-                    .WithDisplayName("PreferredSystemUserIdYomiName")
-                    .ModelProperty("preferredsystemuseridyominame", typeof(string)));
-
-                this.OwnerIdYomiName = group.Add(new VocabularyKey("OwnerIdYomiName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(100))
-                    .WithDescription(@"")
-                    .WithDisplayName("OwnerIdYomiName")
-                    .ModelProperty("owneridyominame", typeof(string)));
-
-                this.MasterContactIdYomiName = group.Add(new VocabularyKey("MasterContactIdYomiName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(100))
-                    .WithDescription(@"")
-                    .WithDisplayName("MasterContactIdYomiName")
-                    .ModelProperty("mastercontactidyominame", typeof(string)));
-
-                this.AccountIdYomiName = group.Add(new VocabularyKey("AccountIdYomiName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(100))
-                    .WithDescription(@"")
-                    .WithDisplayName("AccountIdYomiName")
-                    .ModelProperty("accountidyominame", typeof(string)));
-
-                this.CreatedByYomiName = group.Add(new VocabularyKey("CreatedByYomiName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(100))
-                    .WithDescription(@"")
-                    .WithDisplayName("CreatedByYomiName")
-                    .ModelProperty("createdbyyominame", typeof(string)));
-
-                this.ParentContactIdYomiName = group.Add(new VocabularyKey("ParentContactIdYomiName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(100))
-                    .WithDescription(@"")
-                    .WithDisplayName("ParentContactIdYomiName")
-                    .ModelProperty("parentcontactidyominame", typeof(string)));
-
-                this.CreatedOnBehalfBy = group.Add(new VocabularyKey("CreatedOnBehalfBy", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"Shows who created the record on behalf of another user.")
-                    .WithDisplayName("Created By (Delegate)")
-                    .ModelProperty("createdonbehalfby", typeof(string)));
-
-                this.CreatedOnBehalfByName = group.Add(new VocabularyKey("CreatedOnBehalfByName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(100))
-                    .WithDescription(@"")
-                    .WithDisplayName("CreatedOnBehalfByName")
-                    .ModelProperty("createdonbehalfbyname", typeof(string)));
-
-                this.CreatedOnBehalfByYomiName = group.Add(new VocabularyKey("CreatedOnBehalfByYomiName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(100))
-                    .WithDescription(@"")
-                    .WithDisplayName("CreatedOnBehalfByYomiName")
-                    .ModelProperty("createdonbehalfbyyominame", typeof(string)));
-
-                this.ModifiedOnBehalfBy = group.Add(new VocabularyKey("ModifiedOnBehalfBy", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"Shows who last updated the record on behalf of another user.")
-                    .WithDisplayName("Modified By (Delegate)")
-                    .ModelProperty("modifiedonbehalfby", typeof(string)));
-
-                this.ModifiedOnBehalfByName = group.Add(new VocabularyKey("ModifiedOnBehalfByName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(100))
-                    .WithDescription(@"")
-                    .WithDisplayName("ModifiedOnBehalfByName")
-                    .ModelProperty("modifiedonbehalfbyname", typeof(string)));
-
-                this.ModifiedOnBehalfByYomiName = group.Add(new VocabularyKey("ModifiedOnBehalfByYomiName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(100))
-                    .WithDescription(@"")
-                    .WithDisplayName("ModifiedOnBehalfByYomiName")
-                    .ModelProperty("modifiedonbehalfbyyominame", typeof(string)));
-
-                this.OwningTeam = group.Add(new VocabularyKey("OwningTeam", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"Unique identifier of the team who owns the contact.")
-                    .WithDisplayName("Owning Team")
-                    .ModelProperty("owningteam", typeof(string)));
-
-                this.IsAutoCreate = group.Add(new VocabularyKey("IsAutoCreate", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"Information about whether the contact was auto-created when promoting an email or an appointment.")
-                    .WithDisplayName("Auto-created")
-                    .ModelProperty("isautocreate", typeof(bool)));
-
-                this.EntityImage = group.Add(new VocabularyKey("EntityImage", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Shows the default image for the record.")
-                    .WithDisplayName("Entity Image")
-                    .ModelProperty("entityimage", typeof(string)));
-
-                this.StageId = group.Add(new VocabularyKey("StageId", VocabularyKeyDataType.Guid, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Shows the ID of the stage.")
-                    .WithDisplayName("(Deprecated) Process Stage")
-                    .ModelProperty("stageid", typeof(Guid)));
-
-                this.ProcessId = group.Add(new VocabularyKey("ProcessId", VocabularyKeyDataType.Guid, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Shows the ID of the process.")
-                    .WithDisplayName("Process")
-                    .ModelProperty("processid", typeof(Guid)));
-
-                this.Address2_Composite = group.Add(new VocabularyKey("Address2_Composite", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(1000))
-                    .WithDescription(@"Shows the complete secondary address.")
-                    .WithDisplayName("Address 2")
-                    .ModelProperty("address2_composite", typeof(string)));
-
-                this.Address1_Composite = group.Add(new VocabularyKey("Address1_Composite", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(1000))
-                    .WithDescription(@"Shows the complete primary address.")
-                    .WithDisplayName("Address 1")
-                    .ModelProperty("address1_composite", typeof(string)));
-
-                this.EntityImageId = group.Add(new VocabularyKey("EntityImageId", VocabularyKeyDataType.Guid, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"For internal use only.")
-                    .WithDisplayName("Entity Image Id")
-                    .ModelProperty("entityimageid", typeof(Guid)));
-
-                this.EntityImage_URL = group.Add(new VocabularyKey("EntityImage_URL", VocabularyKeyDataType.Uri, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(200))
-                    .WithDescription(@"")
-                    .WithDisplayName("EntityImage_URL")
-                    .ModelProperty("entityimage_url", typeof(string)));
-
-                this.EntityImage_Timestamp = group.Add(new VocabularyKey("EntityImage_Timestamp", VocabularyKeyDataType.Integer, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("EntityImage_Timestamp")
-                    .ModelProperty("entityimage_timestamp", typeof(int)));
-
-                this.TraversedPath = group.Add(new VocabularyKey("TraversedPath", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(1250))
-                    .WithDescription(@"For internal use only.")
-                    .WithDisplayName("(Deprecated) Traversed Path")
-                    .ModelProperty("traversedpath", typeof(string)));
-
-                this.SLAId = group.Add(new VocabularyKey("SLAId", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Choose the service level agreement (SLA) that you want to apply to the Contact record.")
-                    .WithDisplayName("SLA")
-                    .ModelProperty("slaid", typeof(string)));
-
-                this.SLAName = group.Add(new VocabularyKey("SLAName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(100))
-                    .WithDescription(@"")
-                    .WithDisplayName("SLAName")
-                    .ModelProperty("slaname", typeof(string)));
-
-                this.SLAInvokedId = group.Add(new VocabularyKey("SLAInvokedId", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"Last SLA that was applied to this case. This field is for internal use only.")
-                    .WithDisplayName("Last SLA applied")
-                    .ModelProperty("slainvokedid", typeof(string)));
-
-                this.OnHoldTime = group.Add(new VocabularyKey("OnHoldTime", VocabularyKeyDataType.Integer, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"Shows how long, in minutes, that the record was on hold.")
-                    .WithDisplayName("On Hold Time (Minutes)")
-                    .ModelProperty("onholdtime", typeof(long)));
-
-                this.LastOnHoldTime = group.Add(new VocabularyKey("LastOnHoldTime", VocabularyKeyDataType.DateTime, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Contains the date and time stamp of the last on hold time.")
-                    .WithDisplayName("Last On Hold Time")
-                    .ModelProperty("lastonholdtime", typeof(DateTime)));
-
-                this.SLAInvokedIdName = group.Add(new VocabularyKey("SLAInvokedIdName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(100))
-                    .WithDescription(@"")
-                    .WithDisplayName("SLAInvokedIdName")
-                    .ModelProperty("slainvokedidname", typeof(string)));
-
-                this.FollowEmail = group.Add(new VocabularyKey("FollowEmail", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Information about whether to allow following email activity like opens, attachment views and link clicks for emails sent to the contact.")
-                    .WithDisplayName("Follow Email Activity")
-                    .ModelProperty("followemail", typeof(bool)));
-
-                this.FollowEmailName = group.Add(new VocabularyKey("FollowEmailName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("FollowEmailName")
-                    .ModelProperty("followemailname", typeof(string)));
-
-                this.TimeSpentByMeOnEmailAndMeetings = group.Add(new VocabularyKey("TimeSpentByMeOnEmailAndMeetings", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(1250))
-                    .WithDescription(@"Total time spent for emails (read and write) and meetings by me in relation to the contact record.")
-                    .WithDisplayName("Time Spent by me")
-                    .ModelProperty("timespentbymeonemailandmeetings", typeof(string)));
-
-                this.Address3_Country = group.Add(new VocabularyKey("Address3_Country", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(80))
-                    .WithDescription(@"the country or region for the 3rd address.")
-                    .WithDisplayName("Address3: Country/Region")
-                    .ModelProperty("address3_country", typeof(string)));
-
-                this.Address3_Line1 = group.Add(new VocabularyKey("Address3_Line1", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(250))
-                    .WithDescription(@"the first line of the 3rd address.")
-                    .WithDisplayName("Address3: Street 1")
-                    .ModelProperty("address3_line1", typeof(string)));
-
-                this.Address3_Line2 = group.Add(new VocabularyKey("Address3_Line2", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(250))
-                    .WithDescription(@"the second line of the 3rd address.")
-                    .WithDisplayName("Address3: Street 2")
-                    .ModelProperty("address3_line2", typeof(string)));
-
-                this.Address3_Line3 = group.Add(new VocabularyKey("Address3_Line3", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(250))
-                    .WithDescription(@"the third line of the 3rd address.")
-                    .WithDisplayName("Address 3: Street 3")
-                    .ModelProperty("address3_line3", typeof(string)));
-
-                this.Address3_PostalCode = group.Add(new VocabularyKey("Address3_PostalCode", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(20))
-                    .WithDescription(@"the ZIP Code or postal code for the 3rd address.")
-                    .WithDisplayName("Address3: ZIP/Postal Code")
-                    .ModelProperty("address3_postalcode", typeof(string)));
-
-                this.Address3_PostOfficeBox = group.Add(new VocabularyKey("Address3_PostOfficeBox", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(20))
-                    .WithDescription(@"the post office box number of the 3rd address.")
-                    .WithDisplayName("Address 3: Post Office Box")
-                    .ModelProperty("address3_postofficebox", typeof(string)));
-
-                this.Address3_StateOrProvince = group.Add(new VocabularyKey("Address3_StateOrProvince", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"the state or province of the third address.")
-                    .WithDisplayName("Address3: State/Province")
-                    .ModelProperty("address3_stateorprovince", typeof(string)));
-
-                this.Address3_City = group.Add(new VocabularyKey("Address3_City", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(80))
-                    .WithDescription(@"Type the city for the 3rd address.")
-                    .WithDisplayName("Address 3: City")
-                    .ModelProperty("address3_city", typeof(string)));
-
-                this.Business2 = group.Add(new VocabularyKey("Business2", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type a second business phone number for this contact.")
-                    .WithDisplayName("Business Phone 2")
-                    .ModelProperty("business2", typeof(string)));
-
-                this.Callback = group.Add(new VocabularyKey("Callback", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type a callback phone number for this contact.")
-                    .WithDisplayName("Callback Number")
-                    .ModelProperty("callback", typeof(string)));
-
-                this.Company = group.Add(new VocabularyKey("Company", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type the company phone of the contact.")
-                    .WithDisplayName("Company Phone")
-                    .ModelProperty("company", typeof(string)));
-
-                this.Home2 = group.Add(new VocabularyKey("Home2", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type a second home phone number for this contact.")
-                    .WithDisplayName("Home Phone 2")
-                    .ModelProperty("home2", typeof(string)));
-
-                this.Address3_AddressId = group.Add(new VocabularyKey("Address3_AddressId", VocabularyKeyDataType.Guid, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Unique identifier for address 3.")
-                    .WithDisplayName("Address 3: ID")
-                    .ModelProperty("address3_addressid", typeof(Guid)));
-
-                this.Address3_AddressTypeCodeName = group.Add(new VocabularyKey("Address3_AddressTypeCodeName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("Address3_AddressTypeCodeName")
-                    .ModelProperty("address3_addresstypecodename", typeof(string)));
-
-                this.Address3_Composite = group.Add(new VocabularyKey("Address3_Composite", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(1000))
-                    .WithDescription(@"Shows the complete third address.")
-                    .WithDisplayName("Address 3")
-                    .ModelProperty("address3_composite", typeof(string)));
-
-                this.Address3_Fax = group.Add(new VocabularyKey("Address3_Fax", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type the fax number associated with the third address.")
-                    .WithDisplayName("Address 3: Fax")
-                    .ModelProperty("address3_fax", typeof(string)));
-
-                this.Address3_FreightTermsCode = group.Add(new VocabularyKey("Address3_FreightTermsCode", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select the freight terms for the third address to make sure shipping orders are processed correctly.")
-                    .WithDisplayName("Address 3: Freight Terms")
-                    .ModelProperty("address3_freighttermscode", typeof(string)));
-
-                this.Address3_FreightTermsCodeName = group.Add(new VocabularyKey("Address3_FreightTermsCodeName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("Address3_FreightTermsCodeName")
-                    .ModelProperty("address3_freighttermscodename", typeof(string)));
-
-                this.Address3_Latitude = group.Add(new VocabularyKey("Address3_Latitude", VocabularyKeyDataType.Number, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Type the latitude value for the third address for use in mapping and other applications.")
-                    .WithDisplayName("Address 3: Latitude")
-                    .ModelProperty("address3_latitude", typeof(double)));
-
-                this.Address3_Longitude = group.Add(new VocabularyKey("Address3_Longitude", VocabularyKeyDataType.Number, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Type the longitude value for the third address for use in mapping and other applications.")
-                    .WithDisplayName("Address 3: Longitude")
-                    .ModelProperty("address3_longitude", typeof(double)));
-
-                this.Address3_Name = group.Add(new VocabularyKey("Address3_Name", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(200))
-                    .WithDescription(@"Type a descriptive name for the third address, such as Corporate Headquarters.")
-                    .WithDisplayName("Address 3: Name")
-                    .ModelProperty("address3_name", typeof(string)));
-
-                this.Address3_PrimaryContactName = group.Add(new VocabularyKey("Address3_PrimaryContactName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(100))
-                    .WithDescription(@"Type the name of the main contact at the account's third address.")
-                    .WithDisplayName("Address 3: Primary Contact Name")
-                    .ModelProperty("address3_primarycontactname", typeof(string)));
-
-                this.Address3_ShippingMethodCode = group.Add(new VocabularyKey("Address3_ShippingMethodCode", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select a shipping method for deliveries sent to this address.")
-                    .WithDisplayName("Address 3: Shipping Method")
-                    .ModelProperty("address3_shippingmethodcode", typeof(string)));
-
-                this.Address3_ShippingMethodCodeName = group.Add(new VocabularyKey("Address3_ShippingMethodCodeName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("Address3_ShippingMethodCodeName")
-                    .ModelProperty("address3_shippingmethodcodename", typeof(string)));
-
-                this.Address3_Telephone1 = group.Add(new VocabularyKey("Address3_Telephone1", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type the main phone number associated with the third address.")
-                    .WithDisplayName("Address 3: Telephone1")
-                    .ModelProperty("address3_telephone1", typeof(string)));
-
-                this.Address3_Telephone2 = group.Add(new VocabularyKey("Address3_Telephone2", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type a second phone number associated with the third address.")
-                    .WithDisplayName("Address 3: Telephone2")
-                    .ModelProperty("address3_telephone2", typeof(string)));
-
-                this.Address3_Telephone3 = group.Add(new VocabularyKey("Address3_Telephone3", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type a third phone number associated with the primary address.")
-                    .WithDisplayName("Address 3: Telephone3")
-                    .ModelProperty("address3_telephone3", typeof(string)));
-
-                this.Address3_UPSZone = group.Add(new VocabularyKey("Address3_UPSZone", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(4))
-                    .WithDescription(@"Type the UPS zone of the third address to make sure shipping charges are calculated correctly and deliveries are made promptly, if shipped by UPS.")
-                    .WithDisplayName("Address 3: UPS Zone")
-                    .ModelProperty("address3_upszone", typeof(string)));
-
-                this.Address3_UTCOffset = group.Add(new VocabularyKey("Address3_UTCOffset", VocabularyKeyDataType.Integer, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select the time zone, or UTC offset, for this address so that other people can reference it when they contact someone at this address.")
-                    .WithDisplayName("Address 3: UTC Offset")
-                    .ModelProperty("address3_utcoffset", typeof(long)));
-
-                this.Address3_County = group.Add(new VocabularyKey("Address3_County", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(50))
-                    .WithDescription(@"Type the county for the third address.")
-                    .WithDisplayName("Address 3: County")
-                    .ModelProperty("address3_county", typeof(string)));
-
-                this.Address3_AddressTypeCode = group.Add(new VocabularyKey("Address3_AddressTypeCode", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Select the third address type.")
-                    .WithDisplayName("Address 3: Address Type")
-                    .ModelProperty("address3_addresstypecode", typeof(string)));
-
-                this.CreatedByExternalParty = group.Add(new VocabularyKey("CreatedByExternalParty", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"Shows the external party who created the record.")
-                    .WithDisplayName("Created By (External Party)")
-                    .ModelProperty("createdbyexternalparty", typeof(string)));
-
-                this.CreatedByExternalPartyName = group.Add(new VocabularyKey("CreatedByExternalPartyName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(100))
-                    .WithDescription(@"")
-                    .WithDisplayName("CreatedByExternalPartyName")
-                    .ModelProperty("createdbyexternalpartyname", typeof(string)));
-
-                this.CreatedByExternalPartyYomiName = group.Add(new VocabularyKey("CreatedByExternalPartyYomiName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(100))
-                    .WithDescription(@"")
-                    .WithDisplayName("CreatedByExternalPartyYomiName")
-                    .ModelProperty("createdbyexternalpartyyominame", typeof(string)));
-
-                this.ModifiedByExternalParty = group.Add(new VocabularyKey("ModifiedByExternalParty", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"Shows the external party who modified the record.")
-                    .WithDisplayName("Modified By (External Party)")
-                    .ModelProperty("modifiedbyexternalparty", typeof(string)));
-
-                this.ModifiedByExternalPartyName = group.Add(new VocabularyKey("ModifiedByExternalPartyName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(100))
-                    .WithDescription(@"")
-                    .WithDisplayName("ModifiedByExternalPartyName")
-                    .ModelProperty("modifiedbyexternalpartyname", typeof(string)));
-
-                this.ModifiedByExternalPartyYomiName = group.Add(new VocabularyKey("ModifiedByExternalPartyYomiName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit(), k => k.MaxLength(100))
-                    .WithDescription(@"")
-                    .WithDisplayName("ModifiedByExternalPartyYomiName")
-                    .ModelProperty("modifiedbyexternalpartyyominame", typeof(string)));
-
-                this.MarketingOnly = group.Add(new VocabularyKey("MarketingOnly", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Whether is only for marketing")
-                    .WithDisplayName("Marketing Only")
-                    .ModelProperty("marketingonly", typeof(bool)));
-
-                this.MarketingOnlyName = group.Add(new VocabularyKey("MarketingOnlyName", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.CanEdit())
-                    .WithDescription(@"")
-                    .WithDisplayName("MarketingOnlyName")
-                    .ModelProperty("marketingonlyname", typeof(string)));
-
-                this.TeamsFollowed = group.Add(new VocabularyKey("TeamsFollowed", VocabularyKeyDataType.Integer, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable())
-                    .WithDescription(@"Number of users or conversations followed the record")
-                    .WithDisplayName("TeamsFollowed")
-                    .ModelProperty("teamsfollowed", typeof(long)));
-
-                this.BusinessCard = group.Add(new VocabularyKey("BusinessCard", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(1073741823))
-                    .WithDescription(@"Stores Image of the Business Card")
-                    .WithDisplayName("Business Card")
-                    .ModelProperty("businesscard", typeof(string)));
-
-                this.BusinessCardAttributes = group.Add(new VocabularyKey("BusinessCardAttributes", VocabularyKeyDataType.Text, VocabularyKeyVisibility.Visible)
-                    .WithDataAnnotations(k => k.NotEditable(), k => k.MaxLength(4000))
-                    .WithDescription(@"Stores Business Card Control Properties.")
-                    .WithDisplayName("BusinessCardAttributes")
-                    .ModelProperty("businesscardattributes", typeof(string)));
-
-
+                Accountid = group.Add(new VocabularyKey("accountid", VocabularyKeyDataType.Guid, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Virksomhed_ID").WithDescription("\"Entydigt id for det firma, som kontaktpersonen er tilknyttet.\""));
+                Accountrolecode = group.Add(new VocabularyKey("accountrolecode", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Rolle").WithDescription("\"Vælg kontaktens rolle i firmaet eller salgsprocessen, f.eks. beslutningstager, medarbejder eller person, der øver indflydelse.\""));
+                Address1Addresstypecode = group.Add(new VocabularyKey("address1Addresstypecode", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 1: Adressetype").WithDescription("Vælg den primære adressetype."));
+                Address1City = group.Add(new VocabularyKey("address1City", VocabularyKeyDataType.GeographyCity, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Privat Adresse - By").WithDescription("Angiv byen for den primære adresse."));
+                Address1Composite = group.Add(new VocabularyKey("address1Composite", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Privat Adresse - Sammensat").WithDescription("Viser den fulde primære adresse."));
+                Address1Country = group.Add(new VocabularyKey("address1Country", VocabularyKeyDataType.GeographyCountry, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 1: Land/område").WithDescription("Angiv landet eller området for den primære adresse."));
+                Address1County = group.Add(new VocabularyKey("address1County", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 1: Region").WithDescription("Angiv regionen for den primære adresse."));
+                Address1Fax = group.Add(new VocabularyKey("address1Fax", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 1: Fax").WithDescription("\"Angiv det faxnummer, der er tilknyttet den primære adresse.\""));
+                Address1Freighttermscode = group.Add(new VocabularyKey("address1Freighttermscode", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 1: Fragtbetingelser").WithDescription("\"Vælg fragtbetingelser for den primære adresse for at sikre, at forsendelsesordrer behandles korrekt.\""));
+                Address1Latitude = group.Add(new VocabularyKey("address1Latitude", VocabularyKeyDataType.Currency, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 1: Breddegrad").WithDescription("Angiv værdien for breddegraden for den primære adresse til brug ved kortlægning og andre programmer."));
+                Address1Line1 = group.Add(new VocabularyKey("address1Line1", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 1: Gade 1").WithDescription("Angiv den første linje i den primære adresse."));
+                Address1Line2 = group.Add(new VocabularyKey("address1Line2", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 1: Gade 2").WithDescription("Angiv den anden linje i den primære adresse."));
+                Address1Line3 = group.Add(new VocabularyKey("address1Line3", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 1: Gade 3").WithDescription("Angiv den tredje linje i den primære adresse."));
+                Address1Longitude = group.Add(new VocabularyKey("address1Longitude", VocabularyKeyDataType.Currency, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 1: Længdegrad").WithDescription("Angiv værdien for længdegraden for den primære adresse til brug ved kortlægning og andre programmer."));
+                Address1Name = group.Add(new VocabularyKey("address1Name", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 1: Navn").WithDescription("\"Angiv et beskrivende navn til den primære adresse, f.eks. koncernhovedsæde.\""));
+                Address1Postalcode = group.Add(new VocabularyKey("address1Postalcode", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Privat Adresse - Postnummer").WithDescription("Angiv postnummeret for den primære adresse."));
+                Address1Postofficebox = group.Add(new VocabularyKey("address1Postofficebox", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 1: Postboksnummer").WithDescription("Angiv postboksnummeret for den primære adresse."));
+                Address1Primarycontactname = group.Add(new VocabularyKey("address1Primarycontactname", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 1: Navn på primær kontaktperson").WithDescription("Angiv navnet på hovedkontakten på firmaets primære adresse."));
+                Address1Shippingmethodcode = group.Add(new VocabularyKey("address1Shippingmethodcode", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 1: Forsendelsesmåde").WithDescription("\"Vælg en forsendelsesmetode til leverancer, der sendes til denne adresse.\""));
+                Address1Stateorprovince = group.Add(new VocabularyKey("address1Stateorprovince", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 1: Område").WithDescription("Angiv staten eller området for den primære adresse."));
+                Address1Telephone1 = group.Add(new VocabularyKey("address1Telephone1", VocabularyKeyDataType.PhoneNumber, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 1: Telefon").WithDescription("\"Angiv det hovedtelefonnummer, der er tilknyttet den primære adresse.\""));
+                Address1Telephone2 = group.Add(new VocabularyKey("address1Telephone2", VocabularyKeyDataType.PhoneNumber, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 1: Telefon 2").WithDescription("\"Angiv et andet telefonnummer, der er tilknyttet den primære adresse.\""));
+                Address1Telephone3 = group.Add(new VocabularyKey("address1Telephone3", VocabularyKeyDataType.PhoneNumber, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 1: Telefon 3").WithDescription("\"Angiv et tredje telefonnummer, der er tilknyttet den primære adresse.\""));
+                Address1Upszone = group.Add(new VocabularyKey("address1Upszone", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 1: UPS-zone").WithDescription("\"Angiv UPS-zonen for den primære adresse for at sikre, at forsendelsesgebyrer beregnes korrekt, og at leverancer foretages prompte, hvis forsendelse sker med UPS.\""));
+                Address2Addresstypecode = group.Add(new VocabularyKey("address2Addresstypecode", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 2: Adressetype").WithDescription("Vælg den sekundære adressetype."));
+                Address2City = group.Add(new VocabularyKey("address2City", VocabularyKeyDataType.GeographyCity, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 2: By").WithDescription("Angiv byen for den sekundære adresse."));
+                Address2Composite = group.Add(new VocabularyKey("address2Composite", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 2").WithDescription("Viser den fulde sekundære adresse."));
+                Address2Country = group.Add(new VocabularyKey("address2Country", VocabularyKeyDataType.GeographyCountry, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 2: Land/område").WithDescription("Angiv landet eller området for den sekundære adresse."));
+                Address2County = group.Add(new VocabularyKey("address2County", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 2: Region").WithDescription("Angiv regionen for den sekundære adresse."));
+                Address2Fax = group.Add(new VocabularyKey("address2Fax", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 2: Fax").WithDescription("\"Angiv det faxnummer, der er tilknyttet den sekundære adresse.\""));
+                Address2Freighttermscode = group.Add(new VocabularyKey("address2Freighttermscode", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 2: Fragtbetingelser").WithDescription("\"Vælg fragtbetingelser for den sekundære adresse for at sikre, at forsendelsesordrer behandles korrekt.\""));
+                Address2Latitude = group.Add(new VocabularyKey("address2Latitude", VocabularyKeyDataType.Currency, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 2: Breddegrad").WithDescription("Angiv værdien for breddegraden for den sekundære adresse til brug ved kortlægning og andre programmer."));
+                Address2Line1 = group.Add(new VocabularyKey("address2Line1", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 2: Gade 1").WithDescription("Angiv den første linje i den sekundære adresse."));
+                Address2Line2 = group.Add(new VocabularyKey("address2Line2", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 2: Gade 2").WithDescription("Angiv den anden linje i den sekundære adresse."));
+                Address2Line3 = group.Add(new VocabularyKey("address2Line3", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 2: Gade 3").WithDescription("Angiv den tredje linje i den sekundære adresse."));
+                Address2Longitude = group.Add(new VocabularyKey("address2Longitude", VocabularyKeyDataType.Currency, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 2: Længdegrad").WithDescription("Angiv værdien for længdegraden for den sekundære adresse til brug ved kortlægning og andre programmer."));
+                Address2Name = group.Add(new VocabularyKey("address2Name", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 2: Navn").WithDescription("\"Angiv et beskrivende navn til den sekundære adresse, f.eks. koncernhovedsæde.\""));
+                Address2Postalcode = group.Add(new VocabularyKey("address2Postalcode", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 2: Postnummer").WithDescription("Angiv postnummeret for den sekundære adresse."));
+                Address2Postofficebox = group.Add(new VocabularyKey("address2Postofficebox", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 2: Postboksnummer").WithDescription("Angiv postboksnummeret for den sekundære adresse."));
+                Address2Primarycontactname = group.Add(new VocabularyKey("address2Primarycontactname", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 2: Navn på primær kontaktperson").WithDescription("Angiv navnet på hovedkontakten på firmaets sekundære adresse."));
+                Address2Shippingmethodcode = group.Add(new VocabularyKey("address2Shippingmethodcode", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 2: Forsendelsesmåde").WithDescription("\"Vælg en forsendelsesmetode til leverancer, der sendes til denne adresse.\""));
+                Address2Stateorprovince = group.Add(new VocabularyKey("address2Stateorprovince", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 2: Område").WithDescription("Angiv staten eller området for den sekundære adresse."));
+                Address2Telephone1 = group.Add(new VocabularyKey("address2Telephone1", VocabularyKeyDataType.PhoneNumber, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 2: Telefon 1").WithDescription("\"Angiv det hovedtelefonnummer, der er tilknyttet den sekundære adresse.\""));
+                Address2Telephone2 = group.Add(new VocabularyKey("address2Telephone2", VocabularyKeyDataType.PhoneNumber, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 2: Telefon 2").WithDescription("\"Angiv et andet telefonnummer, der er tilknyttet den sekundære adresse.\""));
+                Address2Telephone3 = group.Add(new VocabularyKey("address2Telephone3", VocabularyKeyDataType.PhoneNumber, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 2: Telefon 3").WithDescription("\"Angiv et tredje telefonnummer, der er tilknyttet den sekundære adresse.\""));
+                Address2Upszone = group.Add(new VocabularyKey("address2Upszone", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 2: UPS-zone").WithDescription("\"Angiv UPS-zonen for den sekundære adresse for at sikre, at forsendelsesgebyrer beregnes korrekt, og at leverancer foretages prompte, hvis forsendelse sker med UPS.\""));
+                Address3Addresstypecode = group.Add(new VocabularyKey("address3Addresstypecode", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 3: Adressetype").WithDescription("Vælg den tredje adressetype."));
+                Address3City = group.Add(new VocabularyKey("address3City", VocabularyKeyDataType.GeographyCity, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 3: By").WithDescription("Angiv byen i adresse 3."));
+                Address3Composite = group.Add(new VocabularyKey("address3Composite", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 3").WithDescription("Viser den fulde tredje adresse."));
+                Address3Country = group.Add(new VocabularyKey("address3Country", VocabularyKeyDataType.GeographyCountry, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 3: Land/område").WithDescription("landet/området for adresse 3."));
+                Address3County = group.Add(new VocabularyKey("address3County", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 3: Region").WithDescription("Angiv regionen for den tredje adresse."));
+                Address3Fax = group.Add(new VocabularyKey("address3Fax", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 3: Fax").WithDescription("\"Angiv det faxnummer, der er tilknyttet den tredje adresse.\""));
+                Address3Freighttermscode = group.Add(new VocabularyKey("address3Freighttermscode", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 3: Fragtbetingelser").WithDescription("\"Vælg fragtbetingelser for den tredje adresse for at sikre, at forsendelsesordrer behandles korrekt.\""));
+                Address3Latitude = group.Add(new VocabularyKey("address3Latitude", VocabularyKeyDataType.Currency, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 3: Breddegrad").WithDescription("Angiv værdien for breddegraden for den tredje adresse til brug ved kortlægning og i andre programmer."));
+                Address3Line1 = group.Add(new VocabularyKey("address3Line1", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 3: Gade 1").WithDescription("den første linje i adresse 3."));
+                Address3Line2 = group.Add(new VocabularyKey("address3Line2", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 3: Gade 2").WithDescription("den anden linje i adresse 3."));
+                Address3Line3 = group.Add(new VocabularyKey("address3Line3", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 3: Gade 3").WithDescription("den tredje linje i adresse 3."));
+                Address3Longitude = group.Add(new VocabularyKey("address3Longitude", VocabularyKeyDataType.Currency, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 3: Længdegrad").WithDescription("Angiv værdien for længdegraden for den tredje adresse til brug ved kortlægning og i andre programmer."));
+                Address3Name = group.Add(new VocabularyKey("address3Name", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 3: Navn").WithDescription("\"Angiv et beskrivende navn til den tredje adresse, f.eks. koncernhovedsæde.\""));
+                Address3Postalcode = group.Add(new VocabularyKey("address3Postalcode", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 3: Postnummer").WithDescription("postnummeret i adresse 3."));
+                Address3Postofficebox = group.Add(new VocabularyKey("address3Postofficebox", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 3: Postboksnummer").WithDescription("postboksnummeret i adresse 3."));
+                Address3Primarycontactname = group.Add(new VocabularyKey("address3Primarycontactname", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 3: Navn på primær kontaktperson").WithDescription("Angiv navnet på hovedkontakten på firmaets tredje adresse."));
+                Address3Shippingmethodcode = group.Add(new VocabularyKey("address3Shippingmethodcode", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 3: Forsendelsesmåde").WithDescription("\"Vælg en forsendelsesmetode til leverancer, der sendes til denne adresse.\""));
+                Address3Stateorprovince = group.Add(new VocabularyKey("address3Stateorprovince", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 3: Område").WithDescription("området i adresse 3."));
+                Address3Telephone1 = group.Add(new VocabularyKey("address3Telephone1", VocabularyKeyDataType.PhoneNumber, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 3: Telefon 1").WithDescription("\"Angiv det hovedtelefonnummer, der er tilknyttet den tredje adresse.\""));
+                Address3Telephone2 = group.Add(new VocabularyKey("address3Telephone2", VocabularyKeyDataType.PhoneNumber, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 3: Telefon 2").WithDescription("\"Angiv et andet telefonnummer, der er tilknyttet den tredje adresse.\""));
+                Address3Telephone3 = group.Add(new VocabularyKey("address3Telephone3", VocabularyKeyDataType.PhoneNumber, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 3: Telefon 3").WithDescription("\"Angiv et tredje telefonnummer, der er tilknyttet den primære adresse.\""));
+                Address3Upszone = group.Add(new VocabularyKey("address3Upszone", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Adresse 3: UPS-zone").WithDescription("\"Angiv UPS-zonen for den tredje adresse for at sikre, at forsendelsesgebyrer beregnes korrekt, og at leverancer foretages prompte, hvis forsendelse sker med UPS.\""));
+                Aging30 = group.Add(new VocabularyKey("aging30", VocabularyKeyDataType.Currency, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Aldersfordeling 30").WithDescription("Kun til systembrug."));
+                Aging30Base = group.Add(new VocabularyKey("aging30Base", VocabularyKeyDataType.Currency, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Aldersfordeling 30 (grund)").WithDescription("\"Viser feltet Aldersfordeling 30 konverteret til systemets standardgrundvaluta. I beregningerne bruges den valutakurs, der er angivet i området Valutaer.\""));
+                Aging60 = group.Add(new VocabularyKey("aging60", VocabularyKeyDataType.Currency, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Aldersfordeling 60").WithDescription("Kun til systembrug."));
+                Aging60Base = group.Add(new VocabularyKey("aging60Base", VocabularyKeyDataType.Currency, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Aldersfordeling 60 (grund)").WithDescription("\"Viser feltet Aldersfordeling 60 konverteret til systemets standardgrundvaluta. I beregningerne bruges den valutakurs, der er angivet i området Valutaer.\""));
+                Aging90 = group.Add(new VocabularyKey("aging90", VocabularyKeyDataType.Currency, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Aldersfordeling 90").WithDescription("Kun til systembrug."));
+                Aging90Base = group.Add(new VocabularyKey("aging90Base", VocabularyKeyDataType.Currency, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Aldersfordeling 90 (grund)").WithDescription("\"Viser feltet Aldersfordeling 90 konverteret til systemets standardgrundvaluta. I beregningerne bruges den valutakurs, der er angivet i området Valutaer.\""));
+                Anniversary = group.Add(new VocabularyKey("anniversary", VocabularyKeyDataType.DateTime, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Mærkedag").WithDescription("Angiv datoen for kontaktens bryllupsdag eller årsdagen for servicen til brug i gaveprogrammer til kunder eller anden kommunikation."));
+                Annualincome = group.Add(new VocabularyKey("annualincome", VocabularyKeyDataType.Currency, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Årlig indkomst").WithDescription("Angiv kontaktens årlige indkomst til brug i profileringer og økonomiske analyser."));
+                AnnualincomeBase = group.Add(new VocabularyKey("annualincomeBase", VocabularyKeyDataType.Currency, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Årlig indkomst (grund)").WithDescription("\"Viser feltet Årlig indkomst konverteret til systemets standardgrundvaluta. I beregningerne bruges den valutakurs, der er angivet i området Valutaer.\""));
+                Assistantname = group.Add(new VocabularyKey("assistantname", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Assistent").WithDescription("Angiv navnet på kontaktpersonens assistent."));
+                Assistantphone = group.Add(new VocabularyKey("assistantphone", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Assistents telefon").WithDescription("Angiv telefonnummeret til kontaktpersonens assistent."));
+                Birthdate = group.Add(new VocabularyKey("birthdate", VocabularyKeyDataType.DateTime, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Fødselsdato").WithDescription("Angiv kontaktens fødselsdag til brug i gaveprogrammer til kunder eller anden kommunikation."));
+                Business2 = group.Add(new VocabularyKey("business2", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Telefon 2 (arbejde)").WithDescription("Angiv et andet arbejdstelefonnummer til denne kontakt."));
+                Callback = group.Add(new VocabularyKey("callback", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Tilbagekaldsnummer").WithDescription("Angiv et tilbagekaldstelefonnummer til denne kontakt."));
+                Childrensnames = group.Add(new VocabularyKey("childrensnames", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Navn på børn").WithDescription("Angiv navnene på kontaktens børn som reference i kommunikation og klientprogrammer."));
+                Company = group.Add(new VocabularyKey("company", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Firmatelefon").WithDescription("Angiv kontaktens firmatelefon."));
+                Contactid = group.Add(new VocabularyKey("contactid", VocabularyKeyDataType.Guid, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Kontaktperson").WithDescription("Entydigt id for kontaktpersonen."));
+                Createdby = group.Add(new VocabularyKey("createdby", VocabularyKeyDataType.Guid, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Oprettet af").WithDescription("\"Viser, hvem der har oprettet posten.\""));
+                Createdbyexternalparty = group.Add(new VocabularyKey("createdbyexternalparty", VocabularyKeyDataType.Guid, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Oprettet af (ekstern part)").WithDescription("\"Viser den eksterne part, der oprettede posten.\""));
+                Createdon = group.Add(new VocabularyKey("createdon", VocabularyKeyDataType.DateTime, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Oprettet Dato").WithDescription("\"Viser dato og klokkeslæt for oprettelse af posten. Datoen og klokkeslættet vises i den tidszone, der er valgt i indstillingerne i Microsoft Dynamics 365.\""));
+                Creditlimit = group.Add(new VocabularyKey("creditlimit", VocabularyKeyDataType.Currency, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Kreditgrænse").WithDescription("\"Angiv kontaktens kreditgrænse som reference, når du håndterer faktura- og regnskabsproblemer over for kunden.\""));
+                CreditlimitBase = group.Add(new VocabularyKey("creditlimitBase", VocabularyKeyDataType.Currency, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Kreditgrænse (grund)").WithDescription("\"Viser feltet Kreditgrænse konverteret til systemets standardgrundvaluta til brug for rapportering. I beregningerne bruges den valutakurs, der er angivet i området Valutaer.\""));
+                Creditonhold = group.Add(new VocabularyKey("creditonhold", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Kreditstop").WithDescription("\"Vælg, om kontakten er genstand for kreditstop, som reference ved håndtering af faktura- og regnskabsproblemer.\""));
+                Customersizecode = group.Add(new VocabularyKey("customersizecode", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Kundestørrelse").WithDescription("Vælg størrelsen på kontaktens firma til brug for segmentering og rapportering."));
+                Customertypecode = group.Add(new VocabularyKey("customertypecode", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Relationstype").WithDescription("\"Vælg den kategori, der bedst beskriver relationen mellem kontakten og din organisation.\""));
+                Defaultpricelevelid = group.Add(new VocabularyKey("defaultpricelevelid", VocabularyKeyDataType.Guid, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Prisliste").WithDescription("\"Vælg den standardprisliste, der er tilknyttet kontakten, for at sikre, at salgsmuligheder, tilbud og ordrer anvender de korrekte produktpriser over for denne kunde.$price_level_contacts\""));
+                Department = group.Add(new VocabularyKey("department", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Afdeling").WithDescription("\"Angiv den division eller afdeling, hvor kontakten arbejder, i moderselskabet eller den overordnede afdeling.\""));
+                Description = group.Add(new VocabularyKey("description", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Personlig info").WithDescription("\"Angiv flere oplysninger for at beskrive kontakten, f.eks. et uddrag fra firmaets websted.\""));
+                Donotbulkemail = group.Add(new VocabularyKey("donotbulkemail", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Tillad ikke e-mail-masseforsend.").WithDescription("\"Vælg, om kontakten accepterer masseforsendelser af e-mails, der sendes via marketingkampagner eller lynkampagner. Hvis Tillad ikke er valgt, kan kontakten tilføjes på marketinglisten, men er udelukket fra e-mailen.\""));
+                Donotbulkpostalmail = group.Add(new VocabularyKey("donotbulkpostalmail", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Tillad ikke masseforsendelse").WithDescription("\"Vælg, om kontakten accepterer masseforsendelser af almindelig post, der sendes via marketingkampagner eller lynkampagner. Hvis Tillad ikke er valgt, kan kontakten tilføjes på marketinglisten, men er udelukket fra brevene.\""));
+                Donotemail = group.Add(new VocabularyKey("donotemail", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Tillad ikke e-mails").WithDescription("\"Vælg, om kontakten tillader, at der sendes direct mail fra Microsoft Dynamics 365. Hvis Tillad ikke er valgt, sender Microsoft Dynamics 365 ikke mailen.\""));
+                Donotfax = group.Add(new VocabularyKey("donotfax", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Tillad ikke faxer").WithDescription("\"Vælg, om kontakten tillader faxer. Hvis Tillad ikke er valgt, udelukkes kontakten fra alle faxaktiviteter, der distribueres i marketingkampagner.\""));
+                Donotphone = group.Add(new VocabularyKey("donotphone", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Tillad ikke telefonopkald").WithDescription("\"Vælg, om kontakten accepterer telefonopkald. Hvis Tillad ikke er valgt, udelukkes kontakten fra alle telefonopkaldsaktiviteter, der distribueres i marketingkampagner.\""));
+                Donotpostalmail = group.Add(new VocabularyKey("donotpostalmail", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Tillad ikke post").WithDescription("\"Vælg, om kontakten tillader direct mail. Hvis Tillad ikke er valgt, udelukkes kontakten fra brevaktiviteter, der distribueres i marketingkampagner.\""));
+                Donotsendmm = group.Add(new VocabularyKey("donotsendmm", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Marketingmatr.").WithDescription("\"Vælg, om kontakten accepterer marketingmateriale som f.eks. brochurer eller kataloger. Kontakter, der har frameldt dette, kan udelukkes fra marketinginitiativer.\""));
+                DynaAnsttelselsesforhold = group.Add(new VocabularyKey("dynaAnsttelselsesforhold", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Ansættelselsesforhold"));
+                DynaCoaching = group.Add(new VocabularyKey("dynaCoaching", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Coaching").WithDescription("Coachiing"));
+                DynaContactid = group.Add(new VocabularyKey("dynaContactid", VocabularyKeyDataType.Guid, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Primær Debitor").WithDescription("Entydigt id for Debitor tilknyttet Kontaktperson."));
+                DynaContactidnr = group.Add(new VocabularyKey("dynaContactidnr", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("KontaktID").WithDescription("Unique auto number for Contact"));
+                DynaCountry = group.Add(new VocabularyKey("dynaCountry", VocabularyKeyDataType.GeographyCountry, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Lande_ID").WithDescription("Entydigt id for Land tilknyttet Kontaktperson."));
+                DynaCoursecustomer = group.Add(new VocabularyKey("dynaCoursecustomer", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Debitor"));
+                DynaCustomerbeingcreated = group.Add(new VocabularyKey("dynaCustomerbeingcreated", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("DebitorUnderOprettelse"));
+                DynaDelingmedlho = group.Add(new VocabularyKey("dynaDelingmedlho", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Deling med LHO").WithDescription("Deling med LHO"));
+                DynaEmail2 = group.Add(new VocabularyKey("dynaEmail2", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("E-mail 2"));
+                DynaEmailopdateretdato = group.Add(new VocabularyKey("dynaEmailopdateretdato", VocabularyKeyDataType.DateTime, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Email opdateret dato").WithDescription("Dato for hvornår email sidst har været opdateret"));
+                DynaGodkendinav = group.Add(new VocabularyKey("dynaGodkendinav", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Godkend i NAV"));
+                DynaKonsulent = group.Add(new VocabularyKey("dynaKonsulent", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Konsulent"));
+                DynaKontaktpersonid = group.Add(new VocabularyKey("dynaKontaktpersonid", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Kontaktperson ID"));
+                DynaLedernecontactguid = group.Add(new VocabularyKey("dynaLedernecontactguid", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Lederne Contact GUID"));
+                DynaLedernemandag = group.Add(new VocabularyKey("dynaLedernemandag", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("*Lederne Mandag").WithDescription("Field is hidden"));
+                DynaLedernemedlem = group.Add(new VocabularyKey("dynaLedernemedlem", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Lederne Medlem"));
+                DynaLmcKontakt = group.Add(new VocabularyKey("dynaLmcKontakt", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("LMC kontakt").WithDescription("LMC kontakt"));
+                DynaLmcKontaktnote = group.Add(new VocabularyKey("dynaLmcKontaktnote", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("LMC kontakt note").WithDescription("LMC kontakt note"));
+                DynaLmsadgang = group.Add(new VocabularyKey("dynaLmsadgang", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("LMS Adgang").WithDescription("If the Contact should have access to a LMS system and in this case Moodle"));
+                DynaMedlemsnummer = group.Add(new VocabularyKey("dynaMedlemsnummer", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Medlemsnummer"));
+                DynaNavid = group.Add(new VocabularyKey("dynaNavid", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("NavID"));
+                DynaNavtemplateid = group.Add(new VocabularyKey("dynaNavtemplateid", VocabularyKeyDataType.Guid, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Debitor Opsætning").WithDescription("Entydigt id for Nav Skabelon tilknyttet Kontaktperson."));
+                DynaNetvaerkKandidat = group.Add(new VocabularyKey("dynaNetvaerkKandidat", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Netværk").WithDescription("Netværks kandidat!"));
+                DynaNytfraledelseidagdk = group.Add(new VocabularyKey("dynaNytfraledelseidagdk", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Nyt fra Ledelseidag.dk"));
+                DynaOldiddebitor = group.Add(new VocabularyKey("dynaOldiddebitor", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("OLDID-Debitor"));
+                DynaOldiddeltager = group.Add(new VocabularyKey("dynaOldiddeltager", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("OLDID-Deltager"));
+                DynaOldidinstruktr = group.Add(new VocabularyKey("dynaOldidinstruktr", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("OLDID-Underviser"));
+                DynaOutplacement = group.Add(new VocabularyKey("dynaOutplacement", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Outplacement").WithDescription("Outplacement"));
+                DynaPersonid = group.Add(new VocabularyKey("dynaPersonid", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Person ID"));
+                DynaSendnyhedsbrev = group.Add(new VocabularyKey("dynaSendnyhedsbrev", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Send nyhedsbrev").WithDescription("Om der må sendes nydhedsbrev fra globase for kurser og konferencer"));
+                DynaTotalamount = group.Add(new VocabularyKey("dynaTotalamount", VocabularyKeyDataType.Currency, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Total omsætning"));
+                DynaUk = group.Add(new VocabularyKey("dynaUk", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("UK").WithDescription("UK"));
+                DynaUnderviser = group.Add(new VocabularyKey("dynaUnderviser", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Underviser"));
+                DynaUndervisernote = group.Add(new VocabularyKey("dynaUndervisernote", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Note").WithDescription("\"Note til brug for Netvork,Outplacement,Coaching,VIP og UK\""));
+                DynaVip = group.Add(new VocabularyKey("dynaVip", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("VIP").WithDescription("VIP"));
+                Educationcode = group.Add(new VocabularyKey("educationcode", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Uddannelse").WithDescription("Vælg kontaktens højeste uddannelsesniveau til brug ved segmentering og analyser."));
+                Emailaddress1 = group.Add(new VocabularyKey("emailaddress1", VocabularyKeyDataType.Email, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("E-mail - primær").WithDescription("Angiv kontaktens primære e-mail-adresse."));
+                Emailaddress2 = group.Add(new VocabularyKey("emailaddress2", VocabularyKeyDataType.Email, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("E-mail - sekundær").WithDescription("Angiv kontaktens sekundære e-mail-adresse."));
+                Emailaddress3 = group.Add(new VocabularyKey("emailaddress3", VocabularyKeyDataType.Email, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Mailadresse 3").WithDescription("Angiv kontaktens alternative e-mail-adresse."));
+                Employeeid = group.Add(new VocabularyKey("employeeid", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Medarbejder").WithDescription("\"Angiv kontaktens medarbejder-id eller -nummer som reference i ordrer, servicesager eller anden kommunikation med kontaktens organisation.\""));
+                Entityimage = group.Add(new VocabularyKey("entityimage", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Objektbillede").WithDescription("Viser postens standardbillede."));
+                Entityimageid = group.Add(new VocabularyKey("entityimageid", VocabularyKeyDataType.Guid, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Id for objektbillede").WithDescription("Kun til intern brug."));
+                Exchangerate = group.Add(new VocabularyKey("exchangerate", VocabularyKeyDataType.Currency, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Valutakurs").WithDescription("Viser omregningskursen for postens valuta. Valutakursen bruges til at konvertere alle pengefelter i posten fra den lokale valuta til systemets standardvaluta."));
+                Externaluseridentifier = group.Add(new VocabularyKey("externaluseridentifier", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Id for ekstern bruger").WithDescription("Id for en ekstern bruger."));
+                Familystatuscode = group.Add(new VocabularyKey("familystatuscode", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Civilstand").WithDescription("Vælg kontaktens civilstand som reference i opfølgende telefonopkald og anden kommunikation."));
+                Fax = group.Add(new VocabularyKey("fax", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Fax").WithDescription("Angiv kontaktens faxnummer."));
+                Firstname = group.Add(new VocabularyKey("firstname", VocabularyKeyDataType.PersonName, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Fornavn").WithDescription("\"Angiv kontaktens fornavn for at sikre, at kontakten tituleres korrekt i salgsopkald, e-mail og marketingkampagner.\""));
+                Followemail = group.Add(new VocabularyKey("followemail", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Følg mailaktivitet").WithDescription("\"Oplysninger om, hvorvidt følgende mailaktivitet som åbninger, visning af vedhæftede filer og klik på links skal tillades for mails, der sendes til kontakten.\""));
+                Ftpsiteurl = group.Add(new VocabularyKey("ftpsiteurl", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("FTP-sted").WithDescription("\"Angiv URL-adressen til kontaktens FTP-websted, for at brugerne kan få adgang til data og dele dokumenter.\""));
+                Fullname = group.Add(new VocabularyKey("fullname", VocabularyKeyDataType.PersonName, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Fulde navn").WithDescription("\"Kombinerer og viser kontaktens for- og efternavn, så det fulde navn kan vises i visninger og rapporter.\""));
+                Gendercode = group.Add(new VocabularyKey("gendercode", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Køn").WithDescription("\"Vælg kontaktens køn for at sikre, at kontakten tituleres korrekt i salgsopkald, e-mail og marketingkampagner.\""));
+                Governmentid = group.Add(new VocabularyKey("governmentid", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("CPR-nummer").WithDescription("Angiv pasnummeret eller cpr-nummeret på kontakten til brug i dokumenter eller rapporter."));
+                Haschildrencode = group.Add(new VocabularyKey("haschildrencode", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Har børn").WithDescription("\"Vælg, om kontaktens har børn, som reference i opfølgende telefonopkald og anden kommunikation.\""));
+                Home2 = group.Add(new VocabularyKey("home2", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Telefon 2 (privat)").WithDescription("Angiv et andet privat telefonnummer til denne kontakt."));
+                Isautocreate = group.Add(new VocabularyKey("isautocreate", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Oprettet automatisk").WithDescription("\"Angiver, om kontakten blev oprettet automatisk, da en e-mail eller en aftale blev opgraderet.\""));
+                Isbackofficecustomer = group.Add(new VocabularyKey("isbackofficecustomer", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Kunde i administrationssystem").WithDescription("\"Vælg, om kontakten findes i et separat regnskabssystem eller et andet system, f.eks. Microsoft Dynamics GP eller en anden ERP-database, til brug i integrationsprocesser.\""));
+                Jobtitle = group.Add(new VocabularyKey("jobtitle", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Stilling").WithDescription("\"Angiv kontaktens stilling for at sikre, at kontakten tituleres korrekt i salgsopkald, e-mail og marketingkampagner.\""));
+                Lastname = group.Add(new VocabularyKey("lastname", VocabularyKeyDataType.PersonName, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Efternavn").WithDescription("\"Angiv kontaktens efternavn for at sikre, at kontakten tituleres korrekt i salgsopkald, e-mail og marketingkampagner.\""));
+                Lastonholdtime = group.Add(new VocabularyKey("lastonholdtime", VocabularyKeyDataType.DateTime, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Seneste tid i venteposition").WithDescription("Indeholder dato- og klokkeslætsstemplet for den seneste tid for I venteposition."));
+                Lastusedincampaign = group.Add(new VocabularyKey("lastusedincampaign", VocabularyKeyDataType.DateTime, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Seneste dato i kampagnen").WithDescription("\"Viser den dato, hvor kontakten sidst blev inkluderet i en marketingkampagne eller lynkampagne.\""));
+                Leadsourcecode = group.Add(new VocabularyKey("leadsourcecode", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Kilde til kundeemne 2").WithDescription("\"Vælg den primære marketingkilde, der dirigerede kontakten til din organisation.\""));
+                Managername = group.Add(new VocabularyKey("managername", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Leder").WithDescription("Angiv navnet på kontaktens overordnede til brug ved eskalering af problemer eller anden opfølgende kommunikation med kontakten."));
+                Managerphone = group.Add(new VocabularyKey("managerphone", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Leders telefon").WithDescription("Angiv telefonnummeret til kontaktpersonens overordnede."));
+                Marketingonly = group.Add(new VocabularyKey("marketingonly", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Kun marketing").WithDescription("\"Angiver, om det kun er til marketingbrug\""));
+                Masterid = group.Add(new VocabularyKey("masterid", VocabularyKeyDataType.Guid, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Person_ID").WithDescription("Entydigt id for hovedkontaktpersonen til fletning."));
+                Merged = group.Add(new VocabularyKey("merged", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Flettet").WithDescription("\"Viser, om firmaet er blevet flettet med en hovedkontaktperson.\""));
+                Middlename = group.Add(new VocabularyKey("middlename", VocabularyKeyDataType.PersonName, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Mellemnavn").WithDescription("\"Angiv kontaktens mellemnavn eller initialer for at sikre, at kontakten tituleres korrekt.\""));
+                Mobilephone = group.Add(new VocabularyKey("mobilephone", VocabularyKeyDataType.PhoneNumber, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Telefon (primær)").WithDescription("Angiv kontaktpersonens mobilnummer."));
+                Modifiedby = group.Add(new VocabularyKey("modifiedby", VocabularyKeyDataType.Guid, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Ændret af").WithDescription("\"Viser, hvem der sidst har opdateret posten.\""));
+                Modifiedbyexternalparty = group.Add(new VocabularyKey("modifiedbyexternalparty", VocabularyKeyDataType.Guid, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Ændret af (ekstern part)").WithDescription("\"Viser den eksterne part, der ændrede posten.\""));
+                Modifiedon = group.Add(new VocabularyKey("modifiedon", VocabularyKeyDataType.DateTime, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Ændret").WithDescription("\"Viser dato og klokkeslæt for den seneste opdatering af posten. Datoen og klokkeslættet vises i den tidszone, der er valgt i indstillingerne i Microsoft Dynamics 365.\""));
+                MsdynGdproptout = group.Add(new VocabularyKey("msdynGdproptout", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("GDPR-framelding").WithDescription("\"Beskriver, om kontakten er frameldt eller ej\""));
+                Nickname = group.Add(new VocabularyKey("nickname", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Kaldenavn").WithDescription("Angiv kontaktpersonens kælenavn."));
+                NnNndecisionmakerid = group.Add(new VocabularyKey("nnNndecisionmakerid", VocabularyKeyDataType.Guid, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("TDC DMID - kun til intern brug").WithDescription("TDC DMID - kun til intern brug"));
+                NnUpdateprotected = group.Add(new VocabularyKey("nnUpdateprotected", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Beskyt mod automatiske opdateringer").WithDescription("Beskyt mod automatiske opdateringer"));
+                Numberofchildren = group.Add(new VocabularyKey("numberofchildren", VocabularyKeyDataType.Guid, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Antal børn").WithDescription("\"Angiv antal børn tilhørende kontakten, som reference i opfølgende telefonopkald og anden kommunikation.\""));
+                Onholdtime = group.Add(new VocabularyKey("onholdtime", VocabularyKeyDataType.Guid, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Tid for I venteposition (minutter)").WithDescription("\"Viser, hvor længe posten var i venteposition i minutter.\""));
+                Originatingleadid = group.Add(new VocabularyKey("originatingleadid", VocabularyKeyDataType.Guid, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Kilde til kundeemne 1").WithDescription("\"Viser det kundeemne, som kontakten er oprettet ud fra, hvis kontakten er oprettet ved konvertering af et kundeemne i Microsoft Dynamics 365. Dette bruges til at relatere kontakten til dataene i det oprindelige kundeemne til brug ved rapportering og analyser.$contact_originating_lead\""));
+                Pager = group.Add(new VocabularyKey("pager", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Personsøger").WithDescription("Angiv kontaktens personsøgernummer."));
+                Parentcontactid = group.Add(new VocabularyKey("parentcontactid", VocabularyKeyDataType.Guid, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Overordnet kontakt").WithDescription("Entydigt id for den overordnede kontaktperson."));
+                Parentcustomerid = group.Add(new VocabularyKey("parentcustomerid", VocabularyKeyDataType.Number, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Firmanavn").WithDescription("\"Vælg det overordnede firma eller den overordnede kontakt for kontakten for at give et hurtigt link til flere oplysninger som f.eks. økonomiske oplysninger, aktiviteter og salgsmuligheder.\""));
+                Parentcustomeridtype = group.Add(new VocabularyKey("parentcustomeridtype", VocabularyKeyDataType.Guid, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Overordnet kundetype"));
+                Participatesinworkflow = group.Add(new VocabularyKey("participatesinworkflow", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Deltager i arbejdsproces").WithDescription("\"Viser, om kontaktpersonen deltager i arbejdsprocesregler.\""));
+                Paymenttermscode = group.Add(new VocabularyKey("paymenttermscode", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Bet.betingelser").WithDescription("\"Vælg betalingsbetingelserne for at angive, hvornår kunden skal betale det samlede beløb.\""));
+                Preferredappointmentdaycode = group.Add(new VocabularyKey("preferredappointmentdaycode", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Foretrukket dag").WithDescription("Vælg den foretrukne ugedag til serviceaftaler."));
+                Preferredappointmenttimecode = group.Add(new VocabularyKey("preferredappointmenttimecode", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Foretrukket klokkeslæt").WithDescription("Vælg det foretrukne tidspunkt til serviceaftaler."));
+                Preferredcontactmethodcode = group.Add(new VocabularyKey("preferredcontactmethodcode", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Foretrukken kontaktmetode").WithDescription("Vælg den foretrukne kontaktmetode."));
+                Preferredequipmentid = group.Add(new VocabularyKey("preferredequipmentid", VocabularyKeyDataType.Guid, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Foretrukket udstyr").WithDescription("\"Vælg kontaktens foretrukne servicelokale eller -udstyr for at sikre, at servicer planlægges korrekt i forhold til kunden.$equipment_contacts\""));
+                Preferredserviceid = group.Add(new VocabularyKey("preferredserviceid", VocabularyKeyDataType.Guid, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Foretrukken service").WithDescription("\"Vælg kontaktens foretrukne service for at sikre, at servicer planlægges korrekt i forhold til kunden.$service_contacts\""));
+                Preferredsystemuserid = group.Add(new VocabularyKey("preferredsystemuserid", VocabularyKeyDataType.Guid, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Foretrukken bruger").WithDescription("\"Vælg den regelmæssige eller foretrukne kundeservicemedarbejder som reference, når du planlægger serviceaktiviteter for kontakten.\""));
+                Processid = group.Add(new VocabularyKey("processid", VocabularyKeyDataType.Guid, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Proces").WithDescription("Viser processens id."));
+                Salutation = group.Add(new VocabularyKey("salutation", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Titel").WithDescription("\"Angiv kontaktens titulering for at sikre, at kontakten tituleres korrekt i salgsopkald, e-mails og marketingkampagner.\""));
+                Shippingmethodcode = group.Add(new VocabularyKey("shippingmethodcode", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Forsendelsesmåde").WithDescription("\"Vælg en forsendelsesmetode til leverancer, der sendes til denne adresse.\""));
+                Slaid = group.Add(new VocabularyKey("slaid", VocabularyKeyDataType.Guid, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("SLA").WithDescription("\"Vælg den serviceaftale (SLA), du vil anvende på kontaktposten.\""));
+                Slainvokedid = group.Add(new VocabularyKey("slainvokedid", VocabularyKeyDataType.Guid, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Sidst anvendte SLA").WithDescription("\"Sidste SLA, der blev anvendt til denne sag. Dette felt er kun beregnet til intern brug.\""));
+                Spousesname = group.Add(new VocabularyKey("spousesname", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Navn på ægtefælle/partner").WithDescription("\"Angiv navnet på kontaktens ægtefælle eller partner som reference ved opkald, arrangementer eller anden kommunikation med kontakten.\""));
+                Stageid = group.Add(new VocabularyKey("stageid", VocabularyKeyDataType.Guid, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Procestrin").WithDescription("Viser fasens id."));
+                Statecode = group.Add(new VocabularyKey("statecode", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Status").WithDescription("\"Viser, om kontakten er aktiv eller inaktiv. Inaktive kontakter er skrivebeskyttede og kan ikke redigeres, medmindre de genaktiveres.\""));
+                Statuscode = group.Add(new VocabularyKey("statuscode", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Statusårsag").WithDescription("Vælg kontaktens status."));
+                Subscriptionid = group.Add(new VocabularyKey("subscriptionid", VocabularyKeyDataType.Guid, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Abonnement").WithDescription("Kun til intern brug."));
+                Suffix = group.Add(new VocabularyKey("suffix", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Suffiks").WithDescription("\"Angiv det suffiks, der bruges i kontaktens navn, f.eks. Jr. eller Sr. for at sikre, at kontakten tituleres korrekt i salgsopkald, e-mail og marketingkampagner.\""));
+                Telephone1 = group.Add(new VocabularyKey("telephone1", VocabularyKeyDataType.PhoneNumber, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Telefon (arbejde)").WithDescription("Angiv hovedtelefonnummeret til denne kontakt."));
+                Telephone2 = group.Add(new VocabularyKey("telephone2", VocabularyKeyDataType.PhoneNumber, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Telefon (Sekundær)").WithDescription("Angiv et andet telefonnummer til denne kontakt."));
+                Telephone3 = group.Add(new VocabularyKey("telephone3", VocabularyKeyDataType.PhoneNumber, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Telefon 3").WithDescription("Angiv et tredje telefonnummer til denne kontakt."));
+                Territorycode = group.Add(new VocabularyKey("territorycode", VocabularyKeyDataType.Boolean, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Distrikt").WithDescription("Vælg et område eller distrikt for kontakten til brug ved segmentering og analyser."));
+                Timespentbymeonemailandmeetings = group.Add(new VocabularyKey("timespentbymeonemailandmeetings", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Tidsforbrug for mig").WithDescription("Samlet tid jeg har brugt på mails (læsning og skrivning) samt møder i relation til kontakten."));
+                Transactioncurrencyid = group.Add(new VocabularyKey("transactioncurrencyid", VocabularyKeyDataType.Guid, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Valuta").WithDescription("\"Vælg den lokale valuta til posten for at sikre, at budgetter rapporteres i den korrekte valuta.\""));
+                Traversedpath = group.Add(new VocabularyKey("traversedpath", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Gennemløbet sti").WithDescription("Kun til intern brug."));
+                Websiteurl = group.Add(new VocabularyKey("websiteurl", VocabularyKeyDataType.Text, VocabularyKeyVisibility.HiddenInFrontendUI).WithDisplayName("Websted").WithDescription("Angiv kontaktens forretningswebsted eller personlige websted eller URL-adresse til blog."));
             });
-
-            // Mappings
-            //AddMapping(this.City,          CluedIn.Core.Data.Vocabularies.Vocabularies.CluedInOrganization.AddressCity);
         }
 
-        public VocabularyKey ContactId { get; private set; }
-
-        public VocabularyKey DefaultPriceLevelId { get; private set; }
-
-        public VocabularyKey CustomerSizeCode { get; private set; }
-
-        public VocabularyKey CustomerTypeCode { get; private set; }
-
-        public VocabularyKey PreferredContactMethodCode { get; private set; }
-
-        public VocabularyKey LeadSourceCode { get; private set; }
-
-        public VocabularyKey OriginatingLeadId { get; private set; }
-
-        public VocabularyKey OwningBusinessUnit { get; private set; }
-
-        public VocabularyKey OwningUser { get; private set; }
-
-        public VocabularyKey PaymentTermsCode { get; private set; }
-
-        public VocabularyKey ShippingMethodCode { get; private set; }
-
-        public VocabularyKey AccountId { get; private set; }
-
-        public VocabularyKey ParticipatesInWorkflow { get; private set; }
-
-        public VocabularyKey IsBackofficeCustomer { get; private set; }
-
-        public VocabularyKey Salutation { get; private set; }
-
-        public VocabularyKey JobTitle { get; private set; }
-
-        public VocabularyKey FirstName { get; private set; }
-
-        public VocabularyKey Department { get; private set; }
-
-        public VocabularyKey NickName { get; private set; }
-
-        public VocabularyKey MiddleName { get; private set; }
-
-        public VocabularyKey LastName { get; private set; }
-
-        public VocabularyKey Suffix { get; private set; }
-
-        public VocabularyKey YomiFirstName { get; private set; }
-
-        public VocabularyKey FullName { get; private set; }
-
-        public VocabularyKey YomiMiddleName { get; private set; }
-
-        public VocabularyKey YomiLastName { get; private set; }
-
-        public VocabularyKey Anniversary { get; private set; }
-
-        public VocabularyKey BirthDate { get; private set; }
-
-        public VocabularyKey GovernmentId { get; private set; }
-
-        public VocabularyKey YomiFullName { get; private set; }
-
-        public VocabularyKey Description { get; private set; }
-
-        public VocabularyKey EmployeeId { get; private set; }
-
-        public VocabularyKey GenderCode { get; private set; }
-
-        public VocabularyKey AnnualIncome { get; private set; }
-
-        public VocabularyKey HasChildrenCode { get; private set; }
-
-        public VocabularyKey EducationCode { get; private set; }
-
-        public VocabularyKey WebSiteUrl { get; private set; }
-
-        public VocabularyKey FamilyStatusCode { get; private set; }
-
-        public VocabularyKey FtpSiteUrl { get; private set; }
-
-        public VocabularyKey EMailAddress1 { get; private set; }
-
-        public VocabularyKey SpousesName { get; private set; }
-
-        public VocabularyKey AssistantName { get; private set; }
-
-        public VocabularyKey EMailAddress2 { get; private set; }
-
-        public VocabularyKey AssistantPhone { get; private set; }
-
-        public VocabularyKey EMailAddress3 { get; private set; }
-
-        public VocabularyKey DoNotPhone { get; private set; }
-
-        public VocabularyKey ManagerName { get; private set; }
-
-        public VocabularyKey ManagerPhone { get; private set; }
-
-        public VocabularyKey DoNotFax { get; private set; }
-
-        public VocabularyKey DoNotEMail { get; private set; }
-
-        public VocabularyKey DoNotPostalMail { get; private set; }
-
-        public VocabularyKey DoNotBulkEMail { get; private set; }
-
-        public VocabularyKey DoNotBulkPostalMail { get; private set; }
-
-        public VocabularyKey AccountRoleCode { get; private set; }
-
-        public VocabularyKey TerritoryCode { get; private set; }
-
-        public VocabularyKey IsPrivate { get; private set; }
-
-        public VocabularyKey CreditLimit { get; private set; }
-
-        public VocabularyKey CreatedOn { get; private set; }
-
-        public VocabularyKey CreditOnHold { get; private set; }
-
-        public VocabularyKey CreatedBy { get; private set; }
-
-        public VocabularyKey ModifiedOn { get; private set; }
-
-        public VocabularyKey ModifiedBy { get; private set; }
-
-        public VocabularyKey NumberOfChildren { get; private set; }
-
-        public VocabularyKey ChildrensNames { get; private set; }
-
-        public VocabularyKey VersionNumber { get; private set; }
-
-        public VocabularyKey MobilePhone { get; private set; }
-
-        public VocabularyKey Pager { get; private set; }
-
-        public VocabularyKey Telephone1 { get; private set; }
-
-        public VocabularyKey Telephone2 { get; private set; }
-
-        public VocabularyKey Telephone3 { get; private set; }
-
-        public VocabularyKey Fax { get; private set; }
-
+        public VocabularyKey Accountid { get; private set; }
+        public VocabularyKey Accountrolecode { get; private set; }
+        public VocabularyKey Address1Addresstypecode { get; private set; }
+        public VocabularyKey Address1City { get; private set; }
+        public VocabularyKey Address1Composite { get; private set; }
+        public VocabularyKey Address1Country { get; private set; }
+        public VocabularyKey Address1County { get; private set; }
+        public VocabularyKey Address1Fax { get; private set; }
+        public VocabularyKey Address1Freighttermscode { get; private set; }
+        public VocabularyKey Address1Latitude { get; private set; }
+        public VocabularyKey Address1Line1 { get; private set; }
+        public VocabularyKey Address1Line2 { get; private set; }
+        public VocabularyKey Address1Line3 { get; private set; }
+        public VocabularyKey Address1Longitude { get; private set; }
+        public VocabularyKey Address1Name { get; private set; }
+        public VocabularyKey Address1Postalcode { get; private set; }
+        public VocabularyKey Address1Postofficebox { get; private set; }
+        public VocabularyKey Address1Primarycontactname { get; private set; }
+        public VocabularyKey Address1Shippingmethodcode { get; private set; }
+        public VocabularyKey Address1Stateorprovince { get; private set; }
+        public VocabularyKey Address1Telephone1 { get; private set; }
+        public VocabularyKey Address1Telephone2 { get; private set; }
+        public VocabularyKey Address1Telephone3 { get; private set; }
+        public VocabularyKey Address1Upszone { get; private set; }
+        public VocabularyKey Address2Addresstypecode { get; private set; }
+        public VocabularyKey Address2City { get; private set; }
+        public VocabularyKey Address2Composite { get; private set; }
+        public VocabularyKey Address2Country { get; private set; }
+        public VocabularyKey Address2County { get; private set; }
+        public VocabularyKey Address2Fax { get; private set; }
+        public VocabularyKey Address2Freighttermscode { get; private set; }
+        public VocabularyKey Address2Latitude { get; private set; }
+        public VocabularyKey Address2Line1 { get; private set; }
+        public VocabularyKey Address2Line2 { get; private set; }
+        public VocabularyKey Address2Line3 { get; private set; }
+        public VocabularyKey Address2Longitude { get; private set; }
+        public VocabularyKey Address2Name { get; private set; }
+        public VocabularyKey Address2Postalcode { get; private set; }
+        public VocabularyKey Address2Postofficebox { get; private set; }
+        public VocabularyKey Address2Primarycontactname { get; private set; }
+        public VocabularyKey Address2Shippingmethodcode { get; private set; }
+        public VocabularyKey Address2Stateorprovince { get; private set; }
+        public VocabularyKey Address2Telephone1 { get; private set; }
+        public VocabularyKey Address2Telephone2 { get; private set; }
+        public VocabularyKey Address2Telephone3 { get; private set; }
+        public VocabularyKey Address2Upszone { get; private set; }
+        public VocabularyKey Address3Addresstypecode { get; private set; }
+        public VocabularyKey Address3City { get; private set; }
+        public VocabularyKey Address3Composite { get; private set; }
+        public VocabularyKey Address3Country { get; private set; }
+        public VocabularyKey Address3County { get; private set; }
+        public VocabularyKey Address3Fax { get; private set; }
+        public VocabularyKey Address3Freighttermscode { get; private set; }
+        public VocabularyKey Address3Latitude { get; private set; }
+        public VocabularyKey Address3Line1 { get; private set; }
+        public VocabularyKey Address3Line2 { get; private set; }
+        public VocabularyKey Address3Line3 { get; private set; }
+        public VocabularyKey Address3Longitude { get; private set; }
+        public VocabularyKey Address3Name { get; private set; }
+        public VocabularyKey Address3Postalcode { get; private set; }
+        public VocabularyKey Address3Postofficebox { get; private set; }
+        public VocabularyKey Address3Primarycontactname { get; private set; }
+        public VocabularyKey Address3Shippingmethodcode { get; private set; }
+        public VocabularyKey Address3Stateorprovince { get; private set; }
+        public VocabularyKey Address3Telephone1 { get; private set; }
+        public VocabularyKey Address3Telephone2 { get; private set; }
+        public VocabularyKey Address3Telephone3 { get; private set; }
+        public VocabularyKey Address3Upszone { get; private set; }
         public VocabularyKey Aging30 { get; private set; }
-
-        public VocabularyKey StateCode { get; private set; }
-
+        public VocabularyKey Aging30Base { get; private set; }
         public VocabularyKey Aging60 { get; private set; }
-
-        public VocabularyKey StatusCode { get; private set; }
-
+        public VocabularyKey Aging60Base { get; private set; }
         public VocabularyKey Aging90 { get; private set; }
-
-        public VocabularyKey ParentContactId { get; private set; }
-
-        public VocabularyKey OriginatingLeadIdName { get; private set; }
-
-        public VocabularyKey ParentContactIdName { get; private set; }
-
-        public VocabularyKey AccountIdName { get; private set; }
-
-        public VocabularyKey DefaultPriceLevelIdName { get; private set; }
-
-        public VocabularyKey Address1_AddressId { get; private set; }
-
-        public VocabularyKey Address1_AddressTypeCode { get; private set; }
-
-        public VocabularyKey Address1_Name { get; private set; }
-
-        public VocabularyKey Address1_PrimaryContactName { get; private set; }
-
-        public VocabularyKey Address1_Line1 { get; private set; }
-
-        public VocabularyKey Address1_Line2 { get; private set; }
-
-        public VocabularyKey Address1_Line3 { get; private set; }
-
-        public VocabularyKey Address1_City { get; private set; }
-
-        public VocabularyKey Address1_StateOrProvince { get; private set; }
-
-        public VocabularyKey Address1_County { get; private set; }
-
-        public VocabularyKey Address1_Country { get; private set; }
-
-        public VocabularyKey Address1_PostOfficeBox { get; private set; }
-
-        public VocabularyKey Address1_PostalCode { get; private set; }
-
-        public VocabularyKey Address1_UTCOffset { get; private set; }
-
-        public VocabularyKey Address1_FreightTermsCode { get; private set; }
-
-        public VocabularyKey Address1_UPSZone { get; private set; }
-
-        public VocabularyKey Address1_Latitude { get; private set; }
-
-        public VocabularyKey Address1_Telephone1 { get; private set; }
-
-        public VocabularyKey Address1_Longitude { get; private set; }
-
-        public VocabularyKey Address1_ShippingMethodCode { get; private set; }
-
-        public VocabularyKey Address1_Telephone2 { get; private set; }
-
-        public VocabularyKey Address1_Telephone3 { get; private set; }
-
-        public VocabularyKey Address1_Fax { get; private set; }
-
-        public VocabularyKey Address2_AddressId { get; private set; }
-
-        public VocabularyKey Address2_AddressTypeCode { get; private set; }
-
-        public VocabularyKey Address2_Name { get; private set; }
-
-        public VocabularyKey Address2_PrimaryContactName { get; private set; }
-
-        public VocabularyKey Address2_Line1 { get; private set; }
-
-        public VocabularyKey Address2_Line2 { get; private set; }
-
-        public VocabularyKey Address2_Line3 { get; private set; }
-
-        public VocabularyKey Address2_City { get; private set; }
-
-        public VocabularyKey Address2_StateOrProvince { get; private set; }
-
-        public VocabularyKey Address2_County { get; private set; }
-
-        public VocabularyKey Address2_Country { get; private set; }
-
-        public VocabularyKey Address2_PostOfficeBox { get; private set; }
-
-        public VocabularyKey Address2_PostalCode { get; private set; }
-
-        public VocabularyKey Address2_UTCOffset { get; private set; }
-
-        public VocabularyKey Address2_FreightTermsCode { get; private set; }
-
-        public VocabularyKey Address2_UPSZone { get; private set; }
-
-        public VocabularyKey Address2_Latitude { get; private set; }
-
-        public VocabularyKey Address2_Telephone1 { get; private set; }
-
-        public VocabularyKey Address2_Longitude { get; private set; }
-
-        public VocabularyKey Address2_ShippingMethodCode { get; private set; }
-
-        public VocabularyKey Address2_Telephone2 { get; private set; }
-
-        public VocabularyKey Address2_Telephone3 { get; private set; }
-
-        public VocabularyKey Address2_Fax { get; private set; }
-
-        public VocabularyKey CreatedByName { get; private set; }
-
-        public VocabularyKey ModifiedByName { get; private set; }
-
-        public VocabularyKey OwnerId { get; private set; }
-
-        public VocabularyKey OwnerIdName { get; private set; }
-
-        public VocabularyKey OwnerIdType { get; private set; }
-
-        public VocabularyKey IsPrivateName { get; private set; }
-
-        public VocabularyKey DoNotFaxName { get; private set; }
-
-        public VocabularyKey IsBackofficeCustomerName { get; private set; }
-
-        public VocabularyKey ParticipatesInWorkflowName { get; private set; }
-
-        public VocabularyKey DoNotPostalMailName { get; private set; }
-
-        public VocabularyKey CreditOnHoldName { get; private set; }
-
-        public VocabularyKey DoNotPhoneName { get; private set; }
-
-        public VocabularyKey DoNotEMailName { get; private set; }
-
-        public VocabularyKey DoNotBulkPostalMailName { get; private set; }
-
-        public VocabularyKey DoNotBulkEMailName { get; private set; }
-
-        public VocabularyKey Address1_AddressTypeCodeName { get; private set; }
-
-        public VocabularyKey PreferredContactMethodCodeName { get; private set; }
-
-        public VocabularyKey Address2_AddressTypeCodeName { get; private set; }
-
-        public VocabularyKey CustomerTypeCodeName { get; private set; }
-
-        public VocabularyKey StateCodeName { get; private set; }
-
-        public VocabularyKey AccountRoleCodeName { get; private set; }
-
-        public VocabularyKey StatusCodeName { get; private set; }
-
-        public VocabularyKey HasChildrenCodeName { get; private set; }
-
-        public VocabularyKey TerritoryCodeName { get; private set; }
-
-        public VocabularyKey Address1_ShippingMethodCodeName { get; private set; }
-
-        public VocabularyKey PaymentTermsCodeName { get; private set; }
-
-        public VocabularyKey GenderCodeName { get; private set; }
-
-        public VocabularyKey Address2_FreightTermsCodeName { get; private set; }
-
-        public VocabularyKey FamilyStatusCodeName { get; private set; }
-
-        public VocabularyKey CustomerSizeCodeName { get; private set; }
-
-        public VocabularyKey ShippingMethodCodeName { get; private set; }
-
-        public VocabularyKey Address1_FreightTermsCodeName { get; private set; }
-
-        public VocabularyKey LeadSourceCodeName { get; private set; }
-
-        public VocabularyKey EducationCodeName { get; private set; }
-
-        public VocabularyKey Address2_ShippingMethodCodeName { get; private set; }
-
-        public VocabularyKey PreferredSystemUserId { get; private set; }
-
-        public VocabularyKey PreferredServiceId { get; private set; }
-
-        public VocabularyKey MasterId { get; private set; }
-
-        public VocabularyKey PreferredAppointmentDayCode { get; private set; }
-
-        public VocabularyKey PreferredAppointmentTimeCode { get; private set; }
-
-        public VocabularyKey DoNotSendMM { get; private set; }
-
-        public VocabularyKey ParentCustomerId { get; private set; }
-
-        public VocabularyKey Merged { get; private set; }
-
-        public VocabularyKey ExternalUserIdentifier { get; private set; }
-
-        public VocabularyKey SubscriptionId { get; private set; }
-
-        public VocabularyKey PreferredEquipmentId { get; private set; }
-
-        public VocabularyKey LastUsedInCampaign { get; private set; }
-
-        public VocabularyKey MasterContactIdName { get; private set; }
-
-        public VocabularyKey PreferredSystemUserIdName { get; private set; }
-
-        public VocabularyKey MergedName { get; private set; }
-
-        public VocabularyKey PreferredAppointmentTimeCodeName { get; private set; }
-
-        public VocabularyKey PreferredEquipmentIdName { get; private set; }
-
-        public VocabularyKey ParentCustomerIdName { get; private set; }
-
-        public VocabularyKey PreferredAppointmentDayCodeName { get; private set; }
-
-        public VocabularyKey PreferredServiceIdName { get; private set; }
-
-        public VocabularyKey ParentCustomerIdType { get; private set; }
-
-        public VocabularyKey DoNotSendMarketingMaterialName { get; private set; }
-
-        public VocabularyKey TransactionCurrencyId { get; private set; }
-
-        public VocabularyKey OverriddenCreatedOn { get; private set; }
-
-        public VocabularyKey ExchangeRate { get; private set; }
-
-        public VocabularyKey ImportSequenceNumber { get; private set; }
-
-        public VocabularyKey TimeZoneRuleVersionNumber { get; private set; }
-
-        public VocabularyKey UTCConversionTimeZoneCode { get; private set; }
-
-        public VocabularyKey AnnualIncome_Base { get; private set; }
-
-        public VocabularyKey CreditLimit_Base { get; private set; }
-
-        public VocabularyKey Aging60_Base { get; private set; }
-
-        public VocabularyKey Aging90_Base { get; private set; }
-
-        public VocabularyKey Aging30_Base { get; private set; }
-
-        public VocabularyKey TransactionCurrencyIdName { get; private set; }
-
-        public VocabularyKey ModifiedByYomiName { get; private set; }
-
-        public VocabularyKey OriginatingLeadIdYomiName { get; private set; }
-
-        public VocabularyKey ParentCustomerIdYomiName { get; private set; }
-
-        public VocabularyKey PreferredSystemUserIdYomiName { get; private set; }
-
-        public VocabularyKey OwnerIdYomiName { get; private set; }
-
-        public VocabularyKey MasterContactIdYomiName { get; private set; }
-
-        public VocabularyKey AccountIdYomiName { get; private set; }
-
-        public VocabularyKey CreatedByYomiName { get; private set; }
-
-        public VocabularyKey ParentContactIdYomiName { get; private set; }
-
-        public VocabularyKey CreatedOnBehalfBy { get; private set; }
-
-        public VocabularyKey CreatedOnBehalfByName { get; private set; }
-
-        public VocabularyKey CreatedOnBehalfByYomiName { get; private set; }
-
-        public VocabularyKey ModifiedOnBehalfBy { get; private set; }
-
-        public VocabularyKey ModifiedOnBehalfByName { get; private set; }
-
-        public VocabularyKey ModifiedOnBehalfByYomiName { get; private set; }
-
-        public VocabularyKey OwningTeam { get; private set; }
-
-        public VocabularyKey IsAutoCreate { get; private set; }
-
-        public VocabularyKey EntityImage { get; private set; }
-
-        public VocabularyKey StageId { get; private set; }
-
-        public VocabularyKey ProcessId { get; private set; }
-
-        public VocabularyKey Address2_Composite { get; private set; }
-
-        public VocabularyKey Address1_Composite { get; private set; }
-
-        public VocabularyKey EntityImageId { get; private set; }
-
-        public VocabularyKey EntityImage_URL { get; private set; }
-
-        public VocabularyKey EntityImage_Timestamp { get; private set; }
-
-        public VocabularyKey TraversedPath { get; private set; }
-
-        public VocabularyKey SLAId { get; private set; }
-
-        public VocabularyKey SLAName { get; private set; }
-
-        public VocabularyKey SLAInvokedId { get; private set; }
-
-        public VocabularyKey OnHoldTime { get; private set; }
-
-        public VocabularyKey LastOnHoldTime { get; private set; }
-
-        public VocabularyKey SLAInvokedIdName { get; private set; }
-
-        public VocabularyKey FollowEmail { get; private set; }
-
-        public VocabularyKey FollowEmailName { get; private set; }
-
-        public VocabularyKey TimeSpentByMeOnEmailAndMeetings { get; private set; }
-
-        public VocabularyKey Address3_Country { get; private set; }
-
-        public VocabularyKey Address3_Line1 { get; private set; }
-
-        public VocabularyKey Address3_Line2 { get; private set; }
-
-        public VocabularyKey Address3_Line3 { get; private set; }
-
-        public VocabularyKey Address3_PostalCode { get; private set; }
-
-        public VocabularyKey Address3_PostOfficeBox { get; private set; }
-
-        public VocabularyKey Address3_StateOrProvince { get; private set; }
-
-        public VocabularyKey Address3_City { get; private set; }
-
+        public VocabularyKey Aging90Base { get; private set; }
+        public VocabularyKey Anniversary { get; private set; }
+        public VocabularyKey Annualincome { get; private set; }
+        public VocabularyKey AnnualincomeBase { get; private set; }
+        public VocabularyKey Assistantname { get; private set; }
+        public VocabularyKey Assistantphone { get; private set; }
+        public VocabularyKey Birthdate { get; private set; }
         public VocabularyKey Business2 { get; private set; }
-
         public VocabularyKey Callback { get; private set; }
-
+        public VocabularyKey Childrensnames { get; private set; }
         public VocabularyKey Company { get; private set; }
-
+        public VocabularyKey Contactid { get; private set; }
+        public VocabularyKey Createdby { get; private set; }
+        public VocabularyKey Createdbyexternalparty { get; private set; }
+        public VocabularyKey Createdon { get; private set; }
+        public VocabularyKey Creditlimit { get; private set; }
+        public VocabularyKey CreditlimitBase { get; private set; }
+        public VocabularyKey Creditonhold { get; private set; }
+        public VocabularyKey Customersizecode { get; private set; }
+        public VocabularyKey Customertypecode { get; private set; }
+        public VocabularyKey Defaultpricelevelid { get; private set; }
+        public VocabularyKey Department { get; private set; }
+        public VocabularyKey Description { get; private set; }
+        public VocabularyKey Donotbulkemail { get; private set; }
+        public VocabularyKey Donotbulkpostalmail { get; private set; }
+        public VocabularyKey Donotemail { get; private set; }
+        public VocabularyKey Donotfax { get; private set; }
+        public VocabularyKey Donotphone { get; private set; }
+        public VocabularyKey Donotpostalmail { get; private set; }
+        public VocabularyKey Donotsendmm { get; private set; }
+        public VocabularyKey DynaAnsttelselsesforhold { get; private set; }
+        public VocabularyKey DynaCoaching { get; private set; }
+        public VocabularyKey DynaContactid { get; private set; }
+        public VocabularyKey DynaContactidnr { get; private set; }
+        public VocabularyKey DynaCountry { get; private set; }
+        public VocabularyKey DynaCoursecustomer { get; private set; }
+        public VocabularyKey DynaCustomerbeingcreated { get; private set; }
+        public VocabularyKey DynaDelingmedlho { get; private set; }
+        public VocabularyKey DynaEmail2 { get; private set; }
+        public VocabularyKey DynaEmailopdateretdato { get; private set; }
+        public VocabularyKey DynaGodkendinav { get; private set; }
+        public VocabularyKey DynaKonsulent { get; private set; }
+        public VocabularyKey DynaKontaktpersonid { get; private set; }
+        public VocabularyKey DynaLedernecontactguid { get; private set; }
+        public VocabularyKey DynaLedernemandag { get; private set; }
+        public VocabularyKey DynaLedernemedlem { get; private set; }
+        public VocabularyKey DynaLmcKontakt { get; private set; }
+        public VocabularyKey DynaLmcKontaktnote { get; private set; }
+        public VocabularyKey DynaLmsadgang { get; private set; }
+        public VocabularyKey DynaMedlemsnummer { get; private set; }
+        public VocabularyKey DynaNavid { get; private set; }
+        public VocabularyKey DynaNavtemplateid { get; private set; }
+        public VocabularyKey DynaNetvaerkKandidat { get; private set; }
+        public VocabularyKey DynaNytfraledelseidagdk { get; private set; }
+        public VocabularyKey DynaOldiddebitor { get; private set; }
+        public VocabularyKey DynaOldiddeltager { get; private set; }
+        public VocabularyKey DynaOldidinstruktr { get; private set; }
+        public VocabularyKey DynaOutplacement { get; private set; }
+        public VocabularyKey DynaPersonid { get; private set; }
+        public VocabularyKey DynaSendnyhedsbrev { get; private set; }
+        public VocabularyKey DynaTotalamount { get; private set; }
+        public VocabularyKey DynaUk { get; private set; }
+        public VocabularyKey DynaUnderviser { get; private set; }
+        public VocabularyKey DynaUndervisernote { get; private set; }
+        public VocabularyKey DynaVip { get; private set; }
+        public VocabularyKey Educationcode { get; private set; }
+        public VocabularyKey Emailaddress1 { get; private set; }
+        public VocabularyKey Emailaddress2 { get; private set; }
+        public VocabularyKey Emailaddress3 { get; private set; }
+        public VocabularyKey Employeeid { get; private set; }
+        public VocabularyKey Entityimage { get; private set; }
+        public VocabularyKey Entityimageid { get; private set; }
+        public VocabularyKey Exchangerate { get; private set; }
+        public VocabularyKey Externaluseridentifier { get; private set; }
+        public VocabularyKey Familystatuscode { get; private set; }
+        public VocabularyKey Fax { get; private set; }
+        public VocabularyKey Firstname { get; private set; }
+        public VocabularyKey Followemail { get; private set; }
+        public VocabularyKey Ftpsiteurl { get; private set; }
+        public VocabularyKey Fullname { get; private set; }
+        public VocabularyKey Gendercode { get; private set; }
+        public VocabularyKey Governmentid { get; private set; }
+        public VocabularyKey Haschildrencode { get; private set; }
         public VocabularyKey Home2 { get; private set; }
-
-        public VocabularyKey Address3_AddressId { get; private set; }
-
-        public VocabularyKey Address3_AddressTypeCodeName { get; private set; }
-
-        public VocabularyKey Address3_Composite { get; private set; }
-
-        public VocabularyKey Address3_Fax { get; private set; }
-
-        public VocabularyKey Address3_FreightTermsCode { get; private set; }
-
-        public VocabularyKey Address3_FreightTermsCodeName { get; private set; }
-
-        public VocabularyKey Address3_Latitude { get; private set; }
-
-        public VocabularyKey Address3_Longitude { get; private set; }
-
-        public VocabularyKey Address3_Name { get; private set; }
-
-        public VocabularyKey Address3_PrimaryContactName { get; private set; }
-
-        public VocabularyKey Address3_ShippingMethodCode { get; private set; }
-
-        public VocabularyKey Address3_ShippingMethodCodeName { get; private set; }
-
-        public VocabularyKey Address3_Telephone1 { get; private set; }
-
-        public VocabularyKey Address3_Telephone2 { get; private set; }
-
-        public VocabularyKey Address3_Telephone3 { get; private set; }
-
-        public VocabularyKey Address3_UPSZone { get; private set; }
-
-        public VocabularyKey Address3_UTCOffset { get; private set; }
-
-        public VocabularyKey Address3_County { get; private set; }
-
-        public VocabularyKey Address3_AddressTypeCode { get; private set; }
-
-        public VocabularyKey CreatedByExternalParty { get; private set; }
-
-        public VocabularyKey CreatedByExternalPartyName { get; private set; }
-
-        public VocabularyKey CreatedByExternalPartyYomiName { get; private set; }
-
-        public VocabularyKey ModifiedByExternalParty { get; private set; }
-
-        public VocabularyKey ModifiedByExternalPartyName { get; private set; }
-
-        public VocabularyKey ModifiedByExternalPartyYomiName { get; private set; }
-
-        public VocabularyKey MarketingOnly { get; private set; }
-
-        public VocabularyKey MarketingOnlyName { get; private set; }
-
-        public VocabularyKey TeamsFollowed { get; private set; }
-
-        public VocabularyKey BusinessCard { get; private set; }
-
-        public VocabularyKey BusinessCardAttributes { get; private set; }
-
-
+        public VocabularyKey Isautocreate { get; private set; }
+        public VocabularyKey Isbackofficecustomer { get; private set; }
+        public VocabularyKey Jobtitle { get; private set; }
+        public VocabularyKey Lastname { get; private set; }
+        public VocabularyKey Lastonholdtime { get; private set; }
+        public VocabularyKey Lastusedincampaign { get; private set; }
+        public VocabularyKey Leadsourcecode { get; private set; }
+        public VocabularyKey Managername { get; private set; }
+        public VocabularyKey Managerphone { get; private set; }
+        public VocabularyKey Marketingonly { get; private set; }
+        public VocabularyKey Masterid { get; private set; }
+        public VocabularyKey Merged { get; private set; }
+        public VocabularyKey Middlename { get; private set; }
+        public VocabularyKey Mobilephone { get; private set; }
+        public VocabularyKey Modifiedby { get; private set; }
+        public VocabularyKey Modifiedbyexternalparty { get; private set; }
+        public VocabularyKey Modifiedon { get; private set; }
+        public VocabularyKey MsdynGdproptout { get; private set; }
+        public VocabularyKey Nickname { get; private set; }
+        public VocabularyKey NnNndecisionmakerid { get; private set; }
+        public VocabularyKey NnUpdateprotected { get; private set; }
+        public VocabularyKey Numberofchildren { get; private set; }
+        public VocabularyKey Onholdtime { get; private set; }
+        public VocabularyKey Originatingleadid { get; private set; }
+        public VocabularyKey Pager { get; private set; }
+        public VocabularyKey Parentcontactid { get; private set; }
+        public VocabularyKey Parentcustomerid { get; private set; }
+        public VocabularyKey Parentcustomeridtype { get; private set; }
+        public VocabularyKey Participatesinworkflow { get; private set; }
+        public VocabularyKey Paymenttermscode { get; private set; }
+        public VocabularyKey Preferredappointmentdaycode { get; private set; }
+        public VocabularyKey Preferredappointmenttimecode { get; private set; }
+        public VocabularyKey Preferredcontactmethodcode { get; private set; }
+        public VocabularyKey Preferredequipmentid { get; private set; }
+        public VocabularyKey Preferredserviceid { get; private set; }
+        public VocabularyKey Preferredsystemuserid { get; private set; }
+        public VocabularyKey Processid { get; private set; }
+        public VocabularyKey Salutation { get; private set; }
+        public VocabularyKey Shippingmethodcode { get; private set; }
+        public VocabularyKey Slaid { get; private set; }
+        public VocabularyKey Slainvokedid { get; private set; }
+        public VocabularyKey Spousesname { get; private set; }
+        public VocabularyKey Stageid { get; private set; }
+        public VocabularyKey Statecode { get; private set; }
+        public VocabularyKey Statuscode { get; private set; }
+        public VocabularyKey Subscriptionid { get; private set; }
+        public VocabularyKey Suffix { get; private set; }
+        public VocabularyKey Telephone1 { get; private set; }
+        public VocabularyKey Telephone2 { get; private set; }
+        public VocabularyKey Telephone3 { get; private set; }
+        public VocabularyKey Territorycode { get; private set; }
+        public VocabularyKey Timespentbymeonemailandmeetings { get; private set; }
+        public VocabularyKey Transactioncurrencyid { get; private set; }
+        public VocabularyKey Traversedpath { get; private set; }
+        public VocabularyKey Websiteurl { get; private set; }
     }
 }
-

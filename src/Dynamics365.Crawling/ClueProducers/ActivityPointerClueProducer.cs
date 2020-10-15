@@ -1,391 +1,147 @@
 using System;
 using System.Linq;
-
 using CluedIn.Core;
-using CluedIn.Core.Agent.Jobs;
-using CluedIn.Core.Crawling;
 using CluedIn.Core.Data;
-using CluedIn.Core.Data.Vocabularies;
-using CluedIn.Crawling.Dynamics365.Core;
 using CluedIn.Crawling.Dynamics365.Core.Models;
 using CluedIn.Crawling.Dynamics365.Vocabularies;
 using CluedIn.Crawling.Factories;
 using CluedIn.Crawling.Helpers;
+using RuleConstants = CluedIn.Core.Constants.Validation.Rules;
 
 namespace CluedIn.Crawling.Dynamics365.ClueProducers
 {
-    public class ActivityPointerClueProducer : DynamicsClueProducer<ActivityPointer>
+    public class ActivitypointerClueProducer : BaseClueProducer<Activitypointer>
     {
-        public ActivityPointerClueProducer([NotNull] IClueFactory factory, IAgentJobProcessorState<CrawlJobData> state) : base(factory, state)
-        {
+        private readonly IClueFactory _factory;
 
+        public ActivitypointerClueProducer(IClueFactory factory)
+        {
+            _factory = factory;
         }
 
-        public override Clue CreateClue(ActivityPointer input, Guid accountId)
+        protected override Clue MakeClueImpl(Activitypointer input, Guid id)
         {
-            return _factory.Create(EntityType.Activity, input.ActivityId.ToString(), accountId);
-        }
+            var clue = _factory.Create(EntityType.Activity, input.Activityid, id);
 
-        public override void Customize(Clue clue, ActivityPointer input)
-        {
             var data = clue.Data.EntityData;
 
-            data.Name = input.Subject;
+            // Metadata
 
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.cdi_emailtemplate, EntityEdgeType.Parent, input, input.RegardingObjectId);
+            //data.Name = input.Name;
 
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.knowledgearticle, EntityEdgeType.Parent, input, input.RegardingObjectId);
+            DateTimeOffset.TryParse(input.Createdon, out var createdDate);
+            if (createdDate != null)
+                data.CreatedDate = createdDate;
 
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.msdyncrm_linkedinform, EntityEdgeType.Parent, input, input.RegardingObjectId);
+            DateTimeOffset.TryParse(input.Modifiedon, out var modifiedDate);
+            if (modifiedDate != null)
+                data.ModifiedDate = modifiedDate;
 
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.invoice, EntityEdgeType.Parent, input, input.RegardingObjectId);
+            // Edges
 
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.msdyncrm_linkedinformanswer, EntityEdgeType.Parent, input, input.RegardingObjectId);
+            if (input.Activityid != null && !string.IsNullOrEmpty(input.Activityid.ToString()))
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Activityid, input.Activityid.ToString());
 
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.msdyncrm_linkedinleadmatchingstrategy, EntityEdgeType.Parent, input, input.RegardingObjectId);
+            if (input.Createdby != null && !string.IsNullOrEmpty(input.Createdby.ToString()))
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Createdby, input.Createdby.ToString());
 
-            //if (input.OwningTeam != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.team, EntityEdgeType.Parent, input, input.OwningTeam);
+            if (input.Exchangeitemid != null && !string.IsNullOrEmpty(input.Exchangeitemid.ToString()))
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Exchangeitemid, input.Exchangeitemid.ToString());
 
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.contact, EntityEdgeType.Parent, input, input.RegardingObjectId);
+            if (input.Modifiedby != null && !string.IsNullOrEmpty(input.Modifiedby.ToString()))
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Modifiedby, input.Modifiedby.ToString());
 
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.tcs_quickfind, EntityEdgeType.Parent, input, input.RegardingObjectId);
+            if (input.Processid != null && !string.IsNullOrEmpty(input.Processid.ToString()))
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Processid, input.Processid.ToString());
 
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.interactionforemail, EntityEdgeType.Parent, input, input.RegardingObjectId);
+            if (input.Regardingobjectid != null && !string.IsNullOrEmpty(input.Regardingobjectid.ToString()))
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Regardingobjectid, input.Regardingobjectid.ToString());
 
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.tcs_sample, EntityEdgeType.Parent, input, input.RegardingObjectId);
+            if (input.Sendermailboxid != null && !string.IsNullOrEmpty(input.Sendermailboxid.ToString()))
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Sendermailboxid, input.Sendermailboxid.ToString());
 
-            //if (input.SLAId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.sla, EntityEdgeType.Parent, input, input.SLAId);
+            if (input.Seriesid != null && !string.IsNullOrEmpty(input.Seriesid.ToString()))
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Seriesid, input.Seriesid.ToString());
 
-            //if (input.SLAInvokedId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.sla, EntityEdgeType.Parent, input, input.SLAInvokedId);
+            if (input.Serviceid != null && !string.IsNullOrEmpty(input.Serviceid.ToString()))
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Serviceid, input.Serviceid.ToString());
 
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.campaign, EntityEdgeType.Parent, input, input.RegardingObjectId);
+            if (input.Slaid != null && !string.IsNullOrEmpty(input.Slaid.ToString()))
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Slaid, input.Slaid.ToString());
 
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.cdi_postedsubscription, EntityEdgeType.Parent, input, input.RegardingObjectId);
+            if (input.Slainvokedid != null && !string.IsNullOrEmpty(input.Slainvokedid.ToString()))
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Slainvokedid, input.Slainvokedid.ToString());
 
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.msdyncrm_linkedinformquestion, EntityEdgeType.Parent, input, input.RegardingObjectId);
+            if (input.Stageid != null && !string.IsNullOrEmpty(input.Stageid.ToString()))
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Stageid, input.Stageid.ToString());
 
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.lead, EntityEdgeType.Parent, input, input.RegardingObjectId);
+            if (input.Transactioncurrencyid != null && !string.IsNullOrEmpty(input.Transactioncurrencyid.ToString()))
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Transactioncurrencyid, input.Transactioncurrencyid.ToString());
 
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.ikl_useradoptionconfiguration, EntityEdgeType.Parent, input, input.RegardingObjectId);
+            if (!data.OutgoingEdges.Any())
+                _factory.CreateEntityRootReference(clue, EntityEdgeType.PartOf);
 
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.gnh_accountsegmentation, EntityEdgeType.Parent, input, input.RegardingObjectId);
+            var vocab = new ActivitypointerVocabulary();
 
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.cdi_eventparticipation, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.tcs_lookupconfig, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.cdi_emailcname, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.cdi_surveyanswer, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.cdi_nurturebuilder, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.msdyn_playbookinstance, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.TransactionCurrencyId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.transactioncurrency, EntityEdgeType.Parent, input, input.TransactionCurrencyId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.ikl_useradoptionentityconfiguration, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.account, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.ikl_useradoptiontracking, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.bulkoperation, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.OwningBusinessUnit != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.businessunit, EntityEdgeType.Parent, input, input.OwningBusinessUnit);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.msdyn_postalbum, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.knowledgebaserecord, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.cdi_webcontent, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.cdi_postedfield, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.cdi_import, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.bookableresourcebookingheader, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.incident, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.cdi_automation, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.tcs_setactivestate, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.msdyncrm_linkedinuserprofile, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.ModifiedBy != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.systemuser, EntityEdgeType.Parent, input, input.ModifiedBy);
-
-            //if (input.OwningUser != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.systemuser, EntityEdgeType.Parent, input, input.OwningUser);
-
-            //if (input.CreatedBy != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.systemuser, EntityEdgeType.Parent, input, input.CreatedBy);
-
-            //if (input.ModifiedOnBehalfBy != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.systemuser, EntityEdgeType.Parent, input, input.ModifiedOnBehalfBy);
-
-            //if (input.CreatedOnBehalfBy != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.systemuser, EntityEdgeType.Parent, input, input.CreatedOnBehalfBy);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.cdi_surveyquestion, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.ikl_notifyworkflowfailure, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.ikl_inogiclicensedetails, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.bookableresourcebooking, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.able_nameduser, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.msdyn_customerasset, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.gnh_accountplan, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.msdyncrm_linkedinformsubmission, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.cdi_unsubscribe, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.entitlementtemplate, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.quote, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.SenderMailboxId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.mailbox, EntityEdgeType.Parent, input, input.SenderMailboxId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.ikl_useradoptiontrackingdetails, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.tcs_numbersequence, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.cdi_postedsurvey, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.contract, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.cdi_pageview, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.cdi_visit, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.cdi_iporganization, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.cdi_subscriptionlist, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.opportunity, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.msdyncrm_linkedinfieldmapping, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.msdyncrm_linkedinactivity, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.tcs_trace, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.cdi_bulktxtmessage, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.campaignactivity, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.cdi_subscriptionpreference, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.cdi_importlog, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.OwnerId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.owner, EntityEdgeType.Parent, input, input.OwnerId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.site, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.ServiceId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.service, EntityEdgeType.Parent, input, input.ServiceId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.able_applicationconfiguration, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.ikl_monitoredusers, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.cdi_event, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.msdyncrm_linkedinaccount, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.salesorder, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.cdi_executesocialpost, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.cdi_postedform, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.tcs_expression, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.cdi_emailsend, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.entitlement, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            //if (input.RegardingObjectId != null)
-            //    _factory.CreateOutgoingEntityReference(clue, EntityType.cdi_formcapture, EntityEdgeType.Parent, input, input.RegardingObjectId);
-
-            var vocab = new ActivityPointerVocabulary();
-
-            data.Properties[vocab.OwningBusinessUnit] = input.OwningBusinessUnit.PrintIfAvailable();
-            data.Properties[vocab.ActualEnd] = input.ActualEnd.PrintIfAvailable();
-            data.Properties[vocab.VersionNumber] = input.VersionNumber.PrintIfAvailable();
-            data.Properties[vocab.ActivityId] = input.ActivityId.PrintIfAvailable();
-            data.Properties[vocab.IsBilled] = input.IsBilled.PrintIfAvailable();
-            data.Properties[vocab.CreatedBy] = input.CreatedBy.PrintIfAvailable();
-            data.Properties[vocab.Description] = input.Description.PrintIfAvailable();
-            data.Properties[vocab.ModifiedOn] = input.ModifiedOn.PrintIfAvailable();
-            data.Properties[vocab.ServiceId] = input.ServiceId.PrintIfAvailable();
-            data.Properties[vocab.ActivityTypeCode] = input.ActivityTypeCode.PrintIfAvailable();
-            data.Properties[vocab.StateCode] = input.StateCode.PrintIfAvailable();
-            data.Properties[vocab.ScheduledEnd] = input.ScheduledEnd.PrintIfAvailable();
-            data.Properties[vocab.ScheduledDurationMinutes] = input.ScheduledDurationMinutes.PrintIfAvailable();
-            data.Properties[vocab.ActualDurationMinutes] = input.ActualDurationMinutes.PrintIfAvailable();
-            data.Properties[vocab.StatusCode] = input.StatusCode.PrintIfAvailable();
-            data.Properties[vocab.OwnerId] = input.OwnerId.PrintIfAvailable();
-            data.Properties[vocab.ActualStart] = input.ActualStart.PrintIfAvailable();
-            data.Properties[vocab.CreatedOn] = input.CreatedOn.PrintIfAvailable();
-            data.Properties[vocab.PriorityCode] = input.PriorityCode.PrintIfAvailable();
-            data.Properties[vocab.RegardingObjectId] = input.RegardingObjectId.PrintIfAvailable();
-            data.Properties[vocab.Subject] = input.Subject.PrintIfAvailable();
-            data.Properties[vocab.IsWorkflowCreated] = input.IsWorkflowCreated.PrintIfAvailable();
-            data.Properties[vocab.ScheduledStart] = input.ScheduledStart.PrintIfAvailable();
-            data.Properties[vocab.ModifiedBy] = input.ModifiedBy.PrintIfAvailable();
-            data.Properties[vocab.OwningUser] = input.OwningUser.PrintIfAvailable();
-            data.Properties[vocab.IsBilledName] = input.IsBilledName.PrintIfAvailable();
-            data.Properties[vocab.RegardingObjectTypeCode] = input.RegardingObjectTypeCode.PrintIfAvailable();
-            data.Properties[vocab.OwnerIdName] = input.OwnerIdName.PrintIfAvailable();
-            data.Properties[vocab.IsWorkflowCreatedName] = input.IsWorkflowCreatedName.PrintIfAvailable();
-            data.Properties[vocab.CreatedByName] = input.CreatedByName.PrintIfAvailable();
-            data.Properties[vocab.RegardingObjectIdName] = input.RegardingObjectIdName.PrintIfAvailable();
-            data.Properties[vocab.PriorityCodeName] = input.PriorityCodeName.PrintIfAvailable();
-            data.Properties[vocab.ActivityTypeCodeName] = input.ActivityTypeCodeName.PrintIfAvailable();
-            data.Properties[vocab.StateCodeName] = input.StateCodeName.PrintIfAvailable();
-            data.Properties[vocab.ModifiedByName] = input.ModifiedByName.PrintIfAvailable();
-            data.Properties[vocab.OwnerIdType] = input.OwnerIdType.PrintIfAvailable();
-            data.Properties[vocab.ServiceIdName] = input.ServiceIdName.PrintIfAvailable();
-            data.Properties[vocab.StatusCodeName] = input.StatusCodeName.PrintIfAvailable();
-            data.Properties[vocab.TimeZoneRuleVersionNumber] = input.TimeZoneRuleVersionNumber.PrintIfAvailable();
-            data.Properties[vocab.UTCConversionTimeZoneCode] = input.UTCConversionTimeZoneCode.PrintIfAvailable();
-            data.Properties[vocab.RegardingObjectIdYomiName] = input.RegardingObjectIdYomiName.PrintIfAvailable();
-            data.Properties[vocab.ModifiedByYomiName] = input.ModifiedByYomiName.PrintIfAvailable();
-            data.Properties[vocab.OwnerIdYomiName] = input.OwnerIdYomiName.PrintIfAvailable();
-            data.Properties[vocab.CreatedByYomiName] = input.CreatedByYomiName.PrintIfAvailable();
-            data.Properties[vocab.InstanceTypeCode] = input.InstanceTypeCode.PrintIfAvailable();
-            data.Properties[vocab.SeriesId] = input.SeriesId.PrintIfAvailable();
-            data.Properties[vocab.InstanceTypeCodeName] = input.InstanceTypeCodeName.PrintIfAvailable();
-            data.Properties[vocab.IsRegularActivity] = input.IsRegularActivity.PrintIfAvailable();
-            data.Properties[vocab.IsRegularActivityName] = input.IsRegularActivityName.PrintIfAvailable();
-            data.Properties[vocab.CreatedOnBehalfByName] = input.CreatedOnBehalfByName.PrintIfAvailable();
-            data.Properties[vocab.CreatedOnBehalfByYomiName] = input.CreatedOnBehalfByYomiName.PrintIfAvailable();
-            data.Properties[vocab.ModifiedOnBehalfBy] = input.ModifiedOnBehalfBy.PrintIfAvailable();
-            data.Properties[vocab.ModifiedOnBehalfByName] = input.ModifiedOnBehalfByName.PrintIfAvailable();
-            data.Properties[vocab.ModifiedOnBehalfByYomiName] = input.ModifiedOnBehalfByYomiName.PrintIfAvailable();
-            data.Properties[vocab.CreatedOnBehalfBy] = input.CreatedOnBehalfBy.PrintIfAvailable();
-            data.Properties[vocab.OwningTeam] = input.OwningTeam.PrintIfAvailable();
-            data.Properties[vocab.TransactionCurrencyId] = input.TransactionCurrencyId.PrintIfAvailable();
-            data.Properties[vocab.TransactionCurrencyIdName] = input.TransactionCurrencyIdName.PrintIfAvailable();
-            data.Properties[vocab.ExchangeRate] = input.ExchangeRate.PrintIfAvailable();
-            data.Properties[vocab.allparties] = input.allparties.PrintIfAvailable();
-            data.Properties[vocab.LeftVoiceMail] = input.LeftVoiceMail.PrintIfAvailable();
-            data.Properties[vocab.LeftVoiceMailName] = input.LeftVoiceMailName.PrintIfAvailable();
+            data.Properties[vocab.Activityadditionalparams] = input.Activityadditionalparams.PrintIfAvailable();
+            data.Properties[vocab.Activityid] = input.Activityid.PrintIfAvailable();
+            data.Properties[vocab.Activitytypecode] = input.Activitytypecode.PrintIfAvailable();
+            data.Properties[vocab.Actualdurationminutes] = input.Actualdurationminutes.PrintIfAvailable();
+            data.Properties[vocab.Actualend] = input.Actualend.PrintIfAvailable();
+            data.Properties[vocab.Actualstart] = input.Actualstart.PrintIfAvailable();
+            data.Properties[vocab.Allparties] = input.Allparties.PrintIfAvailable();
             data.Properties[vocab.Community] = input.Community.PrintIfAvailable();
-            data.Properties[vocab.CommunityName] = input.CommunityName.PrintIfAvailable();
-            data.Properties[vocab.TraversedPath] = input.TraversedPath.PrintIfAvailable();
-            data.Properties[vocab.IsMapiPrivate] = input.IsMapiPrivate.PrintIfAvailable();
-            data.Properties[vocab.IsMapiPrivateName] = input.IsMapiPrivateName.PrintIfAvailable();
-            data.Properties[vocab.ExchangeWebLink] = input.ExchangeWebLink.PrintIfAvailable();
-            data.Properties[vocab.ExchangeItemId] = input.ExchangeItemId.PrintIfAvailable();
-            data.Properties[vocab.DeliveryPriorityCode] = input.DeliveryPriorityCode.PrintIfAvailable();
-            data.Properties[vocab.DeliveryPriorityCodeName] = input.DeliveryPriorityCodeName.PrintIfAvailable();
-            data.Properties[vocab.SentOn] = input.SentOn.PrintIfAvailable();
-            data.Properties[vocab.DeliveryLastAttemptedOn] = input.DeliveryLastAttemptedOn.PrintIfAvailable();
-            data.Properties[vocab.SenderMailboxId] = input.SenderMailboxId.PrintIfAvailable();
-            data.Properties[vocab.SenderMailboxIdName] = input.SenderMailboxIdName.PrintIfAvailable();
-            data.Properties[vocab.PostponeActivityProcessingUntil] = input.PostponeActivityProcessingUntil.PrintIfAvailable();
-            data.Properties[vocab.ProcessId] = input.ProcessId.PrintIfAvailable();
-            data.Properties[vocab.StageId] = input.StageId.PrintIfAvailable();
-            data.Properties[vocab.ActivityAdditionalParams] = input.ActivityAdditionalParams.PrintIfAvailable();
-            data.Properties[vocab.SLAId] = input.SLAId.PrintIfAvailable();
-            data.Properties[vocab.SLAInvokedId] = input.SLAInvokedId.PrintIfAvailable();
-            data.Properties[vocab.OnHoldTime] = input.OnHoldTime.PrintIfAvailable();
-            data.Properties[vocab.LastOnHoldTime] = input.LastOnHoldTime.PrintIfAvailable();
-            data.Properties[vocab.SLAName] = input.SLAName.PrintIfAvailable();
-            data.Properties[vocab.SLAInvokedIdName] = input.SLAInvokedIdName.PrintIfAvailable();
-            data.Properties[vocab.SortDate] = input.SortDate.PrintIfAvailable();
+            data.Properties[vocab.Createdby] = input.Createdby.PrintIfAvailable();
+            data.Properties[vocab.Createdon] = input.Createdon.PrintIfAvailable();
+            data.Properties[vocab.Deliverylastattemptedon] = input.Deliverylastattemptedon.PrintIfAvailable();
+            data.Properties[vocab.Deliveryprioritycode] = input.Deliveryprioritycode.PrintIfAvailable();
+            data.Properties[vocab.Description] = input.Description.PrintIfAvailable();
+            data.Properties[vocab.Exchangeitemid] = input.Exchangeitemid.PrintIfAvailable();
+            data.Properties[vocab.Exchangerate] = input.Exchangerate.PrintIfAvailable();
+            data.Properties[vocab.Exchangeweblink] = input.Exchangeweblink.PrintIfAvailable();
+            data.Properties[vocab.Instancetypecode] = input.Instancetypecode.PrintIfAvailable();
+            data.Properties[vocab.Isbilled] = input.Isbilled.PrintIfAvailable();
+            data.Properties[vocab.Ismapiprivate] = input.Ismapiprivate.PrintIfAvailable();
+            data.Properties[vocab.Isregularactivity] = input.Isregularactivity.PrintIfAvailable();
+            data.Properties[vocab.Isworkflowcreated] = input.Isworkflowcreated.PrintIfAvailable();
+            data.Properties[vocab.Lastonholdtime] = input.Lastonholdtime.PrintIfAvailable();
+            data.Properties[vocab.Leftvoicemail] = input.Leftvoicemail.PrintIfAvailable();
+            data.Properties[vocab.Modifiedby] = input.Modifiedby.PrintIfAvailable();
+            data.Properties[vocab.Modifiedon] = input.Modifiedon.PrintIfAvailable();
+            data.Properties[vocab.Onholdtime] = input.Onholdtime.PrintIfAvailable();
+            data.Properties[vocab.Postponeactivityprocessinguntil] = input.Postponeactivityprocessinguntil.PrintIfAvailable();
+            data.Properties[vocab.Prioritycode] = input.Prioritycode.PrintIfAvailable();
+            data.Properties[vocab.Processid] = input.Processid.PrintIfAvailable();
+            data.Properties[vocab.Regardingobjectid] = input.Regardingobjectid.PrintIfAvailable();
+            data.Properties[vocab.Scheduleddurationminutes] = input.Scheduleddurationminutes.PrintIfAvailable();
+            data.Properties[vocab.Scheduledend] = input.Scheduledend.PrintIfAvailable();
+            data.Properties[vocab.Scheduledstart] = input.Scheduledstart.PrintIfAvailable();
+            data.Properties[vocab.Sendermailboxid] = input.Sendermailboxid.PrintIfAvailable();
+            data.Properties[vocab.Senton] = input.Senton.PrintIfAvailable();
+            data.Properties[vocab.Seriesid] = input.Seriesid.PrintIfAvailable();
+            data.Properties[vocab.Serviceid] = input.Serviceid.PrintIfAvailable();
+            data.Properties[vocab.Slaid] = input.Slaid.PrintIfAvailable();
+            data.Properties[vocab.Slainvokedid] = input.Slainvokedid.PrintIfAvailable();
+            data.Properties[vocab.Sortdate] = input.Sortdate.PrintIfAvailable();
+            data.Properties[vocab.Stageid] = input.Stageid.PrintIfAvailable();
+            data.Properties[vocab.Statecode] = input.Statecode.PrintIfAvailable();
+            data.Properties[vocab.Statuscode] = input.Statuscode.PrintIfAvailable();
+            data.Properties[vocab.Subject] = input.Subject.PrintIfAvailable();
+            data.Properties[vocab.Transactioncurrencyid] = input.Transactioncurrencyid.PrintIfAvailable();
+            data.Properties[vocab.Traversedpath] = input.Traversedpath.PrintIfAvailable();
 
+            clue.ValidationRuleSuppressions.AddRange(new[]
+                                        {
+                                RuleConstants.METADATA_001_Name_MustBeSet,
+                                RuleConstants.PROPERTIES_001_MustExist,
+                                RuleConstants.METADATA_002_Uri_MustBeSet,
+                                RuleConstants.METADATA_003_Author_Name_MustBeSet,
+                                RuleConstants.METADATA_005_PreviewImage_RawData_MustBeSet
+                            });
+
+            return clue;
         }
     }
 }
+
 

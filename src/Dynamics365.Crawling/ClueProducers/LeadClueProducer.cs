@@ -1,321 +1,322 @@
 using System;
 using System.Linq;
-
 using CluedIn.Core;
-using CluedIn.Core.Agent.Jobs;
-using CluedIn.Core.Crawling;
 using CluedIn.Core.Data;
-using CluedIn.Core.Data.Vocabularies;
-using CluedIn.Crawling.Dynamics365.Core;
 using CluedIn.Crawling.Dynamics365.Core.Models;
 using CluedIn.Crawling.Dynamics365.Vocabularies;
 using CluedIn.Crawling.Factories;
 using CluedIn.Crawling.Helpers;
+using RuleConstants = CluedIn.Core.Constants.Validation.Rules;
 
 namespace CluedIn.Crawling.Dynamics365.ClueProducers
 {
-    public class LeadClueProducer : DynamicsClueProducer<Lead>
+    public class LeadClueProducer : BaseClueProducer<Lead>
     {
-        public LeadClueProducer([NotNull] IClueFactory factory, IAgentJobProcessorState<CrawlJobData> state) : base(factory, state)
+        private readonly IClueFactory _factory;
+
+        public LeadClueProducer(IClueFactory factory)
         {
+            _factory = factory;
         }
 
-        public override Clue CreateClue(Lead input, Guid accountId)
+        protected override Clue MakeClueImpl(Lead input, Guid id)
         {
-            return _factory.Create(EntityType.Sales.Lead, input.LeadId.ToString(), accountId);
-        }
 
-        public override void Customize(Clue clue, Lead input)
-        {
+            var clue = _factory.Create(EntityType.Person, $"FILL_IN", id);
+
             var data = clue.Data.EntityData;
 
-            data.Name = input.FullName;
+            // Metadata
 
-            if (input.OwningTeam != null)
-                this._factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.Group, EntityEdgeType.Parent, input, input.OwningTeam);
+            //data.Name = input.Name;
 
-            if (input.ParentContactId != null)
-                this._factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.Parent, input, input.ParentContactId);
+            DateTimeOffset.TryParse(input.Createdon, out var createdDate);
+            if (createdDate != null)
+                data.CreatedDate = createdDate;
 
-            if (input.CampaignId != null)
-                this._factory.CreateOutgoingEntityReference(clue, EntityType.Marketing.Campaign, EntityEdgeType.Parent, input, input.CampaignId);
+            DateTimeOffset.TryParse(input.Modifiedon, out var modifiedDate);
+            if (modifiedDate != null)
+                data.ModifiedDate = modifiedDate;
 
-            if (input.MasterId != null)
-                this._factory.CreateOutgoingEntityReference(clue, EntityType.Sales.Lead, EntityEdgeType.Parent, input, input.MasterId);
+            // Aliases
+            if (!string.IsNullOrEmpty(input.Address1Composite))
+                data.Aliases.Add(input.Address1Composite);
 
-            if (input.StageId != null)
-                this._factory.CreateOutgoingEntityReference(clue, EntityType.ProcessStage, EntityEdgeType.Parent, input, input.StageId.ToString());
+            if (!string.IsNullOrEmpty(input.Address1Telephone1))
+                data.Aliases.Add(input.Address1Telephone1);
 
-            if (input.ParentAccountId != null)
-                this._factory.CreateOutgoingEntityReference(clue, EntityType.Organization, EntityEdgeType.Parent, input, input.ParentAccountId);
+            if (!string.IsNullOrEmpty(input.Address1Telephone2))
+                data.Aliases.Add(input.Address1Telephone2);
 
-            if (input.CustomerId != null)
-                this._factory.CreateOutgoingEntityReference(clue, EntityType.Organization, EntityEdgeType.Parent, input, input.CustomerId);
+            if (!string.IsNullOrEmpty(input.Address1Telephone3))
+                data.Aliases.Add(input.Address1Telephone3);
 
-            if (input.OwningBusinessUnit != null)
-                this._factory.CreateOutgoingEntityReference(clue, EntityType.Organization.Unit, EntityEdgeType.OwnedBy, input, input.OwningBusinessUnit);
+            if (!string.IsNullOrEmpty(input.Address2Composite))
+                data.Aliases.Add(input.Address2Composite);
 
-            if (input.ModifiedBy != null)
-                this._factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.ModifiedBy, input, input.ModifiedBy);
+            if (!string.IsNullOrEmpty(input.Address2Telephone1))
+                data.Aliases.Add(input.Address2Telephone1);
 
-            if (input.CreatedBy != null)
-                this._factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.CreatedBy, input, input.CreatedBy);
+            if (!string.IsNullOrEmpty(input.Address2Telephone2))
+                data.Aliases.Add(input.Address2Telephone2);
 
-            if (input.ModifiedOnBehalfBy != null)
-                this._factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.ModifiedBy, input, input.ModifiedOnBehalfBy);
+            if (!string.IsNullOrEmpty(input.Address2Telephone3))
+                data.Aliases.Add(input.Address2Telephone3);
 
-            if (input.CreatedOnBehalfBy != null)
-                this._factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.CreatedBy, input, input.CreatedOnBehalfBy);
+            if (!string.IsNullOrEmpty(input.Companyname))
+                data.Aliases.Add(input.Companyname);
 
-            if (input.OwningUser != null)
-                this._factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.OwnedBy, input, input.OwningUser);
+            if (!string.IsNullOrEmpty(input.Emailaddress1))
+                data.Aliases.Add(input.Emailaddress1);
 
-            if (input.QualifyingOpportunityId != null)
-                this._factory.CreateOutgoingEntityReference(clue, EntityType.Sales.Opportunity, EntityEdgeType.Parent, input, input.QualifyingOpportunityId);
+            if (!string.IsNullOrEmpty(input.Emailaddress2))
+                data.Aliases.Add(input.Emailaddress2);
 
-            if (input.OwnerId != null)
-                this._factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.OwnedBy, input, input.OwnerId);
+            if (!string.IsNullOrEmpty(input.Emailaddress3))
+                data.Aliases.Add(input.Emailaddress3);
 
-            //if (input.RelatedObjectId != null)
-            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.campaignresponse, EntityEdgeType.Parent, input, input.RelatedObjectId);
+            if (!string.IsNullOrEmpty(input.Leadsourcecode))
+                data.Aliases.Add(input.Leadsourcecode);
 
-            //if (input.CustomerId != null)
-            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.Parent, input, input.CustomerId);
+            if (!string.IsNullOrEmpty(input.Telephone1))
+                data.Aliases.Add(input.Telephone1);
 
-            //if (input.SLAId != null)
-            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.sla, EntityEdgeType.Parent, input, input.SLAId);
+            if (!string.IsNullOrEmpty(input.Telephone2))
+                data.Aliases.Add(input.Telephone2);
 
-            //if (input.SLAInvokedId != null)
-            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.sla, EntityEdgeType.Parent, input, input.SLAInvokedId);
+            if (!string.IsNullOrEmpty(input.Telephone3))
+                data.Aliases.Add(input.Telephone3);
 
-            //if (input.TransactionCurrencyId != null)
-            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.transactioncurrency, EntityEdgeType.Parent, input, input.TransactionCurrencyId);
 
-            //if (input.OriginatingCaseId != null)
-            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.incident, EntityEdgeType.Parent, input, input.OriginatingCaseId);
+            // Edges
 
-            //if (input.EntityImageId != null)
-            //    this._factory.CreateOutgoingEntityReference(clue, EntityType.imagedescriptor, EntityEdgeType.Parent, input, input.EntityImageId);
+            if (input.Accountid != null && !string.IsNullOrEmpty(input.Accountid.ToString()))
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Accountid, input.Accountid.ToString());
+
+            if (input.Campaignid != null && !string.IsNullOrEmpty(input.Campaignid.ToString()))
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Campaignid, input.Campaignid.ToString());
+
+            if (input.Contactid != null && !string.IsNullOrEmpty(input.Contactid.ToString()))
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Contactid, input.Contactid.ToString());
+
+            if (input.Createdby != null && !string.IsNullOrEmpty(input.Createdby.ToString()))
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Createdby, input.Createdby.ToString());
+
+            if (input.Customerid != null && !string.IsNullOrEmpty(input.Customerid.ToString()))
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Customerid, input.Customerid.ToString());
+
+            if (input.Entityimageid != null && !string.IsNullOrEmpty(input.Entityimageid.ToString()))
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Entityimageid, input.Entityimageid.ToString());
+
+            if (input.Leadid != null && !string.IsNullOrEmpty(input.Leadid.ToString()))
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Leadid, input.Leadid.ToString());
+
+            if (input.Masterid != null && !string.IsNullOrEmpty(input.Masterid.ToString()))
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Masterid, input.Masterid.ToString());
+
+            if (input.Modifiedby != null && !string.IsNullOrEmpty(input.Modifiedby.ToString()))
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Modifiedby, input.Modifiedby.ToString());
+
+            if (input.NnTdcid != null && !string.IsNullOrEmpty(input.NnTdcid.ToString()))
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.NnTdcid, input.NnTdcid.ToString());
+
+            if (input.Originatingcaseid != null && !string.IsNullOrEmpty(input.Originatingcaseid.ToString()))
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Originatingcaseid, input.Originatingcaseid.ToString());
+
+            if (input.Parentaccountid != null && !string.IsNullOrEmpty(input.Parentaccountid.ToString()))
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Parentaccountid, input.Parentaccountid.ToString());
+
+            if (input.Parentcontactid != null && !string.IsNullOrEmpty(input.Parentcontactid.ToString()))
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Parentcontactid, input.Parentcontactid.ToString());
+
+            if (input.Processid != null && !string.IsNullOrEmpty(input.Processid.ToString()))
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Processid, input.Processid.ToString());
+
+            if (input.Qualifyingopportunityid != null && !string.IsNullOrEmpty(input.Qualifyingopportunityid.ToString()))
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Qualifyingopportunityid, input.Qualifyingopportunityid.ToString());
+
+            if (input.Relatedobjectid != null && !string.IsNullOrEmpty(input.Relatedobjectid.ToString()))
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Relatedobjectid, input.Relatedobjectid.ToString());
+
+            if (input.Slaid != null && !string.IsNullOrEmpty(input.Slaid.ToString()))
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Slaid, input.Slaid.ToString());
+
+            if (input.Slainvokedid != null && !string.IsNullOrEmpty(input.Slainvokedid.ToString()))
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Slainvokedid, input.Slainvokedid.ToString());
+
+            if (input.Stageid != null && !string.IsNullOrEmpty(input.Stageid.ToString()))
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Stageid, input.Stageid.ToString());
+
+            if (input.Transactioncurrencyid != null && !string.IsNullOrEmpty(input.Transactioncurrencyid.ToString()))
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Transactioncurrencyid, input.Transactioncurrencyid.ToString());
+
+
+            if (!data.OutgoingEdges.Any())
+                _factory.CreateEntityRootReference(clue, EntityEdgeType.PartOf);
+
 
             var vocab = new LeadVocabulary();
 
-            data.Properties[vocab.LeadId] = input.LeadId.PrintIfAvailable();
-            data.Properties[vocab.ContactId] = input.ContactId.PrintIfAvailable();
-            data.Properties[vocab.AccountId] = input.AccountId.PrintIfAvailable();
-            data.Properties[vocab.LeadSourceCode] = input.LeadSourceCode.PrintIfAvailable();
-            data.Properties[vocab.LeadQualityCode] = input.LeadQualityCode.PrintIfAvailable();
-            data.Properties[vocab.PriorityCode] = input.PriorityCode.PrintIfAvailable();
-            data.Properties[vocab.IndustryCode] = input.IndustryCode.PrintIfAvailable();
-            data.Properties[vocab.PreferredContactMethodCode] = input.PreferredContactMethodCode.PrintIfAvailable();
-            data.Properties[vocab.SalesStageCode] = input.SalesStageCode.PrintIfAvailable();
-            data.Properties[vocab.OwningBusinessUnit] = input.OwningBusinessUnit.PrintIfAvailable();
-            data.Properties[vocab.Subject] = input.Subject.PrintIfAvailable();
-            data.Properties[vocab.ParticipatesInWorkflow] = input.ParticipatesInWorkflow.PrintIfAvailable();
+            data.Properties[vocab.Accountid] = input.Accountid.PrintIfAvailable();
+            data.Properties[vocab.Address1Addresstypecode] = input.Address1Addresstypecode.PrintIfAvailable();
+            data.Properties[vocab.Address1City] = input.Address1City.PrintIfAvailable();
+            data.Properties[vocab.Address1Composite] = input.Address1Composite.PrintIfAvailable();
+            data.Properties[vocab.Address1Country] = input.Address1Country.PrintIfAvailable();
+            data.Properties[vocab.Address1County] = input.Address1County.PrintIfAvailable();
+            data.Properties[vocab.Address1Fax] = input.Address1Fax.PrintIfAvailable();
+            data.Properties[vocab.Address1Latitude] = input.Address1Latitude.PrintIfAvailable();
+            data.Properties[vocab.Address1Line1] = input.Address1Line1.PrintIfAvailable();
+            data.Properties[vocab.Address1Line2] = input.Address1Line2.PrintIfAvailable();
+            data.Properties[vocab.Address1Line3] = input.Address1Line3.PrintIfAvailable();
+            data.Properties[vocab.Address1Longitude] = input.Address1Longitude.PrintIfAvailable();
+            data.Properties[vocab.Address1Name] = input.Address1Name.PrintIfAvailable();
+            data.Properties[vocab.Address1Postalcode] = input.Address1Postalcode.PrintIfAvailable();
+            data.Properties[vocab.Address1Postofficebox] = input.Address1Postofficebox.PrintIfAvailable();
+            data.Properties[vocab.Address1Shippingmethodcode] = input.Address1Shippingmethodcode.PrintIfAvailable();
+            data.Properties[vocab.Address1Stateorprovince] = input.Address1Stateorprovince.PrintIfAvailable();
+            data.Properties[vocab.Address1Telephone1] = input.Address1Telephone1.PrintIfAvailable();
+            data.Properties[vocab.Address1Telephone2] = input.Address1Telephone2.PrintIfAvailable();
+            data.Properties[vocab.Address1Telephone3] = input.Address1Telephone3.PrintIfAvailable();
+            data.Properties[vocab.Address1Upszone] = input.Address1Upszone.PrintIfAvailable();
+            data.Properties[vocab.Address2Addresstypecode] = input.Address2Addresstypecode.PrintIfAvailable();
+            data.Properties[vocab.Address2City] = input.Address2City.PrintIfAvailable();
+            data.Properties[vocab.Address2Composite] = input.Address2Composite.PrintIfAvailable();
+            data.Properties[vocab.Address2Country] = input.Address2Country.PrintIfAvailable();
+            data.Properties[vocab.Address2County] = input.Address2County.PrintIfAvailable();
+            data.Properties[vocab.Address2Fax] = input.Address2Fax.PrintIfAvailable();
+            data.Properties[vocab.Address2Latitude] = input.Address2Latitude.PrintIfAvailable();
+            data.Properties[vocab.Address2Line1] = input.Address2Line1.PrintIfAvailable();
+            data.Properties[vocab.Address2Line2] = input.Address2Line2.PrintIfAvailable();
+            data.Properties[vocab.Address2Line3] = input.Address2Line3.PrintIfAvailable();
+            data.Properties[vocab.Address2Longitude] = input.Address2Longitude.PrintIfAvailable();
+            data.Properties[vocab.Address2Name] = input.Address2Name.PrintIfAvailable();
+            data.Properties[vocab.Address2Postalcode] = input.Address2Postalcode.PrintIfAvailable();
+            data.Properties[vocab.Address2Postofficebox] = input.Address2Postofficebox.PrintIfAvailable();
+            data.Properties[vocab.Address2Shippingmethodcode] = input.Address2Shippingmethodcode.PrintIfAvailable();
+            data.Properties[vocab.Address2Stateorprovince] = input.Address2Stateorprovince.PrintIfAvailable();
+            data.Properties[vocab.Address2Telephone1] = input.Address2Telephone1.PrintIfAvailable();
+            data.Properties[vocab.Address2Telephone2] = input.Address2Telephone2.PrintIfAvailable();
+            data.Properties[vocab.Address2Telephone3] = input.Address2Telephone3.PrintIfAvailable();
+            data.Properties[vocab.Address2Upszone] = input.Address2Upszone.PrintIfAvailable();
+            data.Properties[vocab.Budgetamount] = input.Budgetamount.PrintIfAvailable();
+            data.Properties[vocab.BudgetamountBase] = input.BudgetamountBase.PrintIfAvailable();
+            data.Properties[vocab.Budgetstatus] = input.Budgetstatus.PrintIfAvailable();
+            data.Properties[vocab.Campaignid] = input.Campaignid.PrintIfAvailable();
+            data.Properties[vocab.Companyname] = input.Companyname.PrintIfAvailable();
+            data.Properties[vocab.Confirminterest] = input.Confirminterest.PrintIfAvailable();
+            data.Properties[vocab.Contactid] = input.Contactid.PrintIfAvailable();
+            data.Properties[vocab.Createdby] = input.Createdby.PrintIfAvailable();
+            data.Properties[vocab.Createdon] = input.Createdon.PrintIfAvailable();
+            data.Properties[vocab.Customerid] = input.Customerid.PrintIfAvailable();
+            data.Properties[vocab.Customeridtype] = input.Customeridtype.PrintIfAvailable();
+            data.Properties[vocab.Decisionmaker] = input.Decisionmaker.PrintIfAvailable();
             data.Properties[vocab.Description] = input.Description.PrintIfAvailable();
-            data.Properties[vocab.EstimatedValue] = input.EstimatedValue.PrintIfAvailable();
-            data.Properties[vocab.EstimatedCloseDate] = input.EstimatedCloseDate.PrintIfAvailable();
-            data.Properties[vocab.CompanyName] = input.CompanyName.PrintIfAvailable();
-            data.Properties[vocab.FirstName] = input.FirstName.PrintIfAvailable();
-            data.Properties[vocab.MiddleName] = input.MiddleName.PrintIfAvailable();
-            data.Properties[vocab.LastName] = input.LastName.PrintIfAvailable();
+            data.Properties[vocab.Donotbulkemail] = input.Donotbulkemail.PrintIfAvailable();
+            data.Properties[vocab.Donotemail] = input.Donotemail.PrintIfAvailable();
+            data.Properties[vocab.Donotfax] = input.Donotfax.PrintIfAvailable();
+            data.Properties[vocab.Donotphone] = input.Donotphone.PrintIfAvailable();
+            data.Properties[vocab.Donotpostalmail] = input.Donotpostalmail.PrintIfAvailable();
+            data.Properties[vocab.Donotsendmm] = input.Donotsendmm.PrintIfAvailable();
+            data.Properties[vocab.DynaExistingopportunity] = input.DynaExistingopportunity.PrintIfAvailable();
+            data.Properties[vocab.DynaHenvisendekonsulent] = input.DynaHenvisendekonsulent.PrintIfAvailable();
+            data.Properties[vocab.DynaKommentar] = input.DynaKommentar.PrintIfAvailable();
+            data.Properties[vocab.DynaKursus] = input.DynaKursus.PrintIfAvailable();
+            data.Properties[vocab.DynaKursustype] = input.DynaKursustype.PrintIfAvailable();
+            data.Properties[vocab.DynaLastemail] = input.DynaLastemail.PrintIfAvailable();
+            data.Properties[vocab.DynaLastemaildate] = input.DynaLastemaildate.PrintIfAvailable();
+            data.Properties[vocab.DynaLastphonecall] = input.DynaLastphonecall.PrintIfAvailable();
+            data.Properties[vocab.DynaLastphonecalldate] = input.DynaLastphonecalldate.PrintIfAvailable();
+            data.Properties[vocab.DynaLinkedinprofil] = input.DynaLinkedinprofil.PrintIfAvailable();
+            data.Properties[vocab.DynaNextcontact] = input.DynaNextcontact.PrintIfAvailable();
+            data.Properties[vocab.DynaProduktkategori] = input.DynaProduktkategori.PrintIfAvailable();
+            data.Properties[vocab.DynaProduktkategoriInfoOutplacement] = input.DynaProduktkategoriInfoOutplacement.PrintIfAvailable();
+            data.Properties[vocab.Emailaddress1] = input.Emailaddress1.PrintIfAvailable();
+            data.Properties[vocab.Emailaddress2] = input.Emailaddress2.PrintIfAvailable();
+            data.Properties[vocab.Emailaddress3] = input.Emailaddress3.PrintIfAvailable();
+            data.Properties[vocab.Entityimage] = input.Entityimage.PrintIfAvailable();
+            data.Properties[vocab.Entityimageid] = input.Entityimageid.PrintIfAvailable();
+            data.Properties[vocab.Estimatedamount] = input.Estimatedamount.PrintIfAvailable();
+            data.Properties[vocab.EstimatedamountBase] = input.EstimatedamountBase.PrintIfAvailable();
+            data.Properties[vocab.Estimatedclosedate] = input.Estimatedclosedate.PrintIfAvailable();
+            data.Properties[vocab.Estimatedvalue] = input.Estimatedvalue.PrintIfAvailable();
+            data.Properties[vocab.Evaluatefit] = input.Evaluatefit.PrintIfAvailable();
+            data.Properties[vocab.Exchangerate] = input.Exchangerate.PrintIfAvailable();
+            data.Properties[vocab.Fax] = input.Fax.PrintIfAvailable();
+            data.Properties[vocab.Firstname] = input.Firstname.PrintIfAvailable();
+            data.Properties[vocab.Followemail] = input.Followemail.PrintIfAvailable();
+            data.Properties[vocab.Fullname] = input.Fullname.PrintIfAvailable();
+            data.Properties[vocab.Industrycode] = input.Industrycode.PrintIfAvailable();
+            data.Properties[vocab.Initialcommunication] = input.Initialcommunication.PrintIfAvailable();
+            data.Properties[vocab.Isautocreate] = input.Isautocreate.PrintIfAvailable();
+            data.Properties[vocab.Isprivate] = input.Isprivate.PrintIfAvailable();
+            data.Properties[vocab.Jobtitle] = input.Jobtitle.PrintIfAvailable();
+            data.Properties[vocab.Lastname] = input.Lastname.PrintIfAvailable();
+            data.Properties[vocab.Lastonholdtime] = input.Lastonholdtime.PrintIfAvailable();
+            data.Properties[vocab.Lastusedincampaign] = input.Lastusedincampaign.PrintIfAvailable();
+            data.Properties[vocab.Leadid] = input.Leadid.PrintIfAvailable();
+            data.Properties[vocab.Leadqualitycode] = input.Leadqualitycode.PrintIfAvailable();
+            data.Properties[vocab.Leadsourcecode] = input.Leadsourcecode.PrintIfAvailable();
+            data.Properties[vocab.Masterid] = input.Masterid.PrintIfAvailable();
+            data.Properties[vocab.Merged] = input.Merged.PrintIfAvailable();
+            data.Properties[vocab.Middlename] = input.Middlename.PrintIfAvailable();
+            data.Properties[vocab.Mobilephone] = input.Mobilephone.PrintIfAvailable();
+            data.Properties[vocab.Modifiedby] = input.Modifiedby.PrintIfAvailable();
+            data.Properties[vocab.Modifiedon] = input.Modifiedon.PrintIfAvailable();
+            data.Properties[vocab.MsdynGdproptout] = input.MsdynGdproptout.PrintIfAvailable();
+            data.Properties[vocab.Need] = input.Need.PrintIfAvailable();
+            data.Properties[vocab.NnLastupdated] = input.NnLastupdated.PrintIfAvailable();
+            data.Properties[vocab.NnLinks] = input.NnLinks.PrintIfAvailable();
+            data.Properties[vocab.NnTdcid] = input.NnTdcid.PrintIfAvailable();
+            data.Properties[vocab.NnUpdateprotected] = input.NnUpdateprotected.PrintIfAvailable();
+            data.Properties[vocab.Numberofemployees] = input.Numberofemployees.PrintIfAvailable();
+            data.Properties[vocab.Onholdtime] = input.Onholdtime.PrintIfAvailable();
+            data.Properties[vocab.Originatingcaseid] = input.Originatingcaseid.PrintIfAvailable();
+            data.Properties[vocab.Pager] = input.Pager.PrintIfAvailable();
+            data.Properties[vocab.Parentaccountid] = input.Parentaccountid.PrintIfAvailable();
+            data.Properties[vocab.Parentcontactid] = input.Parentcontactid.PrintIfAvailable();
+            data.Properties[vocab.Participatesinworkflow] = input.Participatesinworkflow.PrintIfAvailable();
+            data.Properties[vocab.Preferredcontactmethodcode] = input.Preferredcontactmethodcode.PrintIfAvailable();
+            data.Properties[vocab.Prioritycode] = input.Prioritycode.PrintIfAvailable();
+            data.Properties[vocab.Processid] = input.Processid.PrintIfAvailable();
+            data.Properties[vocab.Purchaseprocess] = input.Purchaseprocess.PrintIfAvailable();
+            data.Properties[vocab.Purchasetimeframe] = input.Purchasetimeframe.PrintIfAvailable();
+            data.Properties[vocab.Qualificationcomments] = input.Qualificationcomments.PrintIfAvailable();
+            data.Properties[vocab.Qualifyingopportunityid] = input.Qualifyingopportunityid.PrintIfAvailable();
+            data.Properties[vocab.Relatedobjectid] = input.Relatedobjectid.PrintIfAvailable();
             data.Properties[vocab.Revenue] = input.Revenue.PrintIfAvailable();
-            data.Properties[vocab.NumberOfEmployees] = input.NumberOfEmployees.PrintIfAvailable();
-            data.Properties[vocab.DoNotPhone] = input.DoNotPhone.PrintIfAvailable();
-            data.Properties[vocab.SIC] = input.SIC.PrintIfAvailable();
-            data.Properties[vocab.DoNotFax] = input.DoNotFax.PrintIfAvailable();
-            data.Properties[vocab.EMailAddress1] = input.EMailAddress1.PrintIfAvailable();
-            data.Properties[vocab.JobTitle] = input.JobTitle.PrintIfAvailable();
+            data.Properties[vocab.RevenueBase] = input.RevenueBase.PrintIfAvailable();
+            data.Properties[vocab.Salesstage] = input.Salesstage.PrintIfAvailable();
+            data.Properties[vocab.Salesstagecode] = input.Salesstagecode.PrintIfAvailable();
             data.Properties[vocab.Salutation] = input.Salutation.PrintIfAvailable();
-            data.Properties[vocab.DoNotEMail] = input.DoNotEMail.PrintIfAvailable();
-            data.Properties[vocab.EMailAddress2] = input.EMailAddress2.PrintIfAvailable();
-            data.Properties[vocab.DoNotPostalMail] = input.DoNotPostalMail.PrintIfAvailable();
-            data.Properties[vocab.EMailAddress3] = input.EMailAddress3.PrintIfAvailable();
-            data.Properties[vocab.FullName] = input.FullName.PrintIfAvailable();
-            data.Properties[vocab.YomiFirstName] = input.YomiFirstName.PrintIfAvailable();
-            data.Properties[vocab.WebSiteUrl] = input.WebSiteUrl.PrintIfAvailable();
+            data.Properties[vocab.SchedulefollowupProspect] = input.SchedulefollowupProspect.PrintIfAvailable();
+            data.Properties[vocab.SchedulefollowupQualify] = input.SchedulefollowupQualify.PrintIfAvailable();
+            data.Properties[vocab.Sic] = input.Sic.PrintIfAvailable();
+            data.Properties[vocab.Slaid] = input.Slaid.PrintIfAvailable();
+            data.Properties[vocab.Slainvokedid] = input.Slainvokedid.PrintIfAvailable();
+            data.Properties[vocab.Stageid] = input.Stageid.PrintIfAvailable();
+            data.Properties[vocab.Statecode] = input.Statecode.PrintIfAvailable();
+            data.Properties[vocab.Statuscode] = input.Statuscode.PrintIfAvailable();
+            data.Properties[vocab.Subject] = input.Subject.PrintIfAvailable();
             data.Properties[vocab.Telephone1] = input.Telephone1.PrintIfAvailable();
             data.Properties[vocab.Telephone2] = input.Telephone2.PrintIfAvailable();
             data.Properties[vocab.Telephone3] = input.Telephone3.PrintIfAvailable();
-            data.Properties[vocab.CreatedOn] = input.CreatedOn.PrintIfAvailable();
-            data.Properties[vocab.IsPrivate] = input.IsPrivate.PrintIfAvailable();
-            data.Properties[vocab.Fax] = input.Fax.PrintIfAvailable();
-            data.Properties[vocab.YomiMiddleName] = input.YomiMiddleName.PrintIfAvailable();
-            data.Properties[vocab.YomiLastName] = input.YomiLastName.PrintIfAvailable();
-            data.Properties[vocab.CreatedBy] = input.CreatedBy.PrintIfAvailable();
-            data.Properties[vocab.ModifiedOn] = input.ModifiedOn.PrintIfAvailable();
-            data.Properties[vocab.ModifiedBy] = input.ModifiedBy.PrintIfAvailable();
-            data.Properties[vocab.YomiFullName] = input.YomiFullName.PrintIfAvailable();
-            data.Properties[vocab.OwningUser] = input.OwningUser.PrintIfAvailable();
-            data.Properties[vocab.MobilePhone] = input.MobilePhone.PrintIfAvailable();
-            data.Properties[vocab.StateCode] = input.StateCode.PrintIfAvailable();
-            data.Properties[vocab.Pager] = input.Pager.PrintIfAvailable();
-            data.Properties[vocab.StatusCode] = input.StatusCode.PrintIfAvailable();
-            data.Properties[vocab.VersionNumber] = input.VersionNumber.PrintIfAvailable();
-            data.Properties[vocab.ContactIdName] = input.ContactIdName.PrintIfAvailable();
-            data.Properties[vocab.AccountIdName] = input.AccountIdName.PrintIfAvailable();
-            data.Properties[vocab.Address1_AddressId] = input.Address1_AddressId.PrintIfAvailable();
-            data.Properties[vocab.Address1_AddressTypeCode] = input.Address1_AddressTypeCode.PrintIfAvailable();
-            data.Properties[vocab.Address1_Name] = input.Address1_Name.PrintIfAvailable();
-            data.Properties[vocab.Address1_Line1] = input.Address1_Line1.PrintIfAvailable();
-            data.Properties[vocab.Address1_Line2] = input.Address1_Line2.PrintIfAvailable();
-            data.Properties[vocab.Address1_Line3] = input.Address1_Line3.PrintIfAvailable();
-            data.Properties[vocab.Address1_City] = input.Address1_City.PrintIfAvailable();
-            data.Properties[vocab.Address1_StateOrProvince] = input.Address1_StateOrProvince.PrintIfAvailable();
-            data.Properties[vocab.Address1_County] = input.Address1_County.PrintIfAvailable();
-            data.Properties[vocab.Address1_Country] = input.Address1_Country.PrintIfAvailable();
-            data.Properties[vocab.Address1_PostOfficeBox] = input.Address1_PostOfficeBox.PrintIfAvailable();
-            data.Properties[vocab.Address1_PostalCode] = input.Address1_PostalCode.PrintIfAvailable();
-            data.Properties[vocab.Address1_UTCOffset] = input.Address1_UTCOffset.PrintIfAvailable();
-            data.Properties[vocab.Address1_UPSZone] = input.Address1_UPSZone.PrintIfAvailable();
-            data.Properties[vocab.Address1_Latitude] = input.Address1_Latitude.PrintIfAvailable();
-            data.Properties[vocab.Address1_Telephone1] = input.Address1_Telephone1.PrintIfAvailable();
-            data.Properties[vocab.Address1_Longitude] = input.Address1_Longitude.PrintIfAvailable();
-            data.Properties[vocab.Address1_ShippingMethodCode] = input.Address1_ShippingMethodCode.PrintIfAvailable();
-            data.Properties[vocab.Address1_Telephone2] = input.Address1_Telephone2.PrintIfAvailable();
-            data.Properties[vocab.Address1_Telephone3] = input.Address1_Telephone3.PrintIfAvailable();
-            data.Properties[vocab.Address1_Fax] = input.Address1_Fax.PrintIfAvailable();
-            data.Properties[vocab.Address2_AddressId] = input.Address2_AddressId.PrintIfAvailable();
-            data.Properties[vocab.Address2_AddressTypeCode] = input.Address2_AddressTypeCode.PrintIfAvailable();
-            data.Properties[vocab.Address2_Name] = input.Address2_Name.PrintIfAvailable();
-            data.Properties[vocab.Address2_Line1] = input.Address2_Line1.PrintIfAvailable();
-            data.Properties[vocab.Address2_Line2] = input.Address2_Line2.PrintIfAvailable();
-            data.Properties[vocab.Address2_Line3] = input.Address2_Line3.PrintIfAvailable();
-            data.Properties[vocab.Address2_City] = input.Address2_City.PrintIfAvailable();
-            data.Properties[vocab.Address2_StateOrProvince] = input.Address2_StateOrProvince.PrintIfAvailable();
-            data.Properties[vocab.Address2_County] = input.Address2_County.PrintIfAvailable();
-            data.Properties[vocab.Address2_Country] = input.Address2_Country.PrintIfAvailable();
-            data.Properties[vocab.Address2_PostOfficeBox] = input.Address2_PostOfficeBox.PrintIfAvailable();
-            data.Properties[vocab.Address2_PostalCode] = input.Address2_PostalCode.PrintIfAvailable();
-            data.Properties[vocab.Address2_UTCOffset] = input.Address2_UTCOffset.PrintIfAvailable();
-            data.Properties[vocab.Address2_UPSZone] = input.Address2_UPSZone.PrintIfAvailable();
-            data.Properties[vocab.Address2_Latitude] = input.Address2_Latitude.PrintIfAvailable();
-            data.Properties[vocab.Address2_Telephone1] = input.Address2_Telephone1.PrintIfAvailable();
-            data.Properties[vocab.Address2_Longitude] = input.Address2_Longitude.PrintIfAvailable();
-            data.Properties[vocab.Address2_ShippingMethodCode] = input.Address2_ShippingMethodCode.PrintIfAvailable();
-            data.Properties[vocab.Address2_Telephone2] = input.Address2_Telephone2.PrintIfAvailable();
-            data.Properties[vocab.Address2_Telephone3] = input.Address2_Telephone3.PrintIfAvailable();
-            data.Properties[vocab.Address2_Fax] = input.Address2_Fax.PrintIfAvailable();
-            data.Properties[vocab.CreatedByName] = input.CreatedByName.PrintIfAvailable();
-            data.Properties[vocab.ModifiedByName] = input.ModifiedByName.PrintIfAvailable();
-            data.Properties[vocab.CustomerId] = input.CustomerId.PrintIfAvailable();
-            data.Properties[vocab.CustomerIdName] = input.CustomerIdName.PrintIfAvailable();
-            data.Properties[vocab.CustomerIdType] = input.CustomerIdType.PrintIfAvailable();
-            data.Properties[vocab.OwnerId] = input.OwnerId.PrintIfAvailable();
-            data.Properties[vocab.OwnerIdName] = input.OwnerIdName.PrintIfAvailable();
-            data.Properties[vocab.OwnerIdType] = input.OwnerIdType.PrintIfAvailable();
-            data.Properties[vocab.IsPrivateName] = input.IsPrivateName.PrintIfAvailable();
-            data.Properties[vocab.DoNotPostalMailName] = input.DoNotPostalMailName.PrintIfAvailable();
-            data.Properties[vocab.DoNotFaxName] = input.DoNotFaxName.PrintIfAvailable();
-            data.Properties[vocab.DoNotEMailName] = input.DoNotEMailName.PrintIfAvailable();
-            data.Properties[vocab.DoNotPhoneName] = input.DoNotPhoneName.PrintIfAvailable();
-            data.Properties[vocab.ParticipatesInWorkflowName] = input.ParticipatesInWorkflowName.PrintIfAvailable();
-            data.Properties[vocab.StateCodeName] = input.StateCodeName.PrintIfAvailable();
-            data.Properties[vocab.LeadSourceCodeName] = input.LeadSourceCodeName.PrintIfAvailable();
-            data.Properties[vocab.SalesStageCodeName] = input.SalesStageCodeName.PrintIfAvailable();
-            data.Properties[vocab.PriorityCodeName] = input.PriorityCodeName.PrintIfAvailable();
-            data.Properties[vocab.Address2_AddressTypeCodeName] = input.Address2_AddressTypeCodeName.PrintIfAvailable();
-            data.Properties[vocab.StatusCodeName] = input.StatusCodeName.PrintIfAvailable();
-            data.Properties[vocab.Address1_ShippingMethodCodeName] = input.Address1_ShippingMethodCodeName.PrintIfAvailable();
-            data.Properties[vocab.LeadQualityCodeName] = input.LeadQualityCodeName.PrintIfAvailable();
-            data.Properties[vocab.IndustryCodeName] = input.IndustryCodeName.PrintIfAvailable();
-            data.Properties[vocab.Address1_AddressTypeCodeName] = input.Address1_AddressTypeCodeName.PrintIfAvailable();
-            data.Properties[vocab.Address2_ShippingMethodCodeName] = input.Address2_ShippingMethodCodeName.PrintIfAvailable();
-            data.Properties[vocab.PreferredContactMethodCodeName] = input.PreferredContactMethodCodeName.PrintIfAvailable();
-            data.Properties[vocab.MasterId] = input.MasterId.PrintIfAvailable();
-            data.Properties[vocab.CampaignId] = input.CampaignId.PrintIfAvailable();
-            data.Properties[vocab.DoNotSendMM] = input.DoNotSendMM.PrintIfAvailable();
-            data.Properties[vocab.Merged] = input.Merged.PrintIfAvailable();
-            data.Properties[vocab.DoNotBulkEMail] = input.DoNotBulkEMail.PrintIfAvailable();
-            data.Properties[vocab.LastUsedInCampaign] = input.LastUsedInCampaign.PrintIfAvailable();
-            data.Properties[vocab.CampaignIdName] = input.CampaignIdName.PrintIfAvailable();
-            data.Properties[vocab.DoNotBulkEMailName] = input.DoNotBulkEMailName.PrintIfAvailable();
-            data.Properties[vocab.MasterLeadIdName] = input.MasterLeadIdName.PrintIfAvailable();
-            data.Properties[vocab.MergedName] = input.MergedName.PrintIfAvailable();
-            data.Properties[vocab.DoNotSendMarketingMaterialName] = input.DoNotSendMarketingMaterialName.PrintIfAvailable();
-            data.Properties[vocab.TransactionCurrencyId] = input.TransactionCurrencyId.PrintIfAvailable();
-            data.Properties[vocab.TimeZoneRuleVersionNumber] = input.TimeZoneRuleVersionNumber.PrintIfAvailable();
-            data.Properties[vocab.UTCConversionTimeZoneCode] = input.UTCConversionTimeZoneCode.PrintIfAvailable();
-            data.Properties[vocab.ImportSequenceNumber] = input.ImportSequenceNumber.PrintIfAvailable();
-            data.Properties[vocab.OverriddenCreatedOn] = input.OverriddenCreatedOn.PrintIfAvailable();
-            data.Properties[vocab.ExchangeRate] = input.ExchangeRate.PrintIfAvailable();
-            data.Properties[vocab.EstimatedAmount] = input.EstimatedAmount.PrintIfAvailable();
-            data.Properties[vocab.TransactionCurrencyIdName] = input.TransactionCurrencyIdName.PrintIfAvailable();
-            data.Properties[vocab.EstimatedAmount_Base] = input.EstimatedAmount_Base.PrintIfAvailable();
-            data.Properties[vocab.Revenue_Base] = input.Revenue_Base.PrintIfAvailable();
-            data.Properties[vocab.YomiCompanyName] = input.YomiCompanyName.PrintIfAvailable();
-            data.Properties[vocab.AccountIdYomiName] = input.AccountIdYomiName.PrintIfAvailable();
-            data.Properties[vocab.ContactIdYomiName] = input.ContactIdYomiName.PrintIfAvailable();
-            data.Properties[vocab.CreatedByYomiName] = input.CreatedByYomiName.PrintIfAvailable();
-            data.Properties[vocab.ModifiedByYomiName] = input.ModifiedByYomiName.PrintIfAvailable();
-            data.Properties[vocab.MasterLeadIdYomiName] = input.MasterLeadIdYomiName.PrintIfAvailable();
-            data.Properties[vocab.OwnerIdYomiName] = input.OwnerIdYomiName.PrintIfAvailable();
-            data.Properties[vocab.CustomerIdYomiName] = input.CustomerIdYomiName.PrintIfAvailable();
-            data.Properties[vocab.CreatedOnBehalfBy] = input.CreatedOnBehalfBy.PrintIfAvailable();
-            data.Properties[vocab.CreatedOnBehalfByName] = input.CreatedOnBehalfByName.PrintIfAvailable();
-            data.Properties[vocab.CreatedOnBehalfByYomiName] = input.CreatedOnBehalfByYomiName.PrintIfAvailable();
-            data.Properties[vocab.ModifiedOnBehalfBy] = input.ModifiedOnBehalfBy.PrintIfAvailable();
-            data.Properties[vocab.ModifiedOnBehalfByName] = input.ModifiedOnBehalfByName.PrintIfAvailable();
-            data.Properties[vocab.ModifiedOnBehalfByYomiName] = input.ModifiedOnBehalfByYomiName.PrintIfAvailable();
-            data.Properties[vocab.OwningTeam] = input.OwningTeam.PrintIfAvailable();
-            data.Properties[vocab.IsAutoCreate] = input.IsAutoCreate.PrintIfAvailable();
-            data.Properties[vocab.ParentAccountId] = input.ParentAccountId.PrintIfAvailable();
-            data.Properties[vocab.ParentContactId] = input.ParentContactId.PrintIfAvailable();
-            data.Properties[vocab.ParentAccountIdName] = input.ParentAccountIdName.PrintIfAvailable();
-            data.Properties[vocab.ParentAccountIdYomiName] = input.ParentAccountIdYomiName.PrintIfAvailable();
-            data.Properties[vocab.ParentContactIdName] = input.ParentContactIdName.PrintIfAvailable();
-            data.Properties[vocab.ParentContactIdYomiName] = input.ParentContactIdYomiName.PrintIfAvailable();
-            data.Properties[vocab.RelatedObjectId] = input.RelatedObjectId.PrintIfAvailable();
-            data.Properties[vocab.BudgetAmount] = input.BudgetAmount.PrintIfAvailable();
-            data.Properties[vocab.BudgetAmount_Base] = input.BudgetAmount_Base.PrintIfAvailable();
-            data.Properties[vocab.BudgetStatus] = input.BudgetStatus.PrintIfAvailable();
-            data.Properties[vocab.BudgetStatusName] = input.BudgetStatusName.PrintIfAvailable();
-            data.Properties[vocab.DecisionMaker] = input.DecisionMaker.PrintIfAvailable();
-            data.Properties[vocab.DecisionMakerName] = input.DecisionMakerName.PrintIfAvailable();
-            data.Properties[vocab.Need] = input.Need.PrintIfAvailable();
-            data.Properties[vocab.NeedName] = input.NeedName.PrintIfAvailable();
-            data.Properties[vocab.PurchaseTimeFrame] = input.PurchaseTimeFrame.PrintIfAvailable();
-            data.Properties[vocab.PurchaseTimeFrameName] = input.PurchaseTimeFrameName.PrintIfAvailable();
-            data.Properties[vocab.TraversedPath] = input.TraversedPath.PrintIfAvailable();
-            data.Properties[vocab.EvaluateFit] = input.EvaluateFit.PrintIfAvailable();
-            data.Properties[vocab.EvaluateFitName] = input.EvaluateFitName.PrintIfAvailable();
-            data.Properties[vocab.InitialCommunication] = input.InitialCommunication.PrintIfAvailable();
-            data.Properties[vocab.InitialCommunicationName] = input.InitialCommunicationName.PrintIfAvailable();
-            data.Properties[vocab.ConfirmInterest] = input.ConfirmInterest.PrintIfAvailable();
-            data.Properties[vocab.ConfirmInterestName] = input.ConfirmInterestName.PrintIfAvailable();
-            data.Properties[vocab.PurchaseProcess] = input.PurchaseProcess.PrintIfAvailable();
-            data.Properties[vocab.PurchaseProcessName] = input.PurchaseProcessName.PrintIfAvailable();
-            data.Properties[vocab.SalesStage] = input.SalesStage.PrintIfAvailable();
-            data.Properties[vocab.SalesStageName] = input.SalesStageName.PrintIfAvailable();
-            data.Properties[vocab.ScheduleFollowUp_Prospect] = input.ScheduleFollowUp_Prospect.PrintIfAvailable();
-            data.Properties[vocab.ScheduleFollowUp_Qualify] = input.ScheduleFollowUp_Qualify.PrintIfAvailable();
-            data.Properties[vocab.QualificationComments] = input.QualificationComments.PrintIfAvailable();
-            data.Properties[vocab.QualifyingOpportunityId] = input.QualifyingOpportunityId.PrintIfAvailable();
-            data.Properties[vocab.QualifyingOpportunityIdName] = input.QualifyingOpportunityIdName.PrintIfAvailable();
-            data.Properties[vocab.EntityImage] = input.EntityImage.PrintIfAvailable();
-            data.Properties[vocab.StageId] = input.StageId.PrintIfAvailable();
-            data.Properties[vocab.ProcessId] = input.ProcessId.PrintIfAvailable();
-            data.Properties[vocab.Address2_Composite] = input.Address2_Composite.PrintIfAvailable();
-            data.Properties[vocab.Address1_Composite] = input.Address1_Composite.PrintIfAvailable();
-            data.Properties[vocab.EntityImage_URL] = input.EntityImage_URL.PrintIfAvailable();
-            data.Properties[vocab.EntityImageId] = input.EntityImageId.PrintIfAvailable();
-            data.Properties[vocab.EntityImage_Timestamp] = input.EntityImage_Timestamp.PrintIfAvailable();
-            data.Properties[vocab.OriginatingCaseId] = input.OriginatingCaseId.PrintIfAvailable();
-            data.Properties[vocab.OriginatingCaseIdName] = input.OriginatingCaseIdName.PrintIfAvailable();
-            data.Properties[vocab.RelatedObjectIdName] = input.RelatedObjectIdName.PrintIfAvailable();
-            data.Properties[vocab.SLAId] = input.SLAId.PrintIfAvailable();
-            data.Properties[vocab.SLAName] = input.SLAName.PrintIfAvailable();
-            data.Properties[vocab.SLAInvokedId] = input.SLAInvokedId.PrintIfAvailable();
-            data.Properties[vocab.OnHoldTime] = input.OnHoldTime.PrintIfAvailable();
-            data.Properties[vocab.LastOnHoldTime] = input.LastOnHoldTime.PrintIfAvailable();
-            data.Properties[vocab.SLAInvokedIdName] = input.SLAInvokedIdName.PrintIfAvailable();
-            data.Properties[vocab.FollowEmail] = input.FollowEmail.PrintIfAvailable();
-            data.Properties[vocab.FollowEmailName] = input.FollowEmailName.PrintIfAvailable();
-            data.Properties[vocab.TimeSpentByMeOnEmailAndMeetings] = input.TimeSpentByMeOnEmailAndMeetings.PrintIfAvailable();
-            data.Properties[vocab.isautocreateName] = input.isautocreateName.PrintIfAvailable();
-            data.Properties[vocab.TeamsFollowed] = input.TeamsFollowed.PrintIfAvailable();
-            data.Properties[vocab.BusinessCard] = input.BusinessCard.PrintIfAvailable();
-            data.Properties[vocab.BusinessCardAttributes] = input.BusinessCardAttributes.PrintIfAvailable();
+            data.Properties[vocab.Timespentbymeonemailandmeetings] = input.Timespentbymeonemailandmeetings.PrintIfAvailable();
+            data.Properties[vocab.Transactioncurrencyid] = input.Transactioncurrencyid.PrintIfAvailable();
+            data.Properties[vocab.Traversedpath] = input.Traversedpath.PrintIfAvailable();
+            data.Properties[vocab.Websiteurl] = input.Websiteurl.PrintIfAvailable();
+
+            clue.ValidationRuleSuppressions.AddRange(new[]
+                                        {
+                                RuleConstants.METADATA_001_Name_MustBeSet,
+                                RuleConstants.PROPERTIES_001_MustExist,
+                                RuleConstants.METADATA_002_Uri_MustBeSet,
+                                RuleConstants.METADATA_003_Author_Name_MustBeSet,
+                                RuleConstants.METADATA_005_PreviewImage_RawData_MustBeSet
+                            });
+
+            return clue;
         }
     }
 }
+
 
