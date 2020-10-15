@@ -11,35 +11,27 @@ namespace CluedIn.Crawling.Dynamics365.Core.Models
 
         public ContactLead(IDataReader reader) : base(reader)
         {
+            ContactId = GetValue<Guid>("ContactId");
+            ContactLeadId = GetValue<Guid>("ContactLeadId");
+            ImportSequenceNumber = GetValue<int>("ImportSequenceNumber");
+            LeadId = GetValue<Guid>("LeadId");
+            Name = GetStringValue("Name");
+            OverriddenCreatedOn = GetValue<DateTimeOffset>("OverriddenCreatedOn");
+            TimezoneRuleVersionNumber = GetValue<int>("TimezoneRuleVersionNumber");
+            UtcConversionTimezoneCode = GetValue<int>("UtcConversionTimezoneCode");
+            VersionNumber = GetValue<long>("VersionNumber");
 
             AddCustomMappings();
         }
 
-        [JsonProperty("contactid")]
         public Guid? ContactId { get; set; }
-
-        [JsonProperty("contactleadid")]
         public Guid? ContactLeadId { get; set; }
-
-        [JsonProperty("importsequencenumber")]
         public int ImportSequenceNumber { get; set; }
-
-        [JsonProperty("leadid")]
         public Guid? LeadId { get; set; }
-
-        [JsonProperty("name")]
         public string Name { get; set; }
-
-        [JsonProperty("overriddencreatedon")]
         public DateTimeOffset? OverriddenCreatedOn { get; set; }
-
-        [JsonProperty("timezoneruleversionnumber")]
         public int TimezoneRuleVersionNumber { get; set; }
-
-        [JsonProperty("utcconversiontimezonecode")]
         public int UtcConversionTimezoneCode { get; set; }
-
-        [JsonProperty("versionnumber")]
         public long VersionNumber { get; set; }
 
     }

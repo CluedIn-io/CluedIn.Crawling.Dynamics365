@@ -7,7 +7,6 @@ namespace CluedIn.Crawling.Dynamics365.Core.Models
 {
     public class Account : DynamicsModel
     {
-
         public Account() { }
 
         public Account(IDataReader reader) : base(reader)

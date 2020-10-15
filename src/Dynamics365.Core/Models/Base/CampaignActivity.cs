@@ -11,343 +11,232 @@ namespace CluedIn.Crawling.Dynamics365.Core.Models
 
         public CampaignActivity(IDataReader reader) : base(reader)
         {
+            PriorityCode = GetStringValue("PriorityCode");
+            IgnoreInactiveListMembers = GetValue<bool>("IgnoreInactiveListMembers");
+            ModifiedOn = GetValue<DateTimeOffset>("ModifiedOn");
+            ActualCost = GetStringValue("ActualCost");
+            ActualEnd = GetValue<DateTimeOffset>("ActualEnd");
+            ChannelTypeCode = GetStringValue("ChannelTypeCode");
+            IsWorkflowCreated = GetValue<bool>("IsWorkflowCreated");
+            ActualStart = GetValue<DateTimeOffset>("ActualStart");
+            StatusCode = GetStringValue("StatusCode");
+            OwningBusinessUnit = GetStringValue("OwningBusinessUnit");
+            BudgetedCost = GetStringValue("BudgetedCost");
+            TypeCode = GetStringValue("TypeCode");
+            ServiceId = GetStringValue("ServiceId");
+            VersionNumber = GetValue<long>("VersionNumber");
+            RegardingObjectId = GetStringValue("RegardingObjectId");
+            Description = GetStringValue("Description");
+            CreatedOn = GetValue<DateTimeOffset>("CreatedOn");
+            ScheduledEnd = GetValue<DateTimeOffset>("ScheduledEnd");
+            Partners = GetStringValue("Partners");
+            ScheduledDurationMinutes = GetValue<long>("ScheduledDurationMinutes");
+            ActivityId = GetValue<Guid>("ActivityId");
+            Subject = GetStringValue("Subject");
+            ActualDurationMinutes = GetValue<long>("ActualDurationMinutes");
+            OwnerId = GetStringValue("OwnerId");
+            ExcludeIfContactedInXDays = GetValue<long>("ExcludeIfContactedInXDays");
+            StateCode = GetStringValue("StateCode");
+            ModifiedBy = GetStringValue("ModifiedBy");
+            Category = GetStringValue("Category");
+            DoNotSendOnOptOut = GetValue<bool>("DoNotSendOnOptOut");
+            Subcategory = GetStringValue("Subcategory");
+            CreatedBy = GetStringValue("CreatedBy");
+            IsBilled = GetValue<bool>("IsBilled");
+            ScheduledStart = GetValue<DateTimeOffset>("ScheduledStart");
+            from = GetStringValue("from");
+            OwningUser = GetStringValue("OwningUser");
+            ChannelTypeCodeName = GetStringValue("ChannelTypeCodeName");
+            StatusCodeName = GetStringValue("StatusCodeName");
+            OwnerIdType = GetStringValue("OwnerIdType");
+            PriorityCodeName = GetStringValue("PriorityCodeName");
+            StateCodeName = GetStringValue("StateCodeName");
+            RegardingObjectTypeCode = GetStringValue("RegardingObjectTypeCode");
+            IsBilledName = GetStringValue("IsBilledName");
+            CreatedByName = GetStringValue("CreatedByName");
+            CheckForDoNotSendMMOnListMembersName = GetStringValue("CheckForDoNotSendMMOnListMembersName");
+            ModifiedByName = GetStringValue("ModifiedByName");
+            IsWorkflowCreatedName = GetStringValue("IsWorkflowCreatedName");
+            RegardingObjectIdName = GetStringValue("RegardingObjectIdName");
+            IgnoreInactiveListMembersName = GetStringValue("IgnoreInactiveListMembersName");
+            TypeCodeName = GetStringValue("TypeCodeName");
+            OwnerIdName = GetStringValue("OwnerIdName");
+            ImportSequenceNumber = GetValue<long>("ImportSequenceNumber");
+            ExchangeRate = GetValue<decimal>("ExchangeRate");
+            TimeZoneRuleVersionNumber = GetValue<long>("TimeZoneRuleVersionNumber");
+            OverriddenCreatedOn = GetValue<DateTimeOffset>("OverriddenCreatedOn");
+            TransactionCurrencyId = GetStringValue("TransactionCurrencyId");
+            UTCConversionTimeZoneCode = GetValue<long>("UTCConversionTimeZoneCode");
+            BudgetedCost_Base = GetStringValue("BudgetedCost_Base");
+            ActualCost_Base = GetStringValue("ActualCost_Base");
+            TransactionCurrencyIdName = GetStringValue("TransactionCurrencyIdName");
+            CreatedByYomiName = GetStringValue("CreatedByYomiName");
+            OwnerIdYomiName = GetStringValue("OwnerIdYomiName");
+            ModifiedByYomiName = GetStringValue("ModifiedByYomiName");
+            RegardingObjectIdYomiName = GetStringValue("RegardingObjectIdYomiName");
+            CreatedOnBehalfBy = GetStringValue("CreatedOnBehalfBy");
+            CreatedOnBehalfByName = GetStringValue("CreatedOnBehalfByName");
+            CreatedOnBehalfByYomiName = GetStringValue("CreatedOnBehalfByYomiName");
+            ModifiedOnBehalfBy = GetStringValue("ModifiedOnBehalfBy");
+            ModifiedOnBehalfByName = GetStringValue("ModifiedOnBehalfByName");
+            ModifiedOnBehalfByYomiName = GetStringValue("ModifiedOnBehalfByYomiName");
+            ActivityTypeCode = GetStringValue("ActivityTypeCode");
+            ActivityTypeCodeName = GetStringValue("ActivityTypeCodeName");
+            IsRegularActivity = GetValue<bool>("IsRegularActivity");
+            IsRegularActivityName = GetStringValue("IsRegularActivityName");
+            OwningTeam = GetStringValue("OwningTeam");
+            ProcessId = GetValue<Guid>("ProcessId");
+            StageId = GetValue<Guid>("StageId");
+            TraversedPath = GetStringValue("TraversedPath");
+            LeftVoiceMail = GetValue<bool>("LeftVoiceMail");
+            IsMapiPrivate = GetValue<bool>("IsMapiPrivate");
+            DeliveryLastAttemptedOn = GetValue<DateTimeOffset>("DeliveryLastAttemptedOn");
+            LastOnHoldTime = GetValue<DateTimeOffset>("LastOnHoldTime");
+            PostponeActivityProcessingUntil = GetValue<DateTimeOffset>("PostponeActivityProcessingUntil");
+            SentOn = GetValue<DateTimeOffset>("SentOn");
+            SortDate = GetValue<DateTimeOffset>("SortDate");
+            OnHoldTime = GetValue<long>("OnHoldTime");
+            ActivityAdditionalParams = GetStringValue("ActivityAdditionalParams");
+            ExchangeWebLink = GetStringValue("ExchangeWebLink");
+            ExchangeItemId = GetStringValue("ExchangeItemId");
+            SeriesId = GetValue<Guid>("SeriesId");
+            DeliveryPriorityCode = GetStringValue("DeliveryPriorityCode");
+            InstanceTypeCode = GetStringValue("InstanceTypeCode");
+            Community = GetStringValue("Community");
+            SLAId = GetStringValue("SLAId");
+            SLAInvokedId = GetStringValue("SLAInvokedId");
+            SenderMailboxId = GetStringValue("SenderMailboxId");
+            SLAName = GetStringValue("SLAName");
+            SenderMailboxIdName = GetStringValue("SenderMailboxIdName");
+            SLAInvokedIdName = GetStringValue("SLAInvokedIdName");
+            LeftVoiceMailName = GetStringValue("LeftVoiceMailName");
+            IsMapiPrivateName = GetStringValue("IsMapiPrivateName");
+            DeliveryPriorityCodeName = GetStringValue("DeliveryPriorityCodeName");
+            CommunityName = GetStringValue("CommunityName");
+            InstanceTypeCodeName = GetStringValue("InstanceTypeCodeName");
+            To = GetStringValue("To");
+            CC = GetStringValue("CC");
+            BCC = GetStringValue("BCC");
+            RequiredAttendees = GetStringValue("RequiredAttendees");
+            OptionalAttendees = GetStringValue("OptionalAttendees");
+            Organizer = GetStringValue("Organizer");
+            Resources = GetStringValue("Resources");
+            Customers = GetStringValue("Customers");
 
             AddCustomMappings();
         }
 
-        [JsonProperty("prioritycode")]
         public string PriorityCode { get; set; }
-
-        [JsonProperty("ignoreinactivelistmembers")]
         public bool? IgnoreInactiveListMembers { get; set; }
-
-        [JsonProperty("modifiedon")]
         public DateTimeOffset? ModifiedOn { get; set; }
-
-        [JsonProperty("actualcost")]
         public string ActualCost { get; set; }
-
-        [JsonProperty("actualend")]
         public DateTimeOffset? ActualEnd { get; set; }
-
-        [JsonProperty("channeltypecode")]
         public string ChannelTypeCode { get; set; }
-
-        [JsonProperty("isworkflowcreated")]
         public bool? IsWorkflowCreated { get; set; }
-
-        [JsonProperty("actualstart")]
         public DateTimeOffset? ActualStart { get; set; }
-
-        [JsonProperty("statuscode")]
         public string StatusCode { get; set; }
-
-        [JsonProperty("owningbusinessunit")]
         public string OwningBusinessUnit { get; set; }
-
-        [JsonProperty("budgetedcost")]
         public string BudgetedCost { get; set; }
-
-        [JsonProperty("typecode")]
         public string TypeCode { get; set; }
-
-        [JsonProperty("serviceid")]
         public string ServiceId { get; set; }
-
-        [JsonProperty("versionnumber")]
         public long VersionNumber { get; set; }
-
-        [JsonProperty("regardingobjectid")]
         public string RegardingObjectId { get; set; }
-
-        [JsonProperty("description")]
         public string Description { get; set; }
-
-        [JsonProperty("createdon")]
         public DateTimeOffset? CreatedOn { get; set; }
-
-        [JsonProperty("scheduledend")]
         public DateTimeOffset? ScheduledEnd { get; set; }
-
-        [JsonProperty("partners")]
         public string Partners { get; set; }
-
-        [JsonProperty("scheduleddurationminutes")]
         public long? ScheduledDurationMinutes { get; set; }
-
-        [JsonProperty("activityid")]
         public Guid? ActivityId { get; set; }
-
-        [JsonProperty("subject")]
         public string Subject { get; set; }
-
-        [JsonProperty("actualdurationminutes")]
         public long? ActualDurationMinutes { get; set; }
-
-        [JsonProperty("ownerid")]
         public string OwnerId { get; set; }
-
-        [JsonProperty("excludeifcontactedinxdays")]
         public long? ExcludeIfContactedInXDays { get; set; }
-
-        [JsonProperty("statecode")]
         public string StateCode { get; set; }
-
-        [JsonProperty("modifiedby")]
         public string ModifiedBy { get; set; }
-
-        [JsonProperty("category")]
         public string Category { get; set; }
-
-        [JsonProperty("donotsendonoptout")]
         public bool? DoNotSendOnOptOut { get; set; }
-
-        [JsonProperty("subcategory")]
         public string Subcategory { get; set; }
-
-        [JsonProperty("createdby")]
         public string CreatedBy { get; set; }
-
-        [JsonProperty("isbilled")]
         public bool? IsBilled { get; set; }
-
-        [JsonProperty("scheduledstart")]
         public DateTimeOffset? ScheduledStart { get; set; }
-
-        [JsonProperty("from")]
         public string from { get; set; }
-
-        [JsonProperty("owninguser")]
         public string OwningUser { get; set; }
-
-        [JsonProperty("channeltypecodename")]
         public string ChannelTypeCodeName { get; set; }
-
-        [JsonProperty("statuscodename")]
         public string StatusCodeName { get; set; }
-
-        [JsonProperty("owneridtype")]
         public string OwnerIdType { get; set; }
-
-        [JsonProperty("prioritycodename")]
         public string PriorityCodeName { get; set; }
-
-        [JsonProperty("statecodename")]
         public string StateCodeName { get; set; }
-
-        [JsonProperty("regardingobjecttypecode")]
         public string RegardingObjectTypeCode { get; set; }
-
-        [JsonProperty("isbilledname")]
         public string IsBilledName { get; set; }
-
-        [JsonProperty("createdbyname")]
         public string CreatedByName { get; set; }
-
-        [JsonProperty("checkfordonotsendmmonlistmembersname")]
         public string CheckForDoNotSendMMOnListMembersName { get; set; }
-
-        [JsonProperty("modifiedbyname")]
         public string ModifiedByName { get; set; }
-
-        [JsonProperty("isworkflowcreatedname")]
         public string IsWorkflowCreatedName { get; set; }
-
-        [JsonProperty("regardingobjectidname")]
         public string RegardingObjectIdName { get; set; }
-
-        [JsonProperty("ignoreinactivelistmembersname")]
         public string IgnoreInactiveListMembersName { get; set; }
-
-        [JsonProperty("typecodename")]
         public string TypeCodeName { get; set; }
-
-        [JsonProperty("owneridname")]
         public string OwnerIdName { get; set; }
-
-        [JsonProperty("importsequencenumber")]
         public long? ImportSequenceNumber { get; set; }
-
-        [JsonProperty("exchangerate")]
         public decimal? ExchangeRate { get; set; }
-
-        [JsonProperty("timezoneruleversionnumber")]
         public long? TimeZoneRuleVersionNumber { get; set; }
-
-        [JsonProperty("overriddencreatedon")]
         public DateTimeOffset? OverriddenCreatedOn { get; set; }
-
-        [JsonProperty("transactioncurrencyid")]
         public string TransactionCurrencyId { get; set; }
-
-        [JsonProperty("utcconversiontimezonecode")]
         public long? UTCConversionTimeZoneCode { get; set; }
-
-        [JsonProperty("budgetedcost_base")]
         public string BudgetedCost_Base { get; set; }
-
-        [JsonProperty("actualcost_base")]
         public string ActualCost_Base { get; set; }
-
-        [JsonProperty("transactioncurrencyidname")]
         public string TransactionCurrencyIdName { get; set; }
-
-        [JsonProperty("createdbyyominame")]
         public string CreatedByYomiName { get; set; }
-
-        [JsonProperty("owneridyominame")]
         public string OwnerIdYomiName { get; set; }
-
-        [JsonProperty("modifiedbyyominame")]
         public string ModifiedByYomiName { get; set; }
-
-        [JsonProperty("regardingobjectidyominame")]
         public string RegardingObjectIdYomiName { get; set; }
-
-        [JsonProperty("createdonbehalfby")]
         public string CreatedOnBehalfBy { get; set; }
-
-        [JsonProperty("createdonbehalfbyname")]
         public string CreatedOnBehalfByName { get; set; }
-
-        [JsonProperty("createdonbehalfbyyominame")]
         public string CreatedOnBehalfByYomiName { get; set; }
-
-        [JsonProperty("modifiedonbehalfby")]
         public string ModifiedOnBehalfBy { get; set; }
-
-        [JsonProperty("modifiedonbehalfbyname")]
         public string ModifiedOnBehalfByName { get; set; }
-
-        [JsonProperty("modifiedonbehalfbyyominame")]
         public string ModifiedOnBehalfByYomiName { get; set; }
-
-        [JsonProperty("activitytypecode")]
         public string ActivityTypeCode { get; set; }
-
-        [JsonProperty("activitytypecodename")]
         public string ActivityTypeCodeName { get; set; }
-
-        [JsonProperty("isregularactivity")]
         public bool? IsRegularActivity { get; set; }
-
-        [JsonProperty("isregularactivityname")]
         public string IsRegularActivityName { get; set; }
-
-        [JsonProperty("owningteam")]
         public string OwningTeam { get; set; }
-
-        [JsonProperty("processid")]
         public Guid? ProcessId { get; set; }
-
-        [JsonProperty("stageid")]
         public Guid? StageId { get; set; }
-
-        [JsonProperty("traversedpath")]
         public string TraversedPath { get; set; }
-
-        [JsonProperty("leftvoicemail")]
         public bool? LeftVoiceMail { get; set; }
-
-        [JsonProperty("ismapiprivate")]
         public bool? IsMapiPrivate { get; set; }
-
-        [JsonProperty("deliverylastattemptedon")]
         public DateTimeOffset? DeliveryLastAttemptedOn { get; set; }
-
-        [JsonProperty("lastonholdtime")]
         public DateTimeOffset? LastOnHoldTime { get; set; }
-
-        [JsonProperty("postponeactivityprocessinguntil")]
         public DateTimeOffset? PostponeActivityProcessingUntil { get; set; }
-
-        [JsonProperty("senton")]
         public DateTimeOffset? SentOn { get; set; }
-
-        [JsonProperty("sortdate")]
         public DateTimeOffset? SortDate { get; set; }
-
-        [JsonProperty("onholdtime")]
         public long? OnHoldTime { get; set; }
-
-        [JsonProperty("activityadditionalparams")]
         public string ActivityAdditionalParams { get; set; }
-
-        [JsonProperty("exchangeweblink")]
         public string ExchangeWebLink { get; set; }
-
-        [JsonProperty("exchangeitemid")]
         public string ExchangeItemId { get; set; }
-
-        [JsonProperty("seriesid")]
         public Guid? SeriesId { get; set; }
-
-        [JsonProperty("deliveryprioritycode")]
         public string DeliveryPriorityCode { get; set; }
-
-        [JsonProperty("instancetypecode")]
         public string InstanceTypeCode { get; set; }
-
-        [JsonProperty("community")]
         public string Community { get; set; }
-
-        [JsonProperty("slaid")]
         public string SLAId { get; set; }
-
-        [JsonProperty("slainvokedid")]
         public string SLAInvokedId { get; set; }
-
-        [JsonProperty("sendermailboxid")]
         public string SenderMailboxId { get; set; }
-
-        [JsonProperty("slaname")]
         public string SLAName { get; set; }
-
-        [JsonProperty("sendermailboxidname")]
         public string SenderMailboxIdName { get; set; }
-
-        [JsonProperty("slainvokedidname")]
         public string SLAInvokedIdName { get; set; }
-
-        [JsonProperty("leftvoicemailname")]
         public string LeftVoiceMailName { get; set; }
-
-        [JsonProperty("ismapiprivatename")]
         public string IsMapiPrivateName { get; set; }
-
-        [JsonProperty("deliveryprioritycodename")]
         public string DeliveryPriorityCodeName { get; set; }
-
-        [JsonProperty("communityname")]
         public string CommunityName { get; set; }
-
-        [JsonProperty("instancetypecodename")]
         public string InstanceTypeCodeName { get; set; }
-
-        [JsonProperty("to")]
         public string To { get; set; }
-
-        [JsonProperty("cc")]
         public string CC { get; set; }
-
-        [JsonProperty("bcc")]
         public string BCC { get; set; }
-
-        [JsonProperty("requiredattendees")]
         public string RequiredAttendees { get; set; }
-
-        [JsonProperty("optionalattendees")]
         public string OptionalAttendees { get; set; }
-
-        [JsonProperty("organizer")]
         public string Organizer { get; set; }
-
-        [JsonProperty("resources")]
         public string Resources { get; set; }
-
-        [JsonProperty("customers")]
         public string Customers { get; set; }
-
 
     }
 }

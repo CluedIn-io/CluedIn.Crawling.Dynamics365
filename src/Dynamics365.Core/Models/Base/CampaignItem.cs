@@ -11,41 +11,32 @@ namespace CluedIn.Crawling.Dynamics365.Core.Models
 
         public CampaignItem(IDataReader reader) : base(reader)
         {
+            CampaignItemId = GetValue<Guid>("CampaignItemId");
+            EntityId = GetValue<Guid>("EntityId");
+            EntityType = GetStringValue("EntityType");
+            ImportSequenceNumber = GetValue<int>("ImportSequenceNumber");
+            Name = GetStringValue("Name");
+            OverriddenCreatedOn = GetValue<DateTimeOffset>("OverriddenCreatedOn");
+            OwningBusinessUnit = GetValue<Guid>("OwningBusinessUnit");
+            OwningUser = GetValue<Guid>("OwningUser");
+            TimezoneRuleVersionNumber = GetValue<int>("TimezoneRuleVersionNumber");
+            UtcConversionTimezoneCode = GetValue<int>("UtcConversionTimezoneCode");
+            VersionNumber = GetValue<long>("VersionNumber");
 
             AddCustomMappings();
         }
 
-        [JsonProperty("campaignitemid")]
         public Guid? CampaignItemId { get; set; }
-
-        [JsonProperty("entityid")]
         public Guid? EntityId { get; set; }
-
-        [JsonProperty("entitytype")]
         public string EntityType { get; set; }
-
-        [JsonProperty("importsequencenumber")]
         public int ImportSequenceNumber { get; set; }
-
-        [JsonProperty("name")]
         public string Name { get; set; }
-
-        [JsonProperty("overriddencreatedon")]
         public DateTimeOffset? OverriddenCreatedOn { get; set; }
-
-        [JsonProperty("owningbusinessunit")]
         public Guid? OwningBusinessUnit { get; set; }
-
-        [JsonProperty("owninguser")]
         public Guid? OwningUser { get; set; }
-
-        [JsonProperty("timezoneruleversionnumber")]
         public int TimezoneRuleVersionNumber { get; set; }
-
-        [JsonProperty("utcconversiontimezonecode")]
         public int UtcConversionTimezoneCode { get; set; }
-
-        [JsonProperty("versionnumber")]
         public long VersionNumber { get; set; }
+
     }
 }

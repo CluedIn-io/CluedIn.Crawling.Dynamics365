@@ -11,658 +11,441 @@ namespace CluedIn.Crawling.Dynamics365.Core.Models
 
         public Lead(IDataReader reader) : base(reader)
         {
+            LeadId = GetValue<Guid>("LeadId");
+            ContactId = GetStringValue("ContactId");
+            AccountId = GetStringValue("AccountId");
+            LeadSourceCode = GetStringValue("LeadSourceCode");
+            LeadQualityCode = GetStringValue("LeadQualityCode");
+            PriorityCode = GetStringValue("PriorityCode");
+            IndustryCode = GetStringValue("IndustryCode");
+            PreferredContactMethodCode = GetStringValue("PreferredContactMethodCode");
+            SalesStageCode = GetStringValue("SalesStageCode");
+            OwningBusinessUnit = GetStringValue("OwningBusinessUnit");
+            Subject = GetStringValue("Subject");
+            ParticipatesInWorkflow = GetValue<bool>("ParticipatesInWorkflow");
+            Description = GetStringValue("Description");
+            EstimatedValue = GetValue<double>("EstimatedValue");
+            EstimatedCloseDate = GetValue<DateTimeOffset>("EstimatedCloseDate");
+            CompanyName = GetStringValue("CompanyName");
+            FirstName = GetStringValue("FirstName");
+            MiddleName = GetStringValue("MiddleName");
+            LastName = GetStringValue("LastName");
+            Revenue = GetStringValue("Revenue");
+            NumberOfEmployees = GetValue<long>("NumberOfEmployees");
+            DoNotPhone = GetValue<bool>("DoNotPhone");
+            SIC = GetStringValue("SIC");
+            DoNotFax = GetValue<bool>("DoNotFax");
+            EMailAddress1 = GetStringValue("EMailAddress1");
+            JobTitle = GetStringValue("JobTitle");
+            Salutation = GetStringValue("Salutation");
+            DoNotEMail = GetValue<bool>("DoNotEMail");
+            EMailAddress2 = GetStringValue("EMailAddress2");
+            DoNotPostalMail = GetValue<bool>("DoNotPostalMail");
+            EMailAddress3 = GetStringValue("EMailAddress3");
+            FullName = GetStringValue("FullName");
+            YomiFirstName = GetStringValue("YomiFirstName");
+            WebSiteUrl = GetStringValue("WebSiteUrl");
+            Telephone1 = GetStringValue("Telephone1");
+            Telephone2 = GetStringValue("Telephone2");
+            Telephone3 = GetStringValue("Telephone3");
+            CreatedOn = GetValue<DateTimeOffset>("CreatedOn");
+            IsPrivate = GetValue<bool>("IsPrivate");
+            Fax = GetStringValue("Fax");
+            YomiMiddleName = GetStringValue("YomiMiddleName");
+            YomiLastName = GetStringValue("YomiLastName");
+            CreatedBy = GetStringValue("CreatedBy");
+            ModifiedOn = GetValue<DateTimeOffset>("ModifiedOn");
+            ModifiedBy = GetStringValue("ModifiedBy");
+            YomiFullName = GetStringValue("YomiFullName");
+            OwningUser = GetStringValue("OwningUser");
+            MobilePhone = GetStringValue("MobilePhone");
+            StateCode = GetStringValue("StateCode");
+            Pager = GetStringValue("Pager");
+            StatusCode = GetStringValue("StatusCode");
+            VersionNumber = GetValue<long>("VersionNumber");
+            ContactIdName = GetStringValue("ContactIdName");
+            AccountIdName = GetStringValue("AccountIdName");
+            Address1_AddressId = GetValue<Guid>("Address1_AddressId");
+            Address1_AddressTypeCode = GetStringValue("Address1_AddressTypeCode");
+            Address1_Name = GetStringValue("Address1_Name");
+            Address1_Line1 = GetStringValue("Address1_Line1");
+            Address1_Line2 = GetStringValue("Address1_Line2");
+            Address1_Line3 = GetStringValue("Address1_Line3");
+            Address1_City = GetStringValue("Address1_City");
+            Address1_StateOrProvince = GetStringValue("Address1_StateOrProvince");
+            Address1_County = GetStringValue("Address1_County");
+            Address1_Country = GetStringValue("Address1_Country");
+            Address1_PostOfficeBox = GetStringValue("Address1_PostOfficeBox");
+            Address1_PostalCode = GetStringValue("Address1_PostalCode");
+            Address1_UTCOffset = GetValue<long>("Address1_UTCOffset");
+            Address1_UPSZone = GetStringValue("Address1_UPSZone");
+            Address1_Latitude = GetValue<double>("Address1_Latitude");
+            Address1_Telephone1 = GetStringValue("Address1_Telephone1");
+            Address1_Longitude = GetValue<double>("Address1_Longitude");
+            Address1_ShippingMethodCode = GetStringValue("Address1_ShippingMethodCode");
+            Address1_Telephone2 = GetStringValue("Address1_Telephone2");
+            Address1_Telephone3 = GetStringValue("Address1_Telephone3");
+            Address1_Fax = GetStringValue("Address1_Fax");
+            Address2_AddressId = GetValue<Guid>("Address2_AddressId");
+            Address2_AddressTypeCode = GetStringValue("Address2_AddressTypeCode");
+            Address2_Name = GetStringValue("Address2_Name");
+            Address2_Line1 = GetStringValue("Address2_Line1");
+            Address2_Line2 = GetStringValue("Address2_Line2");
+            Address2_Line3 = GetStringValue("Address2_Line3");
+            Address2_City = GetStringValue("Address2_City");
+            Address2_StateOrProvince = GetStringValue("Address2_StateOrProvince");
+            Address2_County = GetStringValue("Address2_County");
+            Address2_Country = GetStringValue("Address2_Country");
+            Address2_PostOfficeBox = GetStringValue("Address2_PostOfficeBox");
+            Address2_PostalCode = GetStringValue("Address2_PostalCode");
+            Address2_UTCOffset = GetValue<long>("Address2_UTCOffset");
+            Address2_UPSZone = GetStringValue("Address2_UPSZone");
+            Address2_Latitude = GetValue<double>("Address2_Latitude");
+            Address2_Telephone1 = GetStringValue("Address2_Telephone1");
+            Address2_Longitude = GetValue<double>("Address2_Longitude");
+            Address2_ShippingMethodCode = GetStringValue("Address2_ShippingMethodCode");
+            Address2_Telephone2 = GetStringValue("Address2_Telephone2");
+            Address2_Telephone3 = GetStringValue("Address2_Telephone3");
+            Address2_Fax = GetStringValue("Address2_Fax");
+            CreatedByName = GetStringValue("CreatedByName");
+            ModifiedByName = GetStringValue("ModifiedByName");
+            CustomerId = GetStringValue("CustomerId");
+            CustomerIdName = GetStringValue("CustomerIdName");
+            CustomerIdType = GetStringValue("CustomerIdType");
+            OwnerId = GetStringValue("OwnerId");
+            OwnerIdName = GetStringValue("OwnerIdName");
+            OwnerIdType = GetStringValue("OwnerIdType");
+            IsPrivateName = GetStringValue("IsPrivateName");
+            DoNotPostalMailName = GetStringValue("DoNotPostalMailName");
+            DoNotFaxName = GetStringValue("DoNotFaxName");
+            DoNotEMailName = GetStringValue("DoNotEMailName");
+            DoNotPhoneName = GetStringValue("DoNotPhoneName");
+            ParticipatesInWorkflowName = GetStringValue("ParticipatesInWorkflowName");
+            StateCodeName = GetStringValue("StateCodeName");
+            LeadSourceCodeName = GetStringValue("LeadSourceCodeName");
+            SalesStageCodeName = GetStringValue("SalesStageCodeName");
+            PriorityCodeName = GetStringValue("PriorityCodeName");
+            Address2_AddressTypeCodeName = GetStringValue("Address2_AddressTypeCodeName");
+            StatusCodeName = GetStringValue("StatusCodeName");
+            Address1_ShippingMethodCodeName = GetStringValue("Address1_ShippingMethodCodeName");
+            LeadQualityCodeName = GetStringValue("LeadQualityCodeName");
+            IndustryCodeName = GetStringValue("IndustryCodeName");
+            Address1_AddressTypeCodeName = GetStringValue("Address1_AddressTypeCodeName");
+            Address2_ShippingMethodCodeName = GetStringValue("Address2_ShippingMethodCodeName");
+            PreferredContactMethodCodeName = GetStringValue("PreferredContactMethodCodeName");
+            MasterId = GetStringValue("MasterId");
+            CampaignId = GetStringValue("CampaignId");
+            DoNotSendMM = GetValue<bool>("DoNotSendMM");
+            Merged = GetValue<bool>("Merged");
+            DoNotBulkEMail = GetValue<bool>("DoNotBulkEMail");
+            LastUsedInCampaign = GetValue<DateTimeOffset>("LastUsedInCampaign");
+            CampaignIdName = GetStringValue("CampaignIdName");
+            DoNotBulkEMailName = GetStringValue("DoNotBulkEMailName");
+            MasterLeadIdName = GetStringValue("MasterLeadIdName");
+            MergedName = GetStringValue("MergedName");
+            DoNotSendMarketingMaterialName = GetStringValue("DoNotSendMarketingMaterialName");
+            TransactionCurrencyId = GetStringValue("TransactionCurrencyId");
+            TimeZoneRuleVersionNumber = GetValue<long>("TimeZoneRuleVersionNumber");
+            UTCConversionTimeZoneCode = GetValue<long>("UTCConversionTimeZoneCode");
+            ImportSequenceNumber = GetValue<long>("ImportSequenceNumber");
+            OverriddenCreatedOn = GetValue<DateTimeOffset>("OverriddenCreatedOn");
+            ExchangeRate = GetValue<decimal>("ExchangeRate");
+            EstimatedAmount = GetStringValue("EstimatedAmount");
+            TransactionCurrencyIdName = GetStringValue("TransactionCurrencyIdName");
+            EstimatedAmount_Base = GetStringValue("EstimatedAmount_Base");
+            Revenue_Base = GetStringValue("Revenue_Base");
+            YomiCompanyName = GetStringValue("YomiCompanyName");
+            AccountIdYomiName = GetStringValue("AccountIdYomiName");
+            ContactIdYomiName = GetStringValue("ContactIdYomiName");
+            CreatedByYomiName = GetStringValue("CreatedByYomiName");
+            ModifiedByYomiName = GetStringValue("ModifiedByYomiName");
+            MasterLeadIdYomiName = GetStringValue("MasterLeadIdYomiName");
+            OwnerIdYomiName = GetStringValue("OwnerIdYomiName");
+            CustomerIdYomiName = GetStringValue("CustomerIdYomiName");
+            CreatedOnBehalfBy = GetStringValue("CreatedOnBehalfBy");
+            CreatedOnBehalfByName = GetStringValue("CreatedOnBehalfByName");
+            CreatedOnBehalfByYomiName = GetStringValue("CreatedOnBehalfByYomiName");
+            ModifiedOnBehalfBy = GetStringValue("ModifiedOnBehalfBy");
+            ModifiedOnBehalfByName = GetStringValue("ModifiedOnBehalfByName");
+            ModifiedOnBehalfByYomiName = GetStringValue("ModifiedOnBehalfByYomiName");
+            OwningTeam = GetStringValue("OwningTeam");
+            IsAutoCreate = GetValue<bool>("IsAutoCreate");
+            ParentAccountId = GetStringValue("ParentAccountId");
+            ParentContactId = GetStringValue("ParentContactId");
+            ParentAccountIdName = GetStringValue("ParentAccountIdName");
+            ParentAccountIdYomiName = GetStringValue("ParentAccountIdYomiName");
+            ParentContactIdName = GetStringValue("ParentContactIdName");
+            ParentContactIdYomiName = GetStringValue("ParentContactIdYomiName");
+            RelatedObjectId = GetStringValue("RelatedObjectId");
+            BudgetAmount = GetStringValue("BudgetAmount");
+            BudgetAmount_Base = GetStringValue("BudgetAmount_Base");
+            BudgetStatus = GetStringValue("BudgetStatus");
+            BudgetStatusName = GetStringValue("BudgetStatusName");
+            DecisionMaker = GetValue<bool>("DecisionMaker");
+            DecisionMakerName = GetStringValue("DecisionMakerName");
+            Need = GetStringValue("Need");
+            NeedName = GetStringValue("NeedName");
+            PurchaseTimeFrame = GetStringValue("PurchaseTimeFrame");
+            PurchaseTimeFrameName = GetStringValue("PurchaseTimeFrameName");
+            TraversedPath = GetStringValue("TraversedPath");
+            EvaluateFit = GetValue<bool>("EvaluateFit");
+            EvaluateFitName = GetStringValue("EvaluateFitName");
+            InitialCommunication = GetStringValue("InitialCommunication");
+            InitialCommunicationName = GetStringValue("InitialCommunicationName");
+            ConfirmInterest = GetValue<bool>("ConfirmInterest");
+            ConfirmInterestName = GetStringValue("ConfirmInterestName");
+            PurchaseProcess = GetStringValue("PurchaseProcess");
+            PurchaseProcessName = GetStringValue("PurchaseProcessName");
+            SalesStage = GetStringValue("SalesStage");
+            SalesStageName = GetStringValue("SalesStageName");
+            ScheduleFollowUp_Prospect = GetValue<DateTimeOffset>("ScheduleFollowUp_Prospect");
+            ScheduleFollowUp_Qualify = GetValue<DateTimeOffset>("ScheduleFollowUp_Qualify");
+            QualificationComments = GetStringValue("QualificationComments");
+            QualifyingOpportunityId = GetStringValue("QualifyingOpportunityId");
+            QualifyingOpportunityIdName = GetStringValue("QualifyingOpportunityIdName");
+            EntityImage = GetStringValue("EntityImage");
+            StageId = GetValue<Guid>("StageId");
+            ProcessId = GetValue<Guid>("ProcessId");
+            Address2_Composite = GetStringValue("Address2_Composite");
+            Address1_Composite = GetStringValue("Address1_Composite");
+            EntityImage_URL = GetStringValue("EntityImage_URL");
+            EntityImageId = GetValue<Guid>("EntityImageId");
+            EntityImage_Timestamp = GetValue<int>("EntityImage_Timestamp");
+            OriginatingCaseId = GetStringValue("OriginatingCaseId");
+            OriginatingCaseIdName = GetStringValue("OriginatingCaseIdName");
+            RelatedObjectIdName = GetStringValue("RelatedObjectIdName");
+            SLAId = GetStringValue("SLAId");
+            SLAName = GetStringValue("SLAName");
+            SLAInvokedId = GetStringValue("SLAInvokedId");
+            OnHoldTime = GetValue<long>("OnHoldTime");
+            LastOnHoldTime = GetValue<DateTimeOffset>("LastOnHoldTime");
+            SLAInvokedIdName = GetStringValue("SLAInvokedIdName");
+            FollowEmail = GetValue<bool>("FollowEmail");
+            FollowEmailName = GetStringValue("FollowEmailName");
+            TimeSpentByMeOnEmailAndMeetings = GetStringValue("TimeSpentByMeOnEmailAndMeetings");
+            isautocreateName = GetStringValue("isautocreateName");
+            TeamsFollowed = GetValue<long>("TeamsFollowed");
+            BusinessCard = GetStringValue("BusinessCard");
+            BusinessCardAttributes = GetStringValue("BusinessCardAttributes");
 
             AddCustomMappings();
         }
-
-        [JsonProperty("leadid")]
         public Guid? LeadId { get; set; }
-
-        [JsonProperty("contactid")]
         public string ContactId { get; set; }
-
-        [JsonProperty("accountid")]
         public string AccountId { get; set; }
-
-        [JsonProperty("leadsourcecode")]
         public string LeadSourceCode { get; set; }
-
-        [JsonProperty("leadqualitycode")]
         public string LeadQualityCode { get; set; }
-
-        [JsonProperty("prioritycode")]
         public string PriorityCode { get; set; }
-
-        [JsonProperty("industrycode")]
         public string IndustryCode { get; set; }
-
-        [JsonProperty("preferredcontactmethodcode")]
         public string PreferredContactMethodCode { get; set; }
-
-        [JsonProperty("salesstagecode")]
         public string SalesStageCode { get; set; }
-
-        [JsonProperty("owningbusinessunit")]
         public string OwningBusinessUnit { get; set; }
-
-        [JsonProperty("subject")]
         public string Subject { get; set; }
-
-        [JsonProperty("participatesinworkflow")]
         public bool? ParticipatesInWorkflow { get; set; }
-
-        [JsonProperty("description")]
         public string Description { get; set; }
-
-        [JsonProperty("estimatedvalue")]
         public double? EstimatedValue { get; set; }
-
-        [JsonProperty("estimatedclosedate")]
         public DateTimeOffset? EstimatedCloseDate { get; set; }
-
-        [JsonProperty("companyname")]
         public string CompanyName { get; set; }
-
-        [JsonProperty("firstname")]
         public string FirstName { get; set; }
-
-        [JsonProperty("middlename")]
         public string MiddleName { get; set; }
-
-        [JsonProperty("lastname")]
         public string LastName { get; set; }
-
-        [JsonProperty("revenue")]
         public string Revenue { get; set; }
-
-        [JsonProperty("numberofemployees")]
         public long? NumberOfEmployees { get; set; }
-
-        [JsonProperty("donotphone")]
         public bool? DoNotPhone { get; set; }
-
-        [JsonProperty("sic")]
         public string SIC { get; set; }
-
-        [JsonProperty("donotfax")]
         public bool? DoNotFax { get; set; }
-
-        [JsonProperty("emailaddress1")]
         public string EMailAddress1 { get; set; }
-
-        [JsonProperty("jobtitle")]
         public string JobTitle { get; set; }
-
-        [JsonProperty("salutation")]
         public string Salutation { get; set; }
-
-        [JsonProperty("donotemail")]
         public bool? DoNotEMail { get; set; }
-
-        [JsonProperty("emailaddress2")]
         public string EMailAddress2 { get; set; }
-
-        [JsonProperty("donotpostalmail")]
         public bool? DoNotPostalMail { get; set; }
-
-        [JsonProperty("emailaddress3")]
         public string EMailAddress3 { get; set; }
-
-        [JsonProperty("fullname")]
         public string FullName { get; set; }
-
-        [JsonProperty("yomifirstname")]
         public string YomiFirstName { get; set; }
-
-        [JsonProperty("websiteurl")]
         public string WebSiteUrl { get; set; }
-
-        [JsonProperty("telephone1")]
         public string Telephone1 { get; set; }
-
-        [JsonProperty("telephone2")]
         public string Telephone2 { get; set; }
-
-        [JsonProperty("telephone3")]
         public string Telephone3 { get; set; }
-
-        [JsonProperty("createdon")]
         public DateTimeOffset? CreatedOn { get; set; }
-
-        [JsonProperty("isprivate")]
         public bool? IsPrivate { get; set; }
-
-        [JsonProperty("fax")]
         public string Fax { get; set; }
-
-        [JsonProperty("yomimiddlename")]
         public string YomiMiddleName { get; set; }
-
-        [JsonProperty("yomilastname")]
         public string YomiLastName { get; set; }
-
-        [JsonProperty("createdby")]
         public string CreatedBy { get; set; }
-
-        [JsonProperty("modifiedon")]
         public DateTimeOffset? ModifiedOn { get; set; }
-
-        [JsonProperty("modifiedby")]
         public string ModifiedBy { get; set; }
-
-        [JsonProperty("yomifullname")]
         public string YomiFullName { get; set; }
-
-        [JsonProperty("owninguser")]
         public string OwningUser { get; set; }
-
-        [JsonProperty("mobilephone")]
         public string MobilePhone { get; set; }
-
-        [JsonProperty("statecode")]
         public string StateCode { get; set; }
-
-        [JsonProperty("pager")]
         public string Pager { get; set; }
-
-        [JsonProperty("statuscode")]
         public string StatusCode { get; set; }
-
-        [JsonProperty("versionnumber")]
         public long VersionNumber { get; set; }
-
-        [JsonProperty("contactidname")]
         public string ContactIdName { get; set; }
-
-        [JsonProperty("accountidname")]
         public string AccountIdName { get; set; }
-
-        [JsonProperty("address1_addressid")]
         public Guid? Address1_AddressId { get; set; }
-
-        [JsonProperty("address1_addresstypecode")]
         public string Address1_AddressTypeCode { get; set; }
-
-        [JsonProperty("address1_name")]
         public string Address1_Name { get; set; }
-
-        [JsonProperty("address1_line1")]
         public string Address1_Line1 { get; set; }
-
-        [JsonProperty("address1_line2")]
         public string Address1_Line2 { get; set; }
-
-        [JsonProperty("address1_line3")]
         public string Address1_Line3 { get; set; }
-
-        [JsonProperty("address1_city")]
         public string Address1_City { get; set; }
-
-        [JsonProperty("address1_stateorprovince")]
         public string Address1_StateOrProvince { get; set; }
-
-        [JsonProperty("address1_county")]
         public string Address1_County { get; set; }
-
-        [JsonProperty("address1_country")]
         public string Address1_Country { get; set; }
-
-        [JsonProperty("address1_postofficebox")]
         public string Address1_PostOfficeBox { get; set; }
-
-        [JsonProperty("address1_postalcode")]
         public string Address1_PostalCode { get; set; }
-
-        [JsonProperty("address1_utcoffset")]
         public long? Address1_UTCOffset { get; set; }
-
-        [JsonProperty("address1_upszone")]
         public string Address1_UPSZone { get; set; }
-
-        [JsonProperty("address1_latitude")]
         public double? Address1_Latitude { get; set; }
-
-        [JsonProperty("address1_telephone1")]
         public string Address1_Telephone1 { get; set; }
-
-        [JsonProperty("address1_longitude")]
         public double? Address1_Longitude { get; set; }
-
-        [JsonProperty("address1_shippingmethodcode")]
         public string Address1_ShippingMethodCode { get; set; }
-
-        [JsonProperty("address1_telephone2")]
         public string Address1_Telephone2 { get; set; }
-
-        [JsonProperty("address1_telephone3")]
         public string Address1_Telephone3 { get; set; }
-
-        [JsonProperty("address1_fax")]
         public string Address1_Fax { get; set; }
-
-        [JsonProperty("address2_addressid")]
         public Guid? Address2_AddressId { get; set; }
-
-        [JsonProperty("address2_addresstypecode")]
         public string Address2_AddressTypeCode { get; set; }
-
-        [JsonProperty("address2_name")]
         public string Address2_Name { get; set; }
-
-        [JsonProperty("address2_line1")]
         public string Address2_Line1 { get; set; }
-
-        [JsonProperty("address2_line2")]
         public string Address2_Line2 { get; set; }
-
-        [JsonProperty("address2_line3")]
         public string Address2_Line3 { get; set; }
-
-        [JsonProperty("address2_city")]
         public string Address2_City { get; set; }
-
-        [JsonProperty("address2_stateorprovince")]
         public string Address2_StateOrProvince { get; set; }
-
-        [JsonProperty("address2_county")]
         public string Address2_County { get; set; }
-
-        [JsonProperty("address2_country")]
         public string Address2_Country { get; set; }
-
-        [JsonProperty("address2_postofficebox")]
         public string Address2_PostOfficeBox { get; set; }
-
-        [JsonProperty("address2_postalcode")]
         public string Address2_PostalCode { get; set; }
-
-        [JsonProperty("address2_utcoffset")]
         public long? Address2_UTCOffset { get; set; }
-
-        [JsonProperty("address2_upszone")]
         public string Address2_UPSZone { get; set; }
-
-        [JsonProperty("address2_latitude")]
         public double? Address2_Latitude { get; set; }
-
-        [JsonProperty("address2_telephone1")]
         public string Address2_Telephone1 { get; set; }
-
-        [JsonProperty("address2_longitude")]
         public double? Address2_Longitude { get; set; }
-
-        [JsonProperty("address2_shippingmethodcode")]
         public string Address2_ShippingMethodCode { get; set; }
-
-        [JsonProperty("address2_telephone2")]
         public string Address2_Telephone2 { get; set; }
-
-        [JsonProperty("address2_telephone3")]
         public string Address2_Telephone3 { get; set; }
-
-        [JsonProperty("address2_fax")]
         public string Address2_Fax { get; set; }
-
-        [JsonProperty("createdbyname")]
         public string CreatedByName { get; set; }
-
-        [JsonProperty("modifiedbyname")]
         public string ModifiedByName { get; set; }
-
-        [JsonProperty("customerid")]
         public string CustomerId { get; set; }
-
-        [JsonProperty("customeridname")]
         public string CustomerIdName { get; set; }
-
-        [JsonProperty("customeridtype")]
         public string CustomerIdType { get; set; }
-
-        [JsonProperty("ownerid")]
         public string OwnerId { get; set; }
-
-        [JsonProperty("owneridname")]
         public string OwnerIdName { get; set; }
-
-        [JsonProperty("owneridtype")]
         public string OwnerIdType { get; set; }
-
-        [JsonProperty("isprivatename")]
         public string IsPrivateName { get; set; }
-
-        [JsonProperty("donotpostalmailname")]
         public string DoNotPostalMailName { get; set; }
-
-        [JsonProperty("donotfaxname")]
         public string DoNotFaxName { get; set; }
-
-        [JsonProperty("donotemailname")]
         public string DoNotEMailName { get; set; }
-
-        [JsonProperty("donotphonename")]
         public string DoNotPhoneName { get; set; }
-
-        [JsonProperty("participatesinworkflowname")]
         public string ParticipatesInWorkflowName { get; set; }
-
-        [JsonProperty("statecodename")]
         public string StateCodeName { get; set; }
-
-        [JsonProperty("leadsourcecodename")]
         public string LeadSourceCodeName { get; set; }
-
-        [JsonProperty("salesstagecodename")]
         public string SalesStageCodeName { get; set; }
-
-        [JsonProperty("prioritycodename")]
         public string PriorityCodeName { get; set; }
-
-        [JsonProperty("address2_addresstypecodename")]
         public string Address2_AddressTypeCodeName { get; set; }
-
-        [JsonProperty("statuscodename")]
         public string StatusCodeName { get; set; }
-
-        [JsonProperty("address1_shippingmethodcodename")]
         public string Address1_ShippingMethodCodeName { get; set; }
-
-        [JsonProperty("leadqualitycodename")]
         public string LeadQualityCodeName { get; set; }
-
-        [JsonProperty("industrycodename")]
         public string IndustryCodeName { get; set; }
-
-        [JsonProperty("address1_addresstypecodename")]
         public string Address1_AddressTypeCodeName { get; set; }
-
-        [JsonProperty("address2_shippingmethodcodename")]
         public string Address2_ShippingMethodCodeName { get; set; }
-
-        [JsonProperty("preferredcontactmethodcodename")]
         public string PreferredContactMethodCodeName { get; set; }
-
-        [JsonProperty("masterid")]
         public string MasterId { get; set; }
-
-        [JsonProperty("campaignid")]
         public string CampaignId { get; set; }
-
-        [JsonProperty("donotsendmm")]
         public bool? DoNotSendMM { get; set; }
-
-        [JsonProperty("merged")]
         public bool? Merged { get; set; }
-
-        [JsonProperty("donotbulkemail")]
         public bool? DoNotBulkEMail { get; set; }
-
-        [JsonProperty("lastusedincampaign")]
         public DateTimeOffset? LastUsedInCampaign { get; set; }
-
-        [JsonProperty("campaignidname")]
         public string CampaignIdName { get; set; }
-
-        [JsonProperty("donotbulkemailname")]
         public string DoNotBulkEMailName { get; set; }
-
-        [JsonProperty("masterleadidname")]
         public string MasterLeadIdName { get; set; }
-
-        [JsonProperty("mergedname")]
         public string MergedName { get; set; }
-
-        [JsonProperty("donotsendmarketingmaterialname")]
         public string DoNotSendMarketingMaterialName { get; set; }
-
-        [JsonProperty("transactioncurrencyid")]
         public string TransactionCurrencyId { get; set; }
-
-        [JsonProperty("timezoneruleversionnumber")]
         public long? TimeZoneRuleVersionNumber { get; set; }
-
-        [JsonProperty("utcconversiontimezonecode")]
         public long? UTCConversionTimeZoneCode { get; set; }
-
-        [JsonProperty("importsequencenumber")]
         public long? ImportSequenceNumber { get; set; }
-
-        [JsonProperty("overriddencreatedon")]
         public DateTimeOffset? OverriddenCreatedOn { get; set; }
-
-        [JsonProperty("exchangerate")]
         public decimal? ExchangeRate { get; set; }
-
-        [JsonProperty("estimatedamount")]
         public string EstimatedAmount { get; set; }
-
-        [JsonProperty("transactioncurrencyidname")]
         public string TransactionCurrencyIdName { get; set; }
-
-        [JsonProperty("estimatedamount_base")]
         public string EstimatedAmount_Base { get; set; }
-
-        [JsonProperty("revenue_base")]
         public string Revenue_Base { get; set; }
-
-        [JsonProperty("yomicompanyname")]
         public string YomiCompanyName { get; set; }
-
-        [JsonProperty("accountidyominame")]
         public string AccountIdYomiName { get; set; }
-
-        [JsonProperty("contactidyominame")]
         public string ContactIdYomiName { get; set; }
-
-        [JsonProperty("createdbyyominame")]
         public string CreatedByYomiName { get; set; }
-
-        [JsonProperty("modifiedbyyominame")]
         public string ModifiedByYomiName { get; set; }
-
-        [JsonProperty("masterleadidyominame")]
         public string MasterLeadIdYomiName { get; set; }
-
-        [JsonProperty("owneridyominame")]
         public string OwnerIdYomiName { get; set; }
-
-        [JsonProperty("customeridyominame")]
         public string CustomerIdYomiName { get; set; }
-
-        [JsonProperty("createdonbehalfby")]
         public string CreatedOnBehalfBy { get; set; }
-
-        [JsonProperty("createdonbehalfbyname")]
         public string CreatedOnBehalfByName { get; set; }
-
-        [JsonProperty("createdonbehalfbyyominame")]
         public string CreatedOnBehalfByYomiName { get; set; }
-
-        [JsonProperty("modifiedonbehalfby")]
         public string ModifiedOnBehalfBy { get; set; }
-
-        [JsonProperty("modifiedonbehalfbyname")]
         public string ModifiedOnBehalfByName { get; set; }
-
-        [JsonProperty("modifiedonbehalfbyyominame")]
         public string ModifiedOnBehalfByYomiName { get; set; }
-
-        [JsonProperty("owningteam")]
         public string OwningTeam { get; set; }
-
-        [JsonProperty("isautocreate")]
         public bool? IsAutoCreate { get; set; }
-
-        [JsonProperty("parentaccountid")]
         public string ParentAccountId { get; set; }
-
-        [JsonProperty("parentcontactid")]
         public string ParentContactId { get; set; }
-
-        [JsonProperty("parentaccountidname")]
         public string ParentAccountIdName { get; set; }
-
-        [JsonProperty("parentaccountidyominame")]
         public string ParentAccountIdYomiName { get; set; }
-
-        [JsonProperty("parentcontactidname")]
         public string ParentContactIdName { get; set; }
-
-        [JsonProperty("parentcontactidyominame")]
         public string ParentContactIdYomiName { get; set; }
-
-        [JsonProperty("relatedobjectid")]
         public string RelatedObjectId { get; set; }
-
-        [JsonProperty("budgetamount")]
         public string BudgetAmount { get; set; }
-
-        [JsonProperty("budgetamount_base")]
         public string BudgetAmount_Base { get; set; }
-
-        [JsonProperty("budgetstatus")]
         public string BudgetStatus { get; set; }
-
-        [JsonProperty("budgetstatusname")]
         public string BudgetStatusName { get; set; }
-
-        [JsonProperty("decisionmaker")]
         public bool? DecisionMaker { get; set; }
-
-        [JsonProperty("decisionmakername")]
         public string DecisionMakerName { get; set; }
-
-        [JsonProperty("need")]
         public string Need { get; set; }
-
-        [JsonProperty("needname")]
         public string NeedName { get; set; }
-
-        [JsonProperty("purchasetimeframe")]
         public string PurchaseTimeFrame { get; set; }
-
-        [JsonProperty("purchasetimeframename")]
         public string PurchaseTimeFrameName { get; set; }
-
-        [JsonProperty("traversedpath")]
         public string TraversedPath { get; set; }
-
-        [JsonProperty("evaluatefit")]
         public bool? EvaluateFit { get; set; }
-
-        [JsonProperty("evaluatefitname")]
         public string EvaluateFitName { get; set; }
-
-        [JsonProperty("initialcommunication")]
         public string InitialCommunication { get; set; }
-
-        [JsonProperty("initialcommunicationname")]
         public string InitialCommunicationName { get; set; }
-
-        [JsonProperty("confirminterest")]
         public bool? ConfirmInterest { get; set; }
-
-        [JsonProperty("confirminterestname")]
         public string ConfirmInterestName { get; set; }
-
-        [JsonProperty("purchaseprocess")]
         public string PurchaseProcess { get; set; }
-
-        [JsonProperty("purchaseprocessname")]
         public string PurchaseProcessName { get; set; }
-
-        [JsonProperty("salesstage")]
         public string SalesStage { get; set; }
-
-        [JsonProperty("salesstagename")]
         public string SalesStageName { get; set; }
-
-        [JsonProperty("schedulefollowup_prospect")]
         public DateTimeOffset? ScheduleFollowUp_Prospect { get; set; }
-
-        [JsonProperty("schedulefollowup_qualify")]
         public DateTimeOffset? ScheduleFollowUp_Qualify { get; set; }
-
-        [JsonProperty("qualificationcomments")]
         public string QualificationComments { get; set; }
-
-        [JsonProperty("qualifyingopportunityid")]
         public string QualifyingOpportunityId { get; set; }
-
-        [JsonProperty("qualifyingopportunityidname")]
         public string QualifyingOpportunityIdName { get; set; }
-
-        [JsonProperty("entityimage")]
         public string EntityImage { get; set; }
-
-        [JsonProperty("stageid")]
         public Guid? StageId { get; set; }
-
-        [JsonProperty("processid")]
         public Guid? ProcessId { get; set; }
-
-        [JsonProperty("address2_composite")]
         public string Address2_Composite { get; set; }
-
-        [JsonProperty("address1_composite")]
         public string Address1_Composite { get; set; }
-
-        [JsonProperty("entityimage_url")]
         public string EntityImage_URL { get; set; }
-
-        [JsonProperty("entityimageid")]
         public Guid? EntityImageId { get; set; }
-
-        [JsonProperty("entityimage_timestamp")]
         public int? EntityImage_Timestamp { get; set; }
-
-        [JsonProperty("originatingcaseid")]
         public string OriginatingCaseId { get; set; }
-
-        [JsonProperty("originatingcaseidname")]
         public string OriginatingCaseIdName { get; set; }
-
-        [JsonProperty("relatedobjectidname")]
         public string RelatedObjectIdName { get; set; }
-
-        [JsonProperty("slaid")]
         public string SLAId { get; set; }
-
-        [JsonProperty("slaname")]
         public string SLAName { get; set; }
-
-        [JsonProperty("slainvokedid")]
         public string SLAInvokedId { get; set; }
-
-        [JsonProperty("onholdtime")]
         public long? OnHoldTime { get; set; }
-
-        [JsonProperty("lastonholdtime")]
         public DateTimeOffset? LastOnHoldTime { get; set; }
-
-        [JsonProperty("slainvokedidname")]
         public string SLAInvokedIdName { get; set; }
-
-        [JsonProperty("followemail")]
         public bool? FollowEmail { get; set; }
-
-        [JsonProperty("followemailname")]
         public string FollowEmailName { get; set; }
-
-        [JsonProperty("timespentbymeonemailandmeetings")]
         public string TimeSpentByMeOnEmailAndMeetings { get; set; }
-
-        [JsonProperty("isautocreatename")]
         public string isautocreateName { get; set; }
-
-        [JsonProperty("teamsfollowed")]
         public long? TeamsFollowed { get; set; }
-
-        [JsonProperty("businesscard")]
         public string BusinessCard { get; set; }
-
-        [JsonProperty("businesscardattributes")]
         public string BusinessCardAttributes { get; set; }
-
 
     }
 }

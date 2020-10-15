@@ -6,11 +6,42 @@ namespace CluedIn.Crawling.Dynamics365.Core.Models
 {
     public class ActivityParty : DynamicsModel
     {
-
         public ActivityParty() { }
 
         public ActivityParty(IDataReader reader) : base(reader)
         {
+            ActivityId = GetStringValue("ActivityId");
+            ActivityPartyId = GetValue<Guid>("ActivityPartyId");
+            PartyId = GetStringValue("PartyId");
+            PartyObjectTypeCode = GetStringValue("PartyObjectTypeCode");
+            ParticipationTypeMask = GetStringValue("ParticipationTypeMask");
+            AddressUsed = GetStringValue("AddressUsed");
+            PartyIdName = GetStringValue("PartyIdName");
+            OwningBusinessUnit = GetValue<Guid>("OwningBusinessUnit");
+            DoNotFax = GetValue<bool>("DoNotFax");
+            ScheduledStart = GetValue<DateTimeOffset>("ScheduledStart");
+            ScheduledEnd = GetValue<DateTimeOffset>("ScheduledEnd");
+            Effort = GetValue<double>("Effort");
+            DoNotEmail = GetValue<bool>("DoNotEmail");
+            OwningUser = GetValue<Guid>("OwningUser");
+            ExchangeEntryId = GetStringValue("ExchangeEntryId");
+            ResourceSpecId = GetStringValue("ResourceSpecId");
+            VersionNumber = GetValue<long>("VersionNumber");
+            ResourceSpecIdName = GetStringValue("ResourceSpecIdName");
+            DoNotFaxName = GetStringValue("DoNotFaxName");
+            DoNotEmailName = GetStringValue("DoNotEmailName");
+            ParticipationTypeMaskName = GetStringValue("ParticipationTypeMaskName");
+            DoNotPostalMail = GetValue<bool>("DoNotPostalMail");
+            DoNotPhone = GetValue<bool>("DoNotPhone");
+            DoNotPhoneName = GetStringValue("DoNotPhoneName");
+            DoNotPostalMailName = GetStringValue("DoNotPostalMailName");
+            OwnerId = GetStringValue("OwnerId");
+            OwnerIdType = GetStringValue("OwnerIdType");
+            InstanceTypeCode = GetStringValue("InstanceTypeCode");
+            InstanceTypeCodeName = GetStringValue("InstanceTypeCodeName");
+            IsPartyDeleted = GetValue<bool>("IsPartyDeleted");
+            IsPartyDeletedName = GetStringValue("IsPartyDeletedName");
+            AddressUsedEmailColumnNumber = GetValue<long>("AddressUsedEmailColumnNumber");
 
             AddCustomMappings();
         }
