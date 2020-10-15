@@ -1,10 +1,20 @@
 using System;
+using System.Data;
 using Newtonsoft.Json;
 
 namespace CluedIn.Crawling.Dynamics365.Core.Models
 {
     public class Appointment : DynamicsModel
     {
+
+        public Appointment() { }
+
+        public Appointment(IDataReader reader) : base(reader)
+        {
+
+            AddCustomMappings();
+        }
+
         [JsonProperty("createdby")]
         public string CreatedBy { get; set; }
 

@@ -1,10 +1,20 @@
 using System;
+using System.Data;
 using Newtonsoft.Json;
 
 namespace CluedIn.Crawling.Dynamics365.Core.Models
 {
     public class ActivityPointer : DynamicsModel
     {
+
+        public ActivityPointer() { }
+
+        public ActivityPointer(IDataReader reader) : base(reader)
+        {
+
+            AddCustomMappings();
+        }
+
         [JsonProperty("owningbusinessunit")]
         public string OwningBusinessUnit { get; set; }
 

@@ -1,10 +1,20 @@
 using System;
+using System.Data;
 using Newtonsoft.Json;
 
 namespace CluedIn.Crawling.Dynamics365.Core.Models
 {
     public class CampaignActivity : DynamicsModel
     {
+
+        public CampaignActivity() { }
+
+        public CampaignActivity(IDataReader reader) : base(reader)
+        {
+
+            AddCustomMappings();
+        }
+
         [JsonProperty("prioritycode")]
         public string PriorityCode { get; set; }
 

@@ -1,10 +1,20 @@
 ﻿using System;
+using System.Data;
 using Newtonsoft.Json;
 
 namespace CluedIn.Crawling.Dynamics365.Core.Models
 {
     public class ContactLead : DynamicsModel
     {
+
+        public ContactLead() { }
+
+        public ContactLead(IDataReader reader) : base(reader)
+        {
+
+            AddCustomMappings();
+        }
+
         [JsonProperty("contactid")]
         public Guid? ContactId { get; set; }
 

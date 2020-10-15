@@ -39,9 +39,6 @@ namespace CluedIn.Provider.Dynamics365
             {
                 var dynamics365CrawlJobData = new Dynamics365CrawlJobData(configuration);
                 var client = _dynamics365ClientFactory.CreateNew(dynamics365CrawlJobData);
-
-                client.RefreshToken(dynamics365CrawlJobData);
-
                 return await Task.FromResult(dynamics365CrawlJobData);
             }
             catch (Exception exception)
@@ -81,7 +78,9 @@ namespace CluedIn.Provider.Dynamics365
             {
                 //TODO add the transformations from specific CrawlJobData object to dictionary
                 // add tests to GetHelperConfigurationBehaviour.cs
-                dictionary.Add(Dynamics365Constants.KeyName.ApiKey, dynamics365CrawlJobData.ApiKey);
+                dictionary.Add(Dynamics365Constants.KeyName.ConnectionString, dynamics365CrawlJobData.ConnectionString);
+                dictionary.Add(Dynamics365Constants.KeyName.SqlPageSize, dynamics365CrawlJobData.SqlPageSize);
+                dictionary.Add(Dynamics365Constants.KeyName.SqlDataCount, dynamics365CrawlJobData.SqlDataCount);
             }
 
             return await Task.FromResult(dictionary);

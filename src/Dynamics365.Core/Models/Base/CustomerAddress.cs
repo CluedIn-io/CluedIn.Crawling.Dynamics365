@@ -1,10 +1,20 @@
 using System;
+using System.Data;
 using Newtonsoft.Json;
 
 namespace CluedIn.Crawling.Dynamics365.Core.Models
 {
     public class CustomerAddress : DynamicsModel
     {
+
+        public CustomerAddress() { }
+
+        public CustomerAddress(IDataReader reader) : base(reader)
+        {
+
+            AddCustomMappings();
+        }
+
         [JsonProperty("parentid")]
         public string ParentId { get; set; }
 

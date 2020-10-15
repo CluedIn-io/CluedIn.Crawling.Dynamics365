@@ -1,35 +1,44 @@
 ﻿using System;
+using System.Data;
 using Newtonsoft.Json;
 
 namespace CluedIn.Crawling.Dynamics365.Core.Models
 {
     public class AccountLead : DynamicsModel
     {
-        [JsonProperty("accountid")]
+        public AccountLead() { }
+
+        public AccountLead(IDataReader reader) : base(reader)
+        {
+            AccountId = GetValue<Guid>("AccountId");
+            AccountLeadId = GetValue<Guid>("AccountLeadId");
+            ImportSequenceNumber = GetValue<int>("ImportSequenceNumber");
+            LeadId = GetValue<Guid>("LeadId");
+            Name = GetStringValue("Name");
+            OverriddenCreatedOn = GetValue<DateTimeOffset>("OverriddenCreatedOn");
+            TimezoneRuleVersionNumber = GetValue<int>("TimezoneRuleVersionNumber");
+            UtcConversionTimezoneCode = GetValue<int>("UtcConversionTimezoneCode");
+            VersionNumber = GetValue<long>("VersionNumber");
+
+            AddCustomMappings();
+        }
+
         public Guid? AccountId { get; set; }
 
-        [JsonProperty("accountleadid")]
         public Guid? AccountLeadId { get; set; }
 
-        [JsonProperty("importsequencenumber")]
         public int ImportSequenceNumber { get; set; }
 
-        [JsonProperty("leadid")]
         public Guid? LeadId { get; set; }
 
-        [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonProperty("overriddencreatedon")]
         public DateTimeOffset? OverriddenCreatedOn { get; set; }
 
-        [JsonProperty("timezoneruleversionnumber")]
         public int TimezoneRuleVersionNumber { get; set; }
 
-        [JsonProperty("utcconversiontimezonecode")]
         public int UtcConversionTimezoneCode{ get; set; }
 
-        [JsonProperty("versionnumber")]
         public long VersionNumber { get; set; }
     }
 }

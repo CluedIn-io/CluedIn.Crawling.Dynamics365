@@ -9,14 +9,9 @@ namespace CluedIn.Crawling.Dynamics365.Core
     {
         public struct KeyName
         {
-            public const string ApiKey = nameof(ApiKey);
-            public const string Url = nameof(Url);
-            public const string DeltaCrawlEnabled = nameof(DeltaCrawlEnabled);
-            public const string UserName = nameof(UserName);
-            public const string Password = nameof(Password);
-            public const string ClientId = nameof(ClientId);
-            public const string ClientSecret = nameof(ClientSecret);
-            public const string APIVersion = nameof(APIVersion);
+            public const string ConnectionString = nameof(ConnectionString);
+            public const string SqlPageSize = nameof(SqlPageSize);
+            public const string SqlDataCount = nameof(SqlDataCount);
         }
 
         // TODO Complete the following section
@@ -36,53 +31,53 @@ namespace CluedIn.Crawling.Dynamics365.Core
         public const string Details = "";
         public static AuthMethods AuthMethods = new AuthMethods()
         {
-            token = new Control[]
-            {
-                new Control()
-                {
-                    displayName = "Client Credentials - Please enter your dynamics URL (e.g. https://cluedin.crm4.dynamics.com)",
-                    isRequired = true,
-                    name = Dynamics365Constants.KeyName.Url,
-                    type = "text"
-                },
-                new Control()
-                {
-                    displayName = Dynamics365Constants.KeyName.ClientId,
-                    isRequired = true,
-                    name = Dynamics365Constants.KeyName.ClientId,
-                    type = "text"
-                },
-                 new Control()
-                {
-                    displayName = Dynamics365Constants.KeyName.ClientSecret,
-                    isRequired = true,
-                    name = Dynamics365Constants.KeyName.ClientSecret,
-                    type = "password"
-                }
-            },
-            credentials = new Control[]
-            {
-                new Control()
-                {
-                    displayName = Dynamics365Constants.KeyName.UserName,
-                    isRequired = true,
-                    name = Dynamics365Constants.KeyName.UserName,
-                    type = "text"
-                },
-                new Control()
-                {
-                    displayName = Dynamics365Constants.KeyName.Password,
-                    isRequired = true,
-                    name = Dynamics365Constants.KeyName.Password,
-                    type = "password"
-                }
-            },
-            oauth = new OAuth()
-            {
-                initial = "",
-                callback = "",
-                oauthCallBackKey = ""
-            }
+            //token = new Control[]
+            //{
+            //    new Control()
+            //    {
+            //        displayName = "Client Credentials - Please enter your dynamics URL (e.g. https://cluedin.crm4.dynamics.com)",
+            //        isRequired = true,
+            //        name = Dynamics365Constants.KeyName.Url,
+            //        type = "text"
+            //    },
+            //    new Control()
+            //    {
+            //        displayName = Dynamics365Constants.KeyName.ClientId,
+            //        isRequired = true,
+            //        name = Dynamics365Constants.KeyName.ClientId,
+            //        type = "text"
+            //    },
+            //     new Control()
+            //    {
+            //        displayName = Dynamics365Constants.KeyName.ClientSecret,
+            //        isRequired = true,
+            //        name = Dynamics365Constants.KeyName.ClientSecret,
+            //        type = "password"
+            //    }
+            //},
+            //credentials = new Control[]
+            //{
+            //    new Control()
+            //    {
+            //        displayName = Dynamics365Constants.KeyName.UserName,
+            //        isRequired = true,
+            //        name = Dynamics365Constants.KeyName.UserName,
+            //        type = "text"
+            //    },
+            //    new Control()
+            //    {
+            //        displayName = Dynamics365Constants.KeyName.Password,
+            //        isRequired = true,
+            //        name = Dynamics365Constants.KeyName.Password,
+            //        type = "password"
+            //    }
+            //},
+            //oauth = new OAuth()
+            //{
+            //    initial = "",
+            //    callback = "",
+            //    oauthCallBackKey = ""
+            //}
         };
 
 

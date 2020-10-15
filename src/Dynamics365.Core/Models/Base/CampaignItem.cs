@@ -1,10 +1,20 @@
 ﻿using System;
+using System.Data;
 using Newtonsoft.Json;
 
 namespace CluedIn.Crawling.Dynamics365.Core.Models
 {
     public class CampaignItem : DynamicsModel
     {
+
+        public CampaignItem() { }
+
+        public CampaignItem(IDataReader reader) : base(reader)
+        {
+
+            AddCustomMappings();
+        }
+
         [JsonProperty("campaignitemid")]
         public Guid? CampaignItemId { get; set; }
 
