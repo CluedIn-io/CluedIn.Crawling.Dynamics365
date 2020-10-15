@@ -34,7 +34,8 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
             else if (!string.IsNullOrWhiteSpace(input.Actualstart))
                 data.Name = $"Activity starting {input.Actualstart}";
 
-            //data.Name = input.Name;
+            if (!string.IsNullOrWhiteSpace(input.Description))
+                data.Description = input.Description;
 
             DateTimeOffset.TryParse(input.Createdon, out var createdDate);
             if (createdDate != null)
