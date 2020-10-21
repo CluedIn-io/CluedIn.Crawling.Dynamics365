@@ -21,14 +21,14 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
 
         protected override Clue MakeClueImpl(DynaOutplacement input, Guid id)
         {
-
-            var clue = _factory.Create("/Outplacement", $"FILL_IN", id);
+            var clue = _factory.Create("/Outplacement", input.DynaOutplacementid, id);
 
             var data = clue.Data.EntityData;
 
             // Metadata
 
-            //data.Name = input.Name;
+            if (!string.IsNullOrWhiteSpace(input.DynaName))
+                data.Name = input.DynaName;
 
             DateTimeOffset.TryParse(input.Createdon, out var createdDate);
             if (createdDate != null)
@@ -39,37 +39,32 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
                 data.ModifiedDate = modifiedDate;
 
             // Aliases
+
             if (!string.IsNullOrEmpty(input.DynaName))
                 data.Aliases.Add(input.DynaName);
-
 
             // Edges
 
             if (input.Createdby != null && !string.IsNullOrEmpty(input.Createdby.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Createdby, input.Createdby.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.AttachedTo, input.Createdby, input.Createdby.ToString());
 
             if (input.DynaDeltagerid != null && !string.IsNullOrEmpty(input.DynaDeltagerid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.DynaDeltagerid, input.DynaDeltagerid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Person, EntityEdgeType.AttachedTo, input.DynaDeltagerid, input.DynaDeltagerid.ToString());
 
             if (input.DynaKursusid != null && !string.IsNullOrEmpty(input.DynaKursusid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.DynaKursusid, input.DynaKursusid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, "/Kursus", EntityEdgeType.AttachedTo, input.DynaKursusid, input.DynaKursusid.ToString());
 
-            if (input.DynaOutplacementid != null && !string.IsNullOrEmpty(input.DynaOutplacementid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.DynaOutplacementid, input.DynaOutplacementid.ToString());
+            //if (input.DynaRestmoedetid != null && !string.IsNullOrEmpty(input.DynaRestmoedetid.ToString()))
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType, EntityEdgeType.AttachedTo, input.DynaRestmoedetid, input.DynaRestmoedetid.ToString());
 
-            if (input.DynaRestmoedetid != null && !string.IsNullOrEmpty(input.DynaRestmoedetid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.DynaRestmoedetid, input.DynaRestmoedetid.ToString());
-
-            if (input.DynaResttid != null && !string.IsNullOrEmpty(input.DynaResttid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.DynaResttid, input.DynaResttid.ToString());
+            //if (input.DynaResttid != null && !string.IsNullOrEmpty(input.DynaResttid.ToString()))
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType, EntityEdgeType.AttachedTo, input.DynaResttid, input.DynaResttid.ToString());
 
             if (input.Modifiedby != null && !string.IsNullOrEmpty(input.Modifiedby.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Modifiedby, input.Modifiedby.ToString());
-
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.AttachedTo, input.Modifiedby, input.Modifiedby.ToString());
 
             if (!data.OutgoingEdges.Any())
                 _factory.CreateEntityRootReference(clue, EntityEdgeType.PartOf);
-
 
             var vocab = new DynaOutplacementVocabulary();
 
@@ -147,13 +142,13 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
             data.Properties[vocab.Statuscode] = input.Statuscode.PrintIfAvailable();
 
             clue.ValidationRuleSuppressions.AddRange(new[]
-                                        {
-                                RuleConstants.METADATA_001_Name_MustBeSet,
-                                RuleConstants.PROPERTIES_001_MustExist,
-                                RuleConstants.METADATA_002_Uri_MustBeSet,
-                                RuleConstants.METADATA_003_Author_Name_MustBeSet,
-                                RuleConstants.METADATA_005_PreviewImage_RawData_MustBeSet
-                            });
+            {
+                RuleConstants.METADATA_001_Name_MustBeSet,
+                RuleConstants.PROPERTIES_001_MustExist,
+                RuleConstants.METADATA_002_Uri_MustBeSet,
+                RuleConstants.METADATA_003_Author_Name_MustBeSet,
+                RuleConstants.METADATA_005_PreviewImage_RawData_MustBeSet
+            });
 
             return clue;
         }

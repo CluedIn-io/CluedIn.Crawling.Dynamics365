@@ -21,14 +21,14 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
 
         protected override Clue MakeClueImpl(Leadtoopportunitysalesprocess input, Guid id)
         {
-
-            var clue = _factory.Create("/EmneSalgsmulighed", $"FILL_IN", id);
+            var clue = _factory.Create("/EmneSalgsmulighed", input.Opportunityid, id);
 
             var data = clue.Data.EntityData;
 
             // Metadata
 
-            //data.Name = input.Name;
+            if (!string.IsNullOrWhiteSpace(input.Name))
+                data.Name = input.Name;
 
             DateTimeOffset.TryParse(input.Createdon, out var createdDate);
             if (createdDate != null)
@@ -38,41 +38,37 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
             if (modifiedDate != null)
                 data.ModifiedDate = modifiedDate;
 
-            // Aliases
-
             // Edges
 
             if (input.Activestageid != null && !string.IsNullOrEmpty(input.Activestageid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Activestageid, input.Activestageid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.ProcessStage, EntityEdgeType.AttachedTo, input.Activestageid, input.Activestageid.ToString());
 
             if (input.Businessprocessflowinstanceid != null && !string.IsNullOrEmpty(input.Businessprocessflowinstanceid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Businessprocessflowinstanceid, input.Businessprocessflowinstanceid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Process, EntityEdgeType.AttachedTo, input.Businessprocessflowinstanceid, input.Businessprocessflowinstanceid.ToString());
 
             if (input.Createdby != null && !string.IsNullOrEmpty(input.Createdby.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Createdby, input.Createdby.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.AttachedTo, input.Createdby, input.Createdby.ToString());
 
             if (input.Leadid != null && !string.IsNullOrEmpty(input.Leadid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Leadid, input.Leadid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Sales.Lead, EntityEdgeType.AttachedTo, input.Leadid, input.Leadid.ToString());
 
             if (input.Modifiedby != null && !string.IsNullOrEmpty(input.Modifiedby.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Modifiedby, input.Modifiedby.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.AttachedTo, input.Modifiedby, input.Modifiedby.ToString());
 
-            if (input.Opportunityid != null && !string.IsNullOrEmpty(input.Opportunityid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Opportunityid, input.Opportunityid.ToString());
+            //if (input.Opportunityid != null && !string.IsNullOrEmpty(input.Opportunityid.ToString()))
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType, EntityEdgeType.AttachedTo, input.Opportunityid, input.Opportunityid.ToString());
 
             if (input.Organizationid != null && !string.IsNullOrEmpty(input.Organizationid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Organizationid, input.Organizationid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Organization, EntityEdgeType.AttachedTo, input.Organizationid, input.Organizationid.ToString());
 
             if (input.Processid != null && !string.IsNullOrEmpty(input.Processid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Processid, input.Processid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Process, EntityEdgeType.AttachedTo, input.Processid, input.Processid.ToString());
 
-            if (input.Transactioncurrencyid != null && !string.IsNullOrEmpty(input.Transactioncurrencyid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Transactioncurrencyid, input.Transactioncurrencyid.ToString());
-
+            //if (input.Transactioncurrencyid != null && !string.IsNullOrEmpty(input.Transactioncurrencyid.ToString()))
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType, EntityEdgeType.AttachedTo, input.Transactioncurrencyid, input.Transactioncurrencyid.ToString());
 
             if (!data.OutgoingEdges.Any())
                 _factory.CreateEntityRootReference(clue, EntityEdgeType.PartOf);
-
 
             var vocab = new LeadtoopportunitysalesprocessVocabulary();
 
@@ -97,13 +93,13 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
             data.Properties[vocab.Traversedpath] = input.Traversedpath.PrintIfAvailable();
 
             clue.ValidationRuleSuppressions.AddRange(new[]
-                                        {
-                                RuleConstants.METADATA_001_Name_MustBeSet,
-                                RuleConstants.PROPERTIES_001_MustExist,
-                                RuleConstants.METADATA_002_Uri_MustBeSet,
-                                RuleConstants.METADATA_003_Author_Name_MustBeSet,
-                                RuleConstants.METADATA_005_PreviewImage_RawData_MustBeSet
-                            });
+            {
+                RuleConstants.METADATA_001_Name_MustBeSet,
+                RuleConstants.PROPERTIES_001_MustExist,
+                RuleConstants.METADATA_002_Uri_MustBeSet,
+                RuleConstants.METADATA_003_Author_Name_MustBeSet,
+                RuleConstants.METADATA_005_PreviewImage_RawData_MustBeSet
+            });
 
             return clue;
         }

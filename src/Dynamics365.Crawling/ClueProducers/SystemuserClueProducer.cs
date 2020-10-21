@@ -22,13 +22,18 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
         protected override Clue MakeClueImpl(Systemuser input, Guid id)
         {
 
-            var clue = _factory.Create("/Bruger", $"FILL_IN", id);
+            var clue = _factory.Create(EntityType.Infrastructure.User, input.Userpuid, id);
 
             var data = clue.Data.EntityData;
 
             // Metadata
 
-            //data.Name = input.Name;
+            if (!string.IsNullOrWhiteSpace(input.Fullname))
+                data.Name = input.Fullname;
+            else if (!string.IsNullOrWhiteSpace(input.Firstname) && !string.IsNullOrWhiteSpace(input.Lastname))
+                data.Name = $"{input.Firstname} {input.Lastname}";
+
+            data.Codes.Add(new EntityCode(EntityType.Infrastructure.User, "Dynamics365", input.Yammeruserid));
 
             DateTimeOffset.TryParse(input.Createdon, out var createdDate);
             if (createdDate != null)

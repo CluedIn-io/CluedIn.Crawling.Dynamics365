@@ -25,6 +25,8 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
 
             var data = clue.Data.EntityData;
 
+            // Metadata
+
             if (!string.IsNullOrWhiteSpace(input.Fullname))
                 data.Name = input.Fullname;
             else if (!string.IsNullOrWhiteSpace(input.Firstname) && !string.IsNullOrWhiteSpace(input.Lastname))
@@ -42,6 +44,7 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
                 data.ModifiedDate = modifiedDate;
 
             // Aliases
+
             if (!string.IsNullOrEmpty(input.Address1Composite))
                 data.Aliases.Add(input.Address1Composite);
 
@@ -96,97 +99,94 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
             if (!string.IsNullOrEmpty(input.Telephone3))
                 data.Aliases.Add(input.Telephone3);
 
-
             // Edges
 
             if (input.Accountid != null && !string.IsNullOrEmpty(input.Accountid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Accountid, input.Accountid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Account, EntityEdgeType.AttachedTo, input.Accountid, input.Accountid.ToString());
 
             if (input.Contactid != null && !string.IsNullOrEmpty(input.Contactid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Contactid, input.Contactid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Person, EntityEdgeType.AttachedTo, input.Contactid, input.Contactid.ToString());
 
             if (input.Createdby != null && !string.IsNullOrEmpty(input.Createdby.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Createdby, input.Createdby.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.AttachedTo, input.Createdby, input.Createdby.ToString());
 
-            if (input.Defaultpricelevelid != null && !string.IsNullOrEmpty(input.Defaultpricelevelid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Defaultpricelevelid, input.Defaultpricelevelid.ToString());
+            //if (input.Defaultpricelevelid != null && !string.IsNullOrEmpty(input.Defaultpricelevelid.ToString()))
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType, EntityEdgeType.AttachedTo, input.Defaultpricelevelid, input.Defaultpricelevelid.ToString());
 
             if (input.DynaContactid != null && !string.IsNullOrEmpty(input.DynaContactid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.DynaContactid, input.DynaContactid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Person, EntityEdgeType.AttachedTo, input.DynaContactid, input.DynaContactid.ToString());
 
             if (input.DynaKontaktpersonid != null && !string.IsNullOrEmpty(input.DynaKontaktpersonid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.DynaKontaktpersonid, input.DynaKontaktpersonid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Person, EntityEdgeType.AttachedTo, input.DynaKontaktpersonid, input.DynaKontaktpersonid.ToString());
 
             if (input.DynaLedernecontactguid != null && !string.IsNullOrEmpty(input.DynaLedernecontactguid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.DynaLedernecontactguid, input.DynaLedernecontactguid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Person, EntityEdgeType.AttachedTo, input.DynaLedernecontactguid, input.DynaLedernecontactguid.ToString());
 
-            if (input.DynaNavid != null && !string.IsNullOrEmpty(input.DynaNavid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.DynaNavid, input.DynaNavid.ToString());
+            //if (input.DynaNavid != null && !string.IsNullOrEmpty(input.DynaNavid.ToString()))
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType, EntityEdgeType.AttachedTo, input.DynaNavid, input.DynaNavid.ToString());
 
-            if (input.DynaNavtemplateid != null && !string.IsNullOrEmpty(input.DynaNavtemplateid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.DynaNavtemplateid, input.DynaNavtemplateid.ToString());
+            //if (input.DynaNavtemplateid != null && !string.IsNullOrEmpty(input.DynaNavtemplateid.ToString()))
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType, EntityEdgeType.AttachedTo, input.DynaNavtemplateid, input.DynaNavtemplateid.ToString());
 
             if (input.DynaPersonid != null && !string.IsNullOrEmpty(input.DynaPersonid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.DynaPersonid, input.DynaPersonid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Person, EntityEdgeType.AttachedTo, input.DynaPersonid, input.DynaPersonid.ToString());
 
             if (input.Employeeid != null && !string.IsNullOrEmpty(input.Employeeid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Employeeid, input.Employeeid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Person, EntityEdgeType.AttachedTo, input.Employeeid, input.Employeeid.ToString());
 
             if (input.Entityimageid != null && !string.IsNullOrEmpty(input.Entityimageid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Entityimageid, input.Entityimageid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Images.Image, EntityEdgeType.AttachedTo, input.Entityimageid, input.Entityimageid.ToString());
 
-            if (input.Governmentid != null && !string.IsNullOrEmpty(input.Governmentid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Governmentid, input.Governmentid.ToString());
+            //if (input.Governmentid != null && !string.IsNullOrEmpty(input.Governmentid.ToString()))
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType, EntityEdgeType.AttachedTo, input.Governmentid, input.Governmentid.ToString());
 
             if (input.Masterid != null && !string.IsNullOrEmpty(input.Masterid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Masterid, input.Masterid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Person, EntityEdgeType.AttachedTo, input.Masterid, input.Masterid.ToString());
 
             if (input.Modifiedby != null && !string.IsNullOrEmpty(input.Modifiedby.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Modifiedby, input.Modifiedby.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.AttachedTo, input.Modifiedby, input.Modifiedby.ToString());
 
-            if (input.NnNndecisionmakerid != null && !string.IsNullOrEmpty(input.NnNndecisionmakerid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.NnNndecisionmakerid, input.NnNndecisionmakerid.ToString());
+            //if (input.NnNndecisionmakerid != null && !string.IsNullOrEmpty(input.NnNndecisionmakerid.ToString()))
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType, EntityEdgeType.AttachedTo, input.NnNndecisionmakerid, input.NnNndecisionmakerid.ToString());
 
             if (input.Originatingleadid != null && !string.IsNullOrEmpty(input.Originatingleadid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Originatingleadid, input.Originatingleadid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Sales.Lead, EntityEdgeType.AttachedTo, input.Originatingleadid, input.Originatingleadid.ToString());
 
             if (input.Parentcontactid != null && !string.IsNullOrEmpty(input.Parentcontactid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Parentcontactid, input.Parentcontactid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Person, EntityEdgeType.AttachedTo, input.Parentcontactid, input.Parentcontactid.ToString());
 
             if (input.Parentcustomerid != null && !string.IsNullOrEmpty(input.Parentcustomerid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Parentcustomerid, input.Parentcustomerid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Person, EntityEdgeType.AttachedTo, input.Parentcustomerid, input.Parentcustomerid.ToString());
 
-            if (input.Preferredequipmentid != null && !string.IsNullOrEmpty(input.Preferredequipmentid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Preferredequipmentid, input.Preferredequipmentid.ToString());
+            //if (input.Preferredequipmentid != null && !string.IsNullOrEmpty(input.Preferredequipmentid.ToString()))
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType, EntityEdgeType.AttachedTo, input.Preferredequipmentid, input.Preferredequipmentid.ToString());
 
-            if (input.Preferredserviceid != null && !string.IsNullOrEmpty(input.Preferredserviceid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Preferredserviceid, input.Preferredserviceid.ToString());
+            //if (input.Preferredserviceid != null && !string.IsNullOrEmpty(input.Preferredserviceid.ToString()))
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType, EntityEdgeType.AttachedTo, input.Preferredserviceid, input.Preferredserviceid.ToString());
 
             if (input.Preferredsystemuserid != null && !string.IsNullOrEmpty(input.Preferredsystemuserid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Preferredsystemuserid, input.Preferredsystemuserid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.AttachedTo, input.Preferredsystemuserid, input.Preferredsystemuserid.ToString());
 
             if (input.Processid != null && !string.IsNullOrEmpty(input.Processid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Processid, input.Processid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Process, EntityEdgeType.AttachedTo, input.Processid, input.Processid.ToString());
 
             if (input.Slaid != null && !string.IsNullOrEmpty(input.Slaid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Slaid, input.Slaid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Sales.Deal, EntityEdgeType.AttachedTo, input.Slaid, input.Slaid.ToString());
 
             if (input.Slainvokedid != null && !string.IsNullOrEmpty(input.Slainvokedid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Slainvokedid, input.Slainvokedid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Sales.Deal, EntityEdgeType.AttachedTo, input.Slainvokedid, input.Slainvokedid.ToString());
 
             if (input.Stageid != null && !string.IsNullOrEmpty(input.Stageid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Stageid, input.Stageid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.ProcessStage, EntityEdgeType.AttachedTo, input.Stageid, input.Stageid.ToString());
 
-            if (input.Subscriptionid != null && !string.IsNullOrEmpty(input.Subscriptionid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Subscriptionid, input.Subscriptionid.ToString());
+            //if (input.Subscriptionid != null && !string.IsNullOrEmpty(input.Subscriptionid.ToString()))
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType, EntityEdgeType.AttachedTo, input.Subscriptionid, input.Subscriptionid.ToString());
 
-            if (input.Transactioncurrencyid != null && !string.IsNullOrEmpty(input.Transactioncurrencyid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Transactioncurrencyid, input.Transactioncurrencyid.ToString());
-
+            //if (input.Transactioncurrencyid != null && !string.IsNullOrEmpty(input.Transactioncurrencyid.ToString()))
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType, EntityEdgeType.AttachedTo, input.Transactioncurrencyid, input.Transactioncurrencyid.ToString());
 
             if (!data.OutgoingEdges.Any())
                 _factory.CreateEntityRootReference(clue, EntityEdgeType.PartOf);
-
 
             var vocab = new ContactVocabulary();
 
@@ -404,13 +404,13 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
             data.Properties[vocab.Websiteurl] = input.Websiteurl.PrintIfAvailable();
 
             clue.ValidationRuleSuppressions.AddRange(new[]
-                                        {
-                                RuleConstants.METADATA_001_Name_MustBeSet,
-                                RuleConstants.PROPERTIES_001_MustExist,
-                                RuleConstants.METADATA_002_Uri_MustBeSet,
-                                RuleConstants.METADATA_003_Author_Name_MustBeSet,
-                                RuleConstants.METADATA_005_PreviewImage_RawData_MustBeSet
-                            });
+            {
+                RuleConstants.METADATA_001_Name_MustBeSet,
+                RuleConstants.PROPERTIES_001_MustExist,
+                RuleConstants.METADATA_002_Uri_MustBeSet,
+                RuleConstants.METADATA_003_Author_Name_MustBeSet,
+                RuleConstants.METADATA_005_PreviewImage_RawData_MustBeSet
+            });
 
             return clue;
         }

@@ -340,7 +340,7 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
             data.Properties[vocab.Websiteurl] = input.Websiteurl.PrintIfAvailable();
 
             clue.ValidationRuleSuppressions.AddRange(new[]
-                        {
+            {
                 RuleConstants.METADATA_001_Name_MustBeSet,
                 RuleConstants.PROPERTIES_001_MustExist,
                 RuleConstants.METADATA_002_Uri_MustBeSet,

@@ -10,25 +10,25 @@ using RuleConstants = CluedIn.Core.Constants.Validation.Rules;
 
 namespace CluedIn.Crawling.Dynamics365.ClueProducers
 {
-    public class DynaCoursecustomerClueProducer : BaseClueProducer<DynaCoursecustomer>
+    public class DynaCourseCustomerClueProducer : BaseClueProducer<DynaCoursecustomer>
     {
         private readonly IClueFactory _factory;
 
-        public DynaCoursecustomerClueProducer(IClueFactory factory)
+        public DynaCourseCustomerClueProducer(IClueFactory factory)
         {
             _factory = factory;
         }
 
         protected override Clue MakeClueImpl(DynaCoursecustomer input, Guid id)
         {
-
-            var clue = _factory.Create("/Kursusdeltager", $"FILL_IN", id);
+            var clue = _factory.Create("/Kursusdeltager", input.DynaCoursecustomerid, id);
 
             var data = clue.Data.EntityData;
 
             // Metadata
 
-            //data.Name = input.Name;
+            if (!string.IsNullOrWhiteSpace(input.DynaCustomername))
+                data.Name = input.DynaCustomername;
 
             DateTimeOffset.TryParse(input.Createdon, out var createdDate);
             if (createdDate != null)
@@ -39,37 +39,38 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
                 data.ModifiedDate = modifiedDate;
 
             // Aliases
+
             if (!string.IsNullOrEmpty(input.DynaTelephone1))
                 data.Aliases.Add(input.DynaTelephone1);
 
+            if (!string.IsNullOrEmpty(input.DynaEmail))
+                data.Aliases.Add(input.DynaEmail);
 
             // Edges
 
             if (input.Createdby != null && !string.IsNullOrEmpty(input.Createdby.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Createdby, input.Createdby.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.AttachedTo, input.Createdby, input.Createdby.ToString());
 
             if (input.DynaCountry != null && !string.IsNullOrEmpty(input.DynaCountry.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.DynaCountry, input.DynaCountry.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Geography.Country, EntityEdgeType.AttachedTo, input.DynaCountry, input.DynaCountry.ToString());
 
             if (input.DynaCoursecustomeraccountid != null && !string.IsNullOrEmpty(input.DynaCoursecustomeraccountid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.DynaCoursecustomeraccountid, input.DynaCoursecustomeraccountid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Account, EntityEdgeType.AttachedTo, input.DynaCoursecustomeraccountid, input.DynaCoursecustomeraccountid.ToString());
 
             if (input.DynaCoursecustomercontactid != null && !string.IsNullOrEmpty(input.DynaCoursecustomercontactid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.DynaCoursecustomercontactid, input.DynaCoursecustomercontactid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Person, EntityEdgeType.AttachedTo, input.DynaCoursecustomercontactid, input.DynaCoursecustomercontactid.ToString());
 
             if (input.DynaCoursecustomerid != null && !string.IsNullOrEmpty(input.DynaCoursecustomerid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.DynaCoursecustomerid, input.DynaCoursecustomerid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Person, EntityEdgeType.AttachedTo, input.DynaCoursecustomerid, input.DynaCoursecustomerid.ToString());
 
-            if (input.DynaNavtemplateid != null && !string.IsNullOrEmpty(input.DynaNavtemplateid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.DynaNavtemplateid, input.DynaNavtemplateid.ToString());
+            //if (input.DynaNavtemplateid != null && !string.IsNullOrEmpty(input.DynaNavtemplateid.ToString()))
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType, EntityEdgeType.AttachedTo, input.DynaNavtemplateid, input.DynaNavtemplateid.ToString());
 
             if (input.Modifiedby != null && !string.IsNullOrEmpty(input.Modifiedby.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Modifiedby, input.Modifiedby.ToString());
-
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.AttachedTo, input.Modifiedby, input.Modifiedby.ToString());
 
             if (!data.OutgoingEdges.Any())
                 _factory.CreateEntityRootReference(clue, EntityEdgeType.PartOf);
-
 
             var vocab = new DynaCoursecustomerVocabulary();
 
@@ -106,13 +107,13 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
             data.Properties[vocab.Statuscode] = input.Statuscode.PrintIfAvailable();
 
             clue.ValidationRuleSuppressions.AddRange(new[]
-                                        {
-                                RuleConstants.METADATA_001_Name_MustBeSet,
-                                RuleConstants.PROPERTIES_001_MustExist,
-                                RuleConstants.METADATA_002_Uri_MustBeSet,
-                                RuleConstants.METADATA_003_Author_Name_MustBeSet,
-                                RuleConstants.METADATA_005_PreviewImage_RawData_MustBeSet
-                            });
+            {
+                RuleConstants.METADATA_001_Name_MustBeSet,
+                RuleConstants.PROPERTIES_001_MustExist,
+                RuleConstants.METADATA_002_Uri_MustBeSet,
+                RuleConstants.METADATA_003_Author_Name_MustBeSet,
+                RuleConstants.METADATA_005_PreviewImage_RawData_MustBeSet
+            });
 
             return clue;
         }

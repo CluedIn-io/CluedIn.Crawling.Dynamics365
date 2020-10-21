@@ -21,7 +21,7 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
 
         protected override Clue MakeClueImpl(Activitypointer input, Guid id)
         {
-            var clue = _factory.Create(EntityType.Activity, input.Activityid, id);
+            var clue = _factory.Create("/ActivityPointer", input.Activityid, id);
 
             var data = clue.Data.EntityData;
 
@@ -48,43 +48,43 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
             // Edges
 
             if (input.Activityid != null && !string.IsNullOrEmpty(input.Activityid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Activityid, input.Activityid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Activity, EntityEdgeType.AttachedTo, input.Activityid, input.Activityid.ToString());
 
             if (input.Createdby != null && !string.IsNullOrEmpty(input.Createdby.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Createdby, input.Createdby.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.AttachedTo, input.Createdby, input.Createdby.ToString());
 
-            if (input.Exchangeitemid != null && !string.IsNullOrEmpty(input.Exchangeitemid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Exchangeitemid, input.Exchangeitemid.ToString());
+            //if (input.Exchangeitemid != null && !string.IsNullOrEmpty(input.Exchangeitemid.ToString()))
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType, EntityEdgeType.AttachedTo, input.Exchangeitemid, input.Exchangeitemid.ToString());
 
             if (input.Modifiedby != null && !string.IsNullOrEmpty(input.Modifiedby.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Modifiedby, input.Modifiedby.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.AttachedTo, input.Modifiedby, input.Modifiedby.ToString());
 
             if (input.Processid != null && !string.IsNullOrEmpty(input.Processid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Processid, input.Processid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Process, EntityEdgeType.AttachedTo, input.Processid, input.Processid.ToString());
 
             if (input.Regardingobjectid != null && !string.IsNullOrEmpty(input.Regardingobjectid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Regardingobjectid, input.Regardingobjectid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Activity, EntityEdgeType.AttachedTo, input.Regardingobjectid, input.Regardingobjectid.ToString());
 
-            if (input.Sendermailboxid != null && !string.IsNullOrEmpty(input.Sendermailboxid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Sendermailboxid, input.Sendermailboxid.ToString());
+            //if (input.Sendermailboxid != null && !string.IsNullOrEmpty(input.Sendermailboxid.ToString()))
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType, EntityEdgeType.AttachedTo, input.Sendermailboxid, input.Sendermailboxid.ToString());
 
-            if (input.Seriesid != null && !string.IsNullOrEmpty(input.Seriesid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Seriesid, input.Seriesid.ToString());
+            //if (input.Seriesid != null && !string.IsNullOrEmpty(input.Seriesid.ToString()))
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Seriesid, input.Seriesid.ToString());
 
             if (input.Serviceid != null && !string.IsNullOrEmpty(input.Serviceid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Serviceid, input.Serviceid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, "/ActivityPointer", EntityEdgeType.AttachedTo, input.Serviceid, input.Serviceid.ToString());
 
             if (input.Slaid != null && !string.IsNullOrEmpty(input.Slaid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Slaid, input.Slaid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Sales.Deal, EntityEdgeType.AttachedTo, input.Slaid, input.Slaid.ToString());
 
             if (input.Slainvokedid != null && !string.IsNullOrEmpty(input.Slainvokedid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Slainvokedid, input.Slainvokedid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Sales.Deal, EntityEdgeType.AttachedTo, input.Slainvokedid, input.Slainvokedid.ToString());
 
             if (input.Stageid != null && !string.IsNullOrEmpty(input.Stageid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Stageid, input.Stageid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.ProcessStage, EntityEdgeType.AttachedTo, input.Stageid, input.Stageid.ToString());
 
-            if (input.Transactioncurrencyid != null && !string.IsNullOrEmpty(input.Transactioncurrencyid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Transactioncurrencyid, input.Transactioncurrencyid.ToString());
+            //if (input.Transactioncurrencyid != null && !string.IsNullOrEmpty(input.Transactioncurrencyid.ToString()))
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType, EntityEdgeType.AttachedTo, input.Transactioncurrencyid, input.Transactioncurrencyid.ToString());
 
             if (!data.OutgoingEdges.Any())
                 _factory.CreateEntityRootReference(clue, EntityEdgeType.PartOf);
@@ -139,13 +139,13 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
             data.Properties[vocab.Traversedpath] = input.Traversedpath.PrintIfAvailable();
 
             clue.ValidationRuleSuppressions.AddRange(new[]
-                                        {
-                                RuleConstants.METADATA_001_Name_MustBeSet,
-                                RuleConstants.PROPERTIES_001_MustExist,
-                                RuleConstants.METADATA_002_Uri_MustBeSet,
-                                RuleConstants.METADATA_003_Author_Name_MustBeSet,
-                                RuleConstants.METADATA_005_PreviewImage_RawData_MustBeSet
-                            });
+            {
+                RuleConstants.METADATA_001_Name_MustBeSet,
+                RuleConstants.PROPERTIES_001_MustExist,
+                RuleConstants.METADATA_002_Uri_MustBeSet,
+                RuleConstants.METADATA_003_Author_Name_MustBeSet,
+                RuleConstants.METADATA_005_PreviewImage_RawData_MustBeSet
+            });
 
             return clue;
         }

@@ -20,7 +20,7 @@ namespace CluedIn.Crawling.Dynamics365.Core.Models
             DynaContactid = sqlReader["dyna_contactid"]?.ToString();
             DynaContactinvoiceid = sqlReader["dyna_contactinvoiceid"]?.ToString();
             DynaCourseattention = sqlReader["dyna_courseattention"]?.ToString();
-            DynaCoursecustomerid = sqlReader["dyna_coursecustomerid"]?.ToString();
+            DynaCourseCustomerId = sqlReader["dyna_coursecustomerid"]?.ToString();
             DynaCourseid = sqlReader["dyna_courseid"]?.ToString();
             DynaCoursepaid = sqlReader["dyna_coursepaid"]?.ToString();
             DynaCoursepaidBase = sqlReader["dyna_coursepaid_base"]?.ToString();
@@ -139,7 +139,7 @@ namespace CluedIn.Crawling.Dynamics365.Core.Models
         public string DynaContactid { get; private set; }
         public string DynaContactinvoiceid { get; private set; }
         public string DynaCourseattention { get; private set; }
-        public string DynaCoursecustomerid { get; private set; }
+        public string DynaCourseCustomerId { get; private set; }
         public string DynaCourseid { get; private set; }
         public string DynaCoursepaid { get; private set; }
         public string DynaCoursepaidBase { get; private set; }

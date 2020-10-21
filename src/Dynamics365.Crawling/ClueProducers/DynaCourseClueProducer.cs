@@ -21,14 +21,17 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
 
         protected override Clue MakeClueImpl(DynaCourse input, Guid id)
         {
-
-            var clue = _factory.Create("/Kursus", $"FILL_IN", id);
+            var clue = _factory.Create("/Kursus", input.DynaCourseid, id);
 
             var data = clue.Data.EntityData;
 
             // Metadata
 
-            //data.Name = input.Name;
+            if (!string.IsNullOrWhiteSpace(input.DynaName))
+                data.Name = input.DynaName;
+
+            if (!string.IsNullOrWhiteSpace(input.DynaDescription))
+                data.Description = input.DynaDescription;
 
             DateTimeOffset.TryParse(input.Createdon, out var createdDate);
             if (createdDate != null)
@@ -39,71 +42,65 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
                 data.ModifiedDate = modifiedDate;
 
             // Aliases
+
             if (!string.IsNullOrEmpty(input.DynaTelephone1))
                 data.Aliases.Add(input.DynaTelephone1);
-
 
             // Edges
 
             if (input.Createdby != null && !string.IsNullOrEmpty(input.Createdby.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Createdby, input.Createdby.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.AttachedTo, input.Createdby, input.Createdby.ToString());
 
             if (input.DynaAccountid != null && !string.IsNullOrEmpty(input.DynaAccountid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.DynaAccountid, input.DynaAccountid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Account, EntityEdgeType.AttachedTo, input.DynaAccountid, input.DynaAccountid.ToString());
 
             if (input.DynaContactid != null && !string.IsNullOrEmpty(input.DynaContactid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.DynaContactid, input.DynaContactid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Person, EntityEdgeType.AttachedTo, input.DynaContactid, input.DynaContactid.ToString());
 
             if (input.DynaCoursecustomerid != null && !string.IsNullOrEmpty(input.DynaCoursecustomerid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.DynaCoursecustomerid, input.DynaCoursecustomerid.ToString());
-
-            if (input.DynaCourseguid != null && !string.IsNullOrEmpty(input.DynaCourseguid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.DynaCourseguid, input.DynaCourseguid.ToString());
-
-            if (input.DynaCourseid != null && !string.IsNullOrEmpty(input.DynaCourseid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.DynaCourseid, input.DynaCourseid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Person, EntityEdgeType.AttachedTo, input.DynaCoursecustomerid, input.DynaCoursecustomerid.ToString());
 
             if (input.DynaCourseitemid != null && !string.IsNullOrEmpty(input.DynaCourseitemid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.DynaCourseitemid, input.DynaCourseitemid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Product, EntityEdgeType.AttachedTo, input.DynaCourseitemid, input.DynaCourseitemid.ToString());
 
             if (input.DynaCourseresponsibleid != null && !string.IsNullOrEmpty(input.DynaCourseresponsibleid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.DynaCourseresponsibleid, input.DynaCourseresponsibleid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Person, EntityEdgeType.AttachedTo, input.DynaCourseresponsibleid, input.DynaCourseresponsibleid.ToString());
 
-            if (input.DynaCoursetemplate != null && !string.IsNullOrEmpty(input.DynaCoursetemplate.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.DynaCoursetemplate, input.DynaCoursetemplate.ToString());
+            //if (input.DynaCoursetemplate != null && !string.IsNullOrEmpty(input.DynaCoursetemplate.ToString()))
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType, EntityEdgeType.AttachedTo, input.DynaCoursetemplate, input.DynaCoursetemplate.ToString());
 
             if (input.DynaItemnavid != null && !string.IsNullOrEmpty(input.DynaItemnavid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.DynaItemnavid, input.DynaItemnavid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Product, EntityEdgeType.AttachedTo, input.DynaItemnavid, input.DynaItemnavid.ToString());
 
-            if (input.DynaItemtemplateid != null && !string.IsNullOrEmpty(input.DynaItemtemplateid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.DynaItemtemplateid, input.DynaItemtemplateid.ToString());
+            //if (input.DynaItemtemplateid != null && !string.IsNullOrEmpty(input.DynaItemtemplateid.ToString()))
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType, EntityEdgeType.AttachedTo, input.DynaItemtemplateid, input.DynaItemtemplateid.ToString());
 
             if (input.DynaKonsulentid != null && !string.IsNullOrEmpty(input.DynaKonsulentid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.DynaKonsulentid, input.DynaKonsulentid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Person, EntityEdgeType.AttachedTo, input.DynaKonsulentid, input.DynaKonsulentid.ToString());
 
             if (input.DynaLocationid != null && !string.IsNullOrEmpty(input.DynaLocationid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.DynaLocationid, input.DynaLocationid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Location, EntityEdgeType.AttachedTo, input.DynaLocationid, input.DynaLocationid.ToString());
 
             if (input.DynaMastereventid != null && !string.IsNullOrEmpty(input.DynaMastereventid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.DynaMastereventid, input.DynaMastereventid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Calendar.Event, EntityEdgeType.AttachedTo, input.DynaMastereventid, input.DynaMastereventid.ToString());
 
-            if (input.DynaNavid != null && !string.IsNullOrEmpty(input.DynaNavid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.DynaNavid, input.DynaNavid.ToString());
+            //if (input.DynaNavid != null && !string.IsNullOrEmpty(input.DynaNavid.ToString()))
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType, EntityEdgeType.AttachedTo, input.DynaNavid, input.DynaNavid.ToString());
 
-            if (input.DynaOldid != null && !string.IsNullOrEmpty(input.DynaOldid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.DynaOldid, input.DynaOldid.ToString());
+            //if (input.DynaOldid != null && !string.IsNullOrEmpty(input.DynaOldid.ToString()))
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType, EntityEdgeType.AttachedTo, input.DynaOldid, input.DynaOldid.ToString());
 
             if (input.DynaSpeakerid != null && !string.IsNullOrEmpty(input.DynaSpeakerid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.DynaSpeakerid, input.DynaSpeakerid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Person, EntityEdgeType.AttachedTo, input.DynaSpeakerid, input.DynaSpeakerid.ToString());
 
             if (input.Modifiedby != null && !string.IsNullOrEmpty(input.Modifiedby.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Modifiedby, input.Modifiedby.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Infrastructure.User, EntityEdgeType.AttachedTo, input.Modifiedby, input.Modifiedby.ToString());
 
             if (input.Organizationid != null && !string.IsNullOrEmpty(input.Organizationid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Organizationid, input.Organizationid.ToString());
+                _factory.CreateOutgoingEntityReference(clue, EntityType.Organization, EntityEdgeType.AttachedTo, input.Organizationid, input.Organizationid.ToString());
 
-            if (input.Transactioncurrencyid != null && !string.IsNullOrEmpty(input.Transactioncurrencyid.ToString()))
-                _factory.CreateOutgoingEntityReference(clue, EntityType.Unknown, EntityEdgeType.AttachedTo, input.Transactioncurrencyid, input.Transactioncurrencyid.ToString());
+            //if (input.Transactioncurrencyid != null && !string.IsNullOrEmpty(input.Transactioncurrencyid.ToString()))
+            //    _factory.CreateOutgoingEntityReference(clue, EntityType, EntityEdgeType.AttachedTo, input.Transactioncurrencyid, input.Transactioncurrencyid.ToString());
 
 
             if (!data.OutgoingEdges.Any())
@@ -215,13 +212,13 @@ namespace CluedIn.Crawling.Dynamics365.ClueProducers
             data.Properties[vocab.Transactioncurrencyid] = input.Transactioncurrencyid.PrintIfAvailable();
 
             clue.ValidationRuleSuppressions.AddRange(new[]
-                                        {
-                                RuleConstants.METADATA_001_Name_MustBeSet,
-                                RuleConstants.PROPERTIES_001_MustExist,
-                                RuleConstants.METADATA_002_Uri_MustBeSet,
-                                RuleConstants.METADATA_003_Author_Name_MustBeSet,
-                                RuleConstants.METADATA_005_PreviewImage_RawData_MustBeSet
-                            });
+            {
+                RuleConstants.METADATA_001_Name_MustBeSet,
+                RuleConstants.PROPERTIES_001_MustExist,
+                RuleConstants.METADATA_002_Uri_MustBeSet,
+                RuleConstants.METADATA_003_Author_Name_MustBeSet,
+                RuleConstants.METADATA_005_PreviewImage_RawData_MustBeSet
+            });
 
             return clue;
         }

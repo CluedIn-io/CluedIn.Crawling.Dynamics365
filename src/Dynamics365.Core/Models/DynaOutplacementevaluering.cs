@@ -4,9 +4,9 @@ namespace CluedIn.Crawling.Dynamics365.Core.Models
     using Microsoft.Data.SqlClient;
 
     [DisplayName("dyna_outplacementEvaluering")]
-    public class DynaOutplacementevaluering
+    public class DynaOutplacementEvaluering
     {
-        public DynaOutplacementevaluering(SqlDataReader sqlReader)
+        public DynaOutplacementEvaluering(SqlDataReader sqlReader)
         {
             Createdby = sqlReader["createdby"]?.ToString();
             Createdon = sqlReader["createdon"]?.ToString();
